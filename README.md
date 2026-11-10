@@ -3,6 +3,8 @@
 > **非官方**中文文档站，为 [Meta Astryx](https://github.com/meta/astryx) 设计系统（`@astryxdesign/core` v0.7.11）构建。
 > 官方文档为英文，本仓库提供完整简体中文翻译 + 可交互的组件预览。
 
+**🔗 在线地址：<https://cmy0714.github.io/Astryx-Chinese-Docs/>**
+
 ![组件页](screenshots/component-page.png)
 
 ## 这是什么
@@ -34,6 +36,10 @@
 
 ## 快速开始
 
+直接访问在线版：<https://cmy0714.github.io/Astryx-Chinese-Docs/>
+
+本地运行：
+
 ```bash
 # 任选一种静态服务器
 python -m http.server 8125
@@ -43,7 +49,11 @@ npx serve -l 8125
 # 打开 http://127.0.0.1:8125
 ```
 
-> 必须经 HTTP 访问：`live.js` 是 ES 模块化的 IIFE bundle，`file://` 下部分浏览器会拦截。
+> 必须经 HTTP 访问：`live.js` 是打包后的 IIFE bundle，`file://` 下部分浏览器会拦截脚本加载。
+
+### 部署到 GitHub Pages
+
+仓库已配置 Pages（`main` 分支根目录 + `.nojekyll`）。推送到 `main` 后自动构建，几分钟内生效。
 
 ## 目录结构
 
