@@ -110,6 +110,16 @@ node zh-status.mjs
 - **可交互预览的覆盖**：156 个组件有 showcase，551 个参数变体；Provider / Hook 类组件无独立外观
 - **依赖浏览器能力**：深色模式、`color-mix()`、容器查询等需要较新的浏览器
 
+## 联系与支持
+
+有问题、想提改进，或者要交流 Astryx 的用法，扫码加微信：
+
+<img src="screenshots/wechat-contact.png" alt="微信：新蜂" width="320" />
+
+如果这份中文文档帮你省了时间，可以请作者喝杯咖啡（微信赞赏码）：
+
+<img src="screenshots/wechat-pay.png" alt="微信赞赏码" width="320" />
+
 ## 许可证与致谢
 
 - **Astryx** 版权归 Meta Platforms, Inc.，以 MIT 许可证开源：<https://github.com/meta/astryx>
