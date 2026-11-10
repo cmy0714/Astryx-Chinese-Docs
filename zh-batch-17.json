@@ -1,0 +1,129 @@
+{
+  "Calendar": {
+    "practices": [
+      "设置 min 与 max 把选择限制在有效窗口内，例如只允许未来日期。",
+      "用户需要选择开始与结束日期（行程、报表区间）时，用区间模式。",
+      "用 dateConstraints 禁用周末、节假日等特定日期，并向用户说明原因。",
+      "用户经常选择跨月的日期时，并排显示两个月。",
+      "需要自定义月视图时，使用 useCalendarNavigation 与 useCalendarDays。",
+      "用日历选择很久以前或很久以后的日期（如生日）；文本输入更合适。",
+      "大面积禁用日期却不给上下文；用户应当明白为什么这些日期不可选。"
+    ],
+    "props": {
+      "mode": "选择模式。",
+      "value": "受控的选中值。没有选择时用 null。",
+      "defaultValue": "非受控的默认值。",
+      "onChange": "选择回调。",
+      "numberOfMonths": "显示几个月的网格。",
+      "min": "可选的最小日期。",
+      "max": "可选的最大日期。",
+      "dateConstraints": "自定义约束函数，用于禁用特定日期。",
+      "maxRangeSpan": "区间模式下最多可跨多少天（含首尾）。",
+      "minRangeSpan": "区间模式下至少需跨多少天（含首尾）。",
+      "focusDate": "受控的可见月份。不设置时，日历打开在焦点日期所在月。",
+      "onFocusDateChange": "月份导航时的回调。",
+      "handleRef": "命令式句柄，支持日历导航。",
+      "hasOutsideDays": "显示相邻月份的日期。",
+      "hasWeekNumbers": "显示 ISO 8601 周数。",
+      "hasVariableRowCount": "每个月只占自己需要的行数；默认固定行数以避免布局跳动。",
+      "weekStartsOn": "每周起始日。接受数字（0 为周日）或三位缩写。",
+      "calendar": "网格使用的历法，例如 persian、hebrew。"
+    }
+  },
+  "ScrollableArea": {
+    "practices": [
+      "给每个区域一个简洁标签，说明键盘用户会滚动到什么内容。",
+      "按内容意图选择 inline、block 或 both，组件会把逻辑轴映射到物理方向。",
+      "嵌套区域保持默认的 overscroll=“allow”，除非该交互确实需要阻断。",
+      "组件本身已经同时拥有视口与内容盒时，改用 useScrollableArea。",
+      "ScrollableArea 自带一个最小尺寸为 100% 的普通块级内容盒；行内内容需要自己处理。",
+      "在内容盒上使用逻辑内边距 props，嵌套的通栏组件才能正确对齐。",
+      "只有视口本身需要延伸到祖先容器边缘时，才设 isFullBleed。",
+      "只有当恰好容纳的视口应当有意接管 Sticky 归属时，才设 stickyContainment=“always”。"
+    ],
+    "props": {
+      "axis": "允许原生滚动的逻辑轴或轴组。",
+      "label": "视口进入键盘顺序时的无障碍名称。",
+      "role": "该命名视口的语义。",
+      "overscroll": "在有效轴上是否继续滚动祖先容器。",
+      "width": "视口宽度，数字按像素解释。",
+      "height": "视口高度，数字按像素解释。",
+      "maxWidth": "视口最大宽度。",
+      "minHeight": "视口最小高度。",
+      "stickyContainment": "内容恰好容纳时，是否把 Sticky 归属交给外层容器。",
+      "padding": "内容盒四边的逻辑内边距，并发布对应的 CSS 变量。",
+      "paddingInline": "逻辑行内轴内容内边距，覆盖 padding 的行内轴。",
+      "paddingInlineStart": "逻辑行内起始内边距，覆盖更宽泛的设置。",
+      "paddingInlineEnd": "逻辑行内结束内边距，覆盖更宽泛的设置。",
+      "paddingBlock": "逻辑块级轴内容内边距，覆盖 padding 的块轴。",
+      "paddingBlockStart": "逻辑块级起始内边距，覆盖更宽泛的设置。",
+      "paddingBlockEnd": "逻辑块级结束内边距，覆盖更宽泛的设置。",
+      "isFullBleed": "让视口用负外边距脱离继承的容器内边距。",
+      "children": "渲染在被观测内容盒里的内容。",
+      "xstyle": "尺寸与原生滚动条外观的覆盖样式。"
+    }
+  },
+  "BaseTypeahead": {
+    "practices": [
+      "标准字段用 Typeahead 或 Tokenizer，它们把 BaseTypeahead 包上了输入框装饰。",
+      "自己提供可见标签或 aria-label 以及自定义输入包装，裸输入才有意义。",
+      "传 anchorRef 指向你的包装元素，下拉才会相对自定义控件定位。",
+      "期待它提供输入框装饰或已选值渲染；BaseTypeahead 只是一个引擎。",
+      "Typeahead 或 Tokenizer 就能满足时用 BaseTypeahead；多出来的包装与无障碍工作都得自己做。",
+      "把 Esc 理解为取消数据源里未完成的工作；它只关闭当前弹层。"
+    ],
+    "props": {
+      "searchSource": "提供 search 与 bootstrap 方法的数据源。",
+      "value": "当前选中项。",
+      "onChange": "选中项变化时的回调。",
+      "renderItem": "自定义下拉项渲染。",
+      "placeholder": "输入占位文字。",
+      "hasEntriesOnFocus": "输入前聚焦时也显示 bootstrap 结果。",
+      "maxMenuItems": "下拉最多显示多少条。",
+      "menuWidth": "期望的下拉宽度（像素），会被视口夹取。",
+      "minQueryLength": "触发搜索所需的最小查询长度。",
+      "emptySearchText": "查询没有匹配时显示的内容。",
+      "isDisabled": "输入是否禁用。",
+      "isFocusableDisabled": "让禁用的输入仍可聚焦，并用 aria-disabled 标明状态。",
+      "hasAutoFocus": "挂载时自动聚焦。",
+      "debounceMs": "触发搜索前的防抖时长（毫秒）。",
+      "size": "用于缩放下拉选项内边距的尺寸。",
+      "anchorRef": "下拉定位所用锚点元素的引用。",
+      "inputXStyle": "输入元素附加的 StyleX 样式。",
+      "xstyle": "应用于输入的标准 BaseProps StyleX 样式。",
+      "inputTabIndex": "input 专用的 tabIndex 别名（历史遗留）。",
+      "onKeyDown": "在内建键盘处理之前调用的额外 keydown 处理器。",
+      "onChangeQuery": "搜索词变化时调用。",
+      "onOpenChange": "下拉打开或关闭时调用。",
+      "inputId": "input 专用的 id 别名（历史遗留）。",
+      "ariaDescribedBy": "input 专用的 aria-describedby 别名（历史遗留）。",
+      "ariaLabelledBy": "input 专用的 aria-labelledby 别名（历史遗留）。"
+    }
+  },
+  "MobileNav": {
+    "practices": [
+      "把 MobileNav 与 SideNav 的导航项抽成共享配置，两边使用同一份。",
+      "抽屉用途从内容看不出来时，提供 header。",
+      "在 AppShell 里用 MobileNavToggle 打开抽屉，它会从上下文读取状态。",
+      "在桌面端使用 MobileNav；应当用常驻的 SideNav。"
+    ],
+    "props": {
+      "isOpen": "抽屉是否打开。在 AppShell 内部由外层管理该状态。",
+      "onOpenChange": "可见性变化时调用，点击遮罩也会走这里。",
+      "children": "抽屉内容，通常是 SideNavSection 与 SideNavItem。",
+      "header": "抽屉头部内容，渲染在关闭按钮旁边。",
+      "width": "抽屉宽度（像素），上限 85vw 以防溢出。",
+      "side": "从哪一侧滑出。LTR 下 start 即左侧。"
+    }
+  },
+  "NavIcon": {
+    "practices": [
+      "用于导航头部，为分区提供可识别的视觉锚点。",
+      "传入 Icon 或尺寸相当的图标组件，保证比例正确。",
+      "把 NavIcon 用作交互元素；它只是展示容器，不是按钮。"
+    ],
+    "props": {
+      "icon": "渲染在圆形背景里的图标元素。"
+    }
+  }
+}

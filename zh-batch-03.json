@@ -1,0 +1,86 @@
+{
+  "Table": {
+    "practices": [
+      "用 density 与 dividers 变体匹配数据的密度和扫读节奏。",
+      "通过 renderCell 用 Badge、StatusDot、Avatar 等组件拼出富内容单元格。",
+      "children 模式下每一行都必须放在 TableHeader、TableBody 或 TableFooter 里。table 不能直接包含 tr：浏览器解析会插入隐式 tbody，而 React 在客户端不会，会造成 hydration 不匹配。",
+      "想要等宽弹性列就省略 width（自带 60px 可读性下限）；要给某列单独下限，用 proportional(1, {minWidth})。",
+      "在 React Server Components 里用数据驱动 API：proportional()、pixel() 以及不含函数式 prop 的列定义都是服务端安全的。",
+      "用表格展示列结构不一致的数据；异构内容请改用列表或卡片布局。",
+      "一次性打开所有插件；只开当前用例需要的，界面才聚焦。",
+      "让文本多的列依赖 60px 默认下限；应显式给该列设置 proportional(1, {minWidth})。"
+    ],
+    "props": {
+      "data": "作为行渲染的数据数组，类型需继承 Record<string, unknown>。",
+      "columns": "列定义，每列含 key、header、width、align、renderCell 等字段。",
+      "idKey": "React 协调用的行 key。可传属性名字符串或函数，缺省回退到行索引。",
+      "density": "行密度，控制单元格内边距与字号。",
+      "dividers": "单元格之间分隔线的样式。",
+      "isStriped": "给偶数行加一层底色。",
+      "hasHover": "指针设备下悬停行时加高亮背景。",
+      "verticalAlign": "数据行单元格的垂直对齐，控制 td 上的 vertical-align。",
+      "textOverflow": "单元格文字超出列宽时的行为。wrap 允许换行并撑高整行。",
+      "plugins": "通过转换管线扩展表格行为的具名插件，会转成有序数组。",
+      "rowIndexStart": "首个渲染数据行的 ARIA 行索引（从 1 开始），供辅助技术使用。",
+      "rowCount": "跨所有分页或窗口的数据行总数，用于 aria-rowcount。",
+      "children": "children 模式：自己用 TableHeader、TableBody、TableFooter 组装表格。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸），必须是 stylex.create() 的值。"
+    }
+  },
+  "Card": {
+    "practices": [
+      "先问「这一块我能独立重排或移除吗？」能，它才是卡片；不能，它只是页面上的一个区段，用标题加 Section。",
+      "卡片用于独立条目：一个用户资料、一条通知、一个指标、网格里的一件商品，每张卡代表一件事。",
+      "光靠间距和对齐就能形成视觉分组。不是所有东西都需要容器，试着去掉卡片看分组是否还成立。",
+      "同级卡片保持一致的 padding，网格或列表里才对得齐。",
+      "需要结构化头部、可滚动内容加底部操作时，把卡片和 Layout 搭配使用。",
+      "手机上让卡片共享一行或网格：卡片会收缩到所在轨道宽度，并在边缘截断无法换行的内容。",
+      "默认用卡片做视觉分组。标题加带正确间距的 Stack 就能建立层级，不必到处加边框。",
+      "把页面区段包进卡片。「通用设置」「通知偏好」、表单分组都是页面区域，用 Section 或标题即可。"
+    ],
+    "props": {
+      "width": "卡片宽度（数字为像素，字符串原样使用）。在弹性行或网格轨道中即占该宽度。",
+      "height": "卡片高度（数字为像素，字符串原样使用）。",
+      "maxWidth": "卡片最大宽度。",
+      "minHeight": "卡片最小高度。",
+      "children": "卡片内容。",
+      "padding": "内边距，按间距阶梯取值。省略时使用主题的卡片内边距。",
+      "variant": "背景色变体。default 用标准卡片背景，transparent 完全去掉背景。",
+      "elevation": "静止阴影深度。none 为平面，low/med/high 对应阴影阶梯。"
+    }
+  },
+  "Stack": {
+    "practices": [
+      "用 gap 控制间距，不要手动加 margin。",
+      "用 StackItem 的 size=“fill” 让某一项伸展开占满剩余空间。",
+      "嵌套多层 Stack；先试 wrap=“wrap” 让内容换行。"
+    ],
+    "props": {
+      "direction": "排列方向。horizontal 沿行内轴从左到右排列。",
+      "gap": "间距档位（数字字面量）：0、0.5、1、1.5、2、3、4、5、6、8、10。用 JSX 数字表达式传入，如 gap={4}。",
+      "padding": "四边内边距，按间距阶梯取值。",
+      "paddingInline": "行内（水平）内边距；与 padding 同时设置时覆盖行内轴。",
+      "paddingInlineStart": "行内起始内边距（LTR 为左，RTL 为右），只覆盖该边。",
+      "paddingInlineEnd": "行内结束内边距（LTR 为右，RTL 为左），只覆盖该边。",
+      "paddingBlock": "块级（垂直）内边距；与 padding 同时设置时覆盖块轴。",
+      "paddingBlockStart": "块级起始（上）内边距，只覆盖该边。",
+      "paddingBlockEnd": "块级结束（下）内边距，只覆盖该边。",
+      "isScrollable": "允许溢出滚动（overflow: auto）。",
+      "width": "容器宽度。数字按像素处理，字符串原样使用。",
+      "height": "容器高度。数字按像素处理，字符串原样使用。",
+      "maxWidth": "容器最大宽度。",
+      "minHeight": "容器最小高度。",
+      "hAlign": "水平对齐。direction 为 horizontal 时作用于主轴（justify-content）。",
+      "vAlign": "垂直对齐。direction 为 horizontal 时作用于交叉轴（align-items）。",
+      "justify": "主轴对齐的别名，按方向解析为 hAlign 或 vAlign，取值含 between。",
+      "align": "交叉轴对齐的别名，对应 CSS 的 align-items。",
+      "wrap": "弹性换行行为。",
+      "as": "渲染成哪个 HTML 元素。",
+      "children": "Stack 内容。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。",
+      "className": "附加在容器元素上的类名，位于组件样式之后。",
+      "style": "行内样式。其中 width、height、maxWidth、minHeight 会覆盖同名 prop。",
+      "ref": "渲染出的容器元素引用。"
+    }
+  }
+}

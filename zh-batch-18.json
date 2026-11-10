@@ -1,0 +1,159 @@
+{
+  "Carousel": {
+    "practices": [
+      "希望每一项都精确停在起始边缘时，启用 scroll-snap。",
+      "iOS 手指分页与触控板滑动场景，传 hasSnap={useSnapPaging()}。",
+      "小规模可循环的集合（如相册）用 hasLoop，才能真正绕回开头。",
+      "始终提供描述轮播内容的 aria-label，例如「精选推荐」。",
+      "Carousel 实现了 WAI-ARIA APG 的轮播模式。",
+      "保持一致的 gap 与项宽，轮播才显得是刻意设计。",
+      "信任内建导航：触控板可横向滑动，鼠标用户可用按钮。",
+      "用轮播承载每个用户都必须看到的内容；不是所有人都会横向滚动。"
+    ],
+    "props": {
+      "children": "在水平滚动容器中渲染的轮播项。",
+      "gap": "项之间的间距，使用间距 token 阶梯。",
+      "hasButtons": "内容可滚动时显示上一页与下一页按钮。",
+      "hasEdgeFade": "内容溢出时在边缘显示渐变遮罩。",
+      "hasLoop": "循环滚动：末尾按下一页会滚回开头。",
+      "hasSnap": "让每个子项吸附到起始边缘，使用原生 scroll-snap。",
+      "padding": "滚动容器内部的行内内边距。",
+      "aria-label": "轮播区域的无障碍标签。",
+      "ref": "透传给根元素的引用。",
+      "handleRef": "命令式句柄，提供 scrollNext()、scrollPrev() 等方法。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "Collapsible": {
+    "practices": [
+      "每个触发器都要有有意义的无障碍名称，可见文字通常就够。",
+      "FAQ 类列表在 CollapsibleGroup 上开启 hasDividers，内建行分隔线更整齐。",
+      "手风琴布局里把每个 Collapsible 包进 Card，获得视觉分隔。",
+      "设置页或 FAQ 页只允许展开一项时，CollapsibleGroup 用 type=“single”。",
+      "用户需要跨区段比较内容时（如功能对照），用 type=“multiple”。",
+      "首次访问大概率需要的内容，默认展开（defaultIsOpen）。",
+      "把关键或必需内容藏在折叠里；用户可能根本发现不了。",
+      "嵌套超过两层；内容会变得难以找到和阅读。"
+    ],
+    "props": {
+      "trigger": "触发器区域的内容，始终可见。",
+      "children": "可折叠与展开的内容。",
+      "defaultIsOpen": "独立非受控用法下的默认展开状态。",
+      "isOpen": "独立用法下的受控展开状态，在组内会被忽略。",
+      "isDisabled": "禁用该项，触发器无法切换。",
+      "onOpenChange": "独立展开状态变化时调用。",
+      "chevronPosition": "展开箭头的逻辑位置。",
+      "value": "用于组内协调的标识符。",
+      "animatedLayout": "useAnimatedLayout 返回的句柄，用于动画布局。",
+      "ref": "透传给根元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "ToggleButton": {
+    "practices": [
+      "按下态用填充或彩色图标，让当前状态可见。",
+      "按下与未按下保持同一标签，让视觉变化来说明状态。",
+      "把相关开关放进带无障碍标签的 ToggleButtonGroup，屏幕阅读器才能读出组语义。",
+      "用 ToggleButton 表示一次性动作（提交、删除）；那该用 Button。",
+      "在同一组里混用 ToggleButton 与普通 Button；只用 ToggleButton。",
+      "用它做跨会话持久的开关设置；那该用 Switch。"
+    ],
+    "props": {
+      "label": "无障碍标签，同时作为可见文字。",
+      "isPressed": "当前是否按下。在组内会被忽略。",
+      "onPressedChange": "按下状态应当变化时同步调用。",
+      "pressedChangeAction": "由 API 或导航驱动的切换动作处理器。",
+      "size": "按钮尺寸，在组内默认取组尺寸。",
+      "elevation": "悬浮（FAB 式）切换按钮的静止阴影。",
+      "isDisabled": "按钮是否禁用。",
+      "isLoading": "按钮是否显示加载转圈。",
+      "icon": "图标元素。只给图标不给 children 时会变成纯图标按钮。",
+      "isIconOnly": "为真时渲染成方形纯图标按钮。",
+      "pressedIcon": "按下时显示的图标，未提供则回退到 icon。",
+      "children": "可见内容。与 icon 搭配时省略则成为纯图标按钮。",
+      "tooltip": "悬停时显示的提示文字。",
+      "value": "在 ToggleButtonGroup 内使用的值标识。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "InputGroup": {
+    "practices": [
+      "用文本附加项展示单位、前缀或后缀，说明输入格式。",
+      "静态前后缀（美元符号、kg、https://）用 InputGroupText。",
+      "附着在输入上的操作用 Button，InputGroup 会连接它们的圆角。",
+      "只与兼容的单行输入搭配：TextInput、NumberInput、TimeInput 等。",
+      "每个内部输入的标签保持具体，成组后组件会自动合并名称。",
+      "在一个组里放多个文本输入；应当拆成独立字段。",
+      "把无关的输入放进 InputGroup；它是「一个输入加装饰」。",
+      "与 TextArea、Slider、Switch、CheckboxInput、RadioList 搭配使用。"
+    ],
+    "props": {
+      "children": "InputGroupText、Button 附加项与兼容的输入子元素。",
+      "label": "整组的无障碍标签。",
+      "isLabelHidden": "视觉隐藏标签。",
+      "description": "显示在标签与整组之间的辅助说明。",
+      "isDisabled": "禁用整个组。",
+      "isOptional": "在标签后显示「可选」标记。",
+      "isRequired": "标记为必填。",
+      "size": "组内输入的默认尺寸。",
+      "status": "校验状态，其消息显示在整组下方。",
+      "labelTooltip": "标签末尾的提示文字。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "Token": {
+    "practices": [
+      "用颜色区分分类，例如绿色表示「启用」、红色表示「已阻断」。",
+      "token 代表用户可移除的选择时，提供 onRemove。",
+      "图标能更快识别类型时加前置图标，例如人像表示成员。",
+      "标签保持一到三个词；超长会以省略号截断。",
+      "用 token 承载主要操作或导航；请用 Button 或 Link。",
+      "隐藏标签，除非图标已经普遍可理解；颜色不能替代文字。",
+      "一组 token 里混太多颜色；保持两到三种有意义的颜色。"
+    ],
+    "props": {
+      "label": "token 内显示的文本标签。",
+      "size": "token 的尺寸。",
+      "color": "token 的颜色变体。",
+      "icon": "渲染在标签之前的可选图标。",
+      "isDisabled": "是否禁用，会降低不透明度并阻止交互。",
+      "onRemove": "点击删除按钮时调用。",
+      "onClick": "点击回调。提供后 token 渲染为可点击元素。",
+      "href": "链接地址。提供后 token 渲染为链接元素。",
+      "description": "通过 aria-description 施加的无障碍描述。",
+      "endContent": "渲染在标签之后、删除按钮之前的内容。",
+      "isLabelHidden": "用仅供屏幕阅读器的类隐藏标签。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Icon": {
+    "practices": [
+      "有语义图标名时优先使用，它们会自动跟随主题变化。",
+      "通过主题覆盖图标，而不是全局替换：defineTheme({icons: {close: ...}})。",
+      "要让图形匹配渲染尺寸，把主题或注册的图标项设为按尺寸提供。",
+      "图标配文字标签以满足无障碍；纯图标元素必须有无障碍名称。",
+      "有意义的独立图标（旁边没有文字）要给它一个无障碍名称。",
+      "图标颜色用 token，不要写死十六进制值。",
+      "注意语境；紧凑组件里的装饰性图标反而会分散注意力。",
+      "把图标当作传达含义的唯一手段；始终提供文字替代。"
+    ],
+    "props": {
+      "icon": "语义图标名或 SVG 组件。",
+      "color": "映射到 Astryx 图标颜色 token 的颜色变体。",
+      "size": "图标尺寸。xsm、sm、md、lg 分别为 12、16、20、24px。",
+      "variant": "请求当前主题为某个语义名提供的替代图形。",
+      "label": "有意义的独立图标（旁边无文字）的无障碍名称。",
+      "xstyle": "尺寸、颜色、不透明度等定制的 StyleX 样式。",
+      "className": "附加在渲染出的图形上的类名。",
+      "style": "合并到渲染图形上的行内样式。",
+      "ref": "渲染出的 SVG 元素引用。"
+    }
+  }
+}

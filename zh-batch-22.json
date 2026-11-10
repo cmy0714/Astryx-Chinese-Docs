@@ -1,0 +1,136 @@
+{
+  "SideNavCollapseButton": {
+    "props": {
+      "collapsible": "传给 SideNav 的同一份受控折叠配置，只有需要受控时才传。",
+      "handleRef": "已废弃。来自 SideNav 的命令式折叠句柄；改为传 collapsible。",
+      "label": "自定义按钮标签。提供后渲染为带文字的按钮。",
+      "size": "按钮尺寸，默认继承容器级联下来的尺寸。",
+      "children": "自定义按钮内容，会覆盖默认的箭头图标与标签。"
+    }
+  },
+  "SideNavHeading": {
+    "props": {
+      "heading": "产品与应用名称。",
+      "icon": "产品与应用图标。",
+      "headingHref": "标题的链接。",
+      "superheading": "标题上方的文字。",
+      "superheadingHref": "上方文字的链接。",
+      "subheading": "标题下方的文字。",
+      "subheadingHref": "下方文字的链接。",
+      "menu": "在弹出层里渲染的菜单内容。",
+      "headerEndContent": "渲染在标题行尾部、位于末尾的内容。"
+    }
+  },
+  "SideNavItem": {
+    "props": {
+      "label": "条目标签。",
+      "as": "自定义链接组件。",
+      "icon": "未选中（轮廓）变体显示的图标。",
+      "selectedIcon": "选中（填充）变体显示的图标。",
+      "isSelected": "把该项标记为当前页。",
+      "isDisabled": "禁用态。",
+      "href": "导航地址。",
+      "onClick": "点击回调。",
+      "endContent": "仅用于被动展示的右侧内容（徽章、计数）；交互控件请放进 actions。",
+      "actions": "行级次级控件（图标按钮、菜单），渲染在独立区域。",
+      "children": "用于嵌套的子项，会占满导航宽度。",
+      "collapsible": "为带子项的条目启用折叠行为。",
+      "size": "导航条目行的尺寸变体。"
+    }
+  },
+  "SideNavSection": {
+    "props": {
+      "title": "分组标题。",
+      "subtitle": "分组副标题。",
+      "children": "分组条目。",
+      "endContent": "分组头部的右侧内容。",
+      "isHeaderHidden": "视觉隐藏分组头部，仍对屏幕阅读器可访问。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "SegmentedControlItem": {
+    "props": {
+      "value": "该分段的唯一值，与父级的 value 匹配。",
+      "label": "该分段的无障碍标签，默认渲染为可见文字。",
+      "isLabelHidden": "是否视觉隐藏标签；为真时只显示图标。",
+      "icon": "标签前显示的图标。",
+      "isDisabled": "该单独项是否禁用；被禁用的选中项仍会显示为选中态。"
+    }
+  },
+  "SelectorOption": {
+    "props": {
+      "label": "该项的主标签文字。",
+      "icon": "标签前显示的图标。",
+      "description": "标签下方显示的次级描述。",
+      "layout": "标签与描述的组合方式，stacked 表示上下堆叠。",
+      "endContent": "标签与描述之后渲染的附加内容。"
+    }
+  },
+  "TypeaheadItem": {
+    "props": {
+      "item": "要渲染的搜索结果项。",
+      "icon": "标签前显示的图标或头像。",
+      "description": "标签下方显示的描述文字。",
+      "isDisabled": "该项是否以禁用样式显示。",
+      "group": "该 prop 无效。分组请在搜索结果的 item.auxiliaryData.group 上设置。"
+    }
+  },
+  "ChatMessage": {
+    "props": {
+      "sender": "消息由谁发出，控制对齐与布局。",
+      "children": "自由内容：气泡、资源列表、工具调用、图片。",
+      "avatar": "消息旁渲染的头像元素，通常是 Avatar。",
+      "name": "渲染在消息主体上方的发送者名称，用作消息的无障碍标签。",
+      "metadata": "渲染在消息主体下方的元数据。",
+      "density": "视觉密度，未设置时继承列表上下文。"
+    }
+  },
+  "ChatMessageBubble": {
+    "props": {
+      "children": "气泡内容：文本、Markdown 或任意节点。",
+      "variant": "视觉变体。filled 使用发送者配色背景，为默认值。",
+      "name": "气泡上方显示的发送者名称，与气泡文本对齐。",
+      "metadata": "气泡下方显示的元数据，与气泡文本对齐。",
+      "group": "多气泡组中的位置，用于控制圆角缩减。",
+      "width": "气泡宽度（数字为像素，字符串原样使用）。"
+    }
+  },
+  "ChatSendButton": {
+    "props": {
+      "isStopShown": "是否显示停止按钮，默认取上下文值。",
+      "isDisabled": "发送按钮是否禁用，默认取上下文的 !canSend。",
+      "onSend": "用户点击发送时调用，默认走上下文的 onSubmit。",
+      "onStop": "流式生成中点击停止时调用，默认走上下文。",
+      "sendIcon": "发送态的自定义图标，默认取 arrowUp。",
+      "stopIcon": "停止态的自定义图标，默认取 stop。",
+      "size": "按钮尺寸。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "ChatMessageList": {
+    "props": {
+      "children": "消息元素，通常是 ChatMessage 或 ChatSystemMessage。",
+      "emptyState": "列表没有消息时显示的内容。",
+      "scrollToTopAction": "用户滚到顶部时触发的异步动作，用于加载更早的消息。",
+      "density": "视觉密度，通过上下文传给子消息。",
+      "gap": "顶层消息行之间的间距，默认取当前密度。",
+      "align": "列表短于容器时的垂直对齐。",
+      "isStreaming": "是否有助手消息正在流式输出，会标记列表末尾。"
+    }
+  },
+  "ChatMessageMetadata": {
+    "props": {
+      "timestamp": "时间戳内容：字符串或 Timestamp 组件。",
+      "footer": "脚注内容：模型信息、反应按钮、复制按钮。",
+      "status": "消息送达状态，显示图标与文字。"
+    }
+  },
+  "ChatSystemMessage": {
+    "props": {
+      "children": "系统消息内容：事实性文本或节点。",
+      "variant": "视觉变体。default 渲染居中文本，divider 会加上分隔线。",
+      "icon": "调用方提供的图标内容，渲染在消息之前。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  }
+}

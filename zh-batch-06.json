@@ -1,0 +1,147 @@
+{
+  "Toast": {
+    "practices": [
+      "文案要短，几个字说明发生了什么，如「已保存」「消息已发送」。",
+      "可撤销的操作在 endContent 里放一个简短的撤销动作；动作需要用户操作时把 isAutoHide 设为 false。",
+      "用 uniqueID 对重复触发的 toast 去重，比如连点保存按钮。",
+      "需要用户注意但不需要立即处理的失败用 error 类型；它会保留到被关闭。",
+      "用 toast 展示阻断用户的关键错误；需要长期可见、就地提示的请用 Banner。",
+      "在 toast 里放长文本或多行内容；它 5 秒后消失，用户可能还没读完。",
+      "用 toast 展示表单校验错误；应当就地校验，让用户看到具体哪个字段不对。"
+    ],
+    "props": {
+      "body": "主要消息内容。",
+      "type": "控制背景色的类型。error 类型的 toast 会保留到被关闭。",
+      "isAutoHide": "是否自动消失。info 默认 true，error 默认 false。",
+      "autoHideDuration": "自动消失前的时长（毫秒）。带时限的内容必须满足 WCAG 2.2.1。",
+      "endContent": "尾部渲染的内容（如撤销按钮、链接）。动作文案要保持简短。",
+      "uniqueID": "去重用的唯一标识。",
+      "collisionBehavior": "已存在相同 uniqueID 的 toast 时的处理行为。",
+      "onHide": "toast 被移除时的回调。",
+      "onDismiss": "toast 被关闭时的回调。",
+      "renderContent": "用自定义布局替换该 toast 卡片的内容，Astryx 仍负责外层容器与生命周期。"
+    }
+  },
+  "Tooltip": {
+    "practices": [
+      "内容保持简洁，纯文本尽量控制在一百四十字以内。",
+      "给纯图标按钮、以及缺少可见标签的控件加提示。",
+      "触发元素如果是「只为显示提示」的按钮，把 touchTrigger 设为 tap；触屏没有悬停。",
+      "在提示里放链接、按钮这类可交互元素；请改用 HoverCard 或 Popover。",
+      "用提示承载用户完成任务必须看到的关键信息。"
+    ],
+    "props": {
+      "children": "触发该提示的元素。",
+      "anchorRef": "兄弟模式下的外部锚点引用。",
+      "content": "提示内容，通常是短文本。",
+      "placement": "相对锚点元素的位置。逻辑值 start / end 按书写方向解析。",
+      "alignment": "沿 placement 轴的对齐方式。逻辑值按浮层自身解析。",
+      "delay": "显示延迟（毫秒）。",
+      "hideDelay": "隐藏延迟（毫秒）。",
+      "focusTrigger": "控制哪些聚焦事件会触发提示。",
+      "touchTrigger": "没有悬停能力时轻触的行为。auto 表示轻触即打开，除非触发元素本身有可聚焦行为。",
+      "isEnabled": "启用或禁用提示的触发。",
+      "onOpenChange": "可见性变化时的回调，显示时传入 true。",
+      "hasHoverIndication": "在触发元素上显示虚线下划线。",
+      "isDefaultOpen": "挂载时是否默认显示，仍然可以被关闭。",
+      "isOpen": "受控的打开状态。"
+    }
+  },
+  "Popover": {
+    "practices": [
+      "内容聚焦于单一任务或单条信息。",
+      "提供明确的关闭方式：点击外部关闭，或给出显式关闭按钮。",
+      "通过规范的 popover target 为主题化的上色表面。",
+      "在 popover 里再套一层 popover；会造成焦点与导航混乱。",
+      "只凭输入复杂度判断该用哪种呈现；要综合任务焦点、可用空间和交互需求。",
+      "认为「需要滚动」就等于 Popover 不合适；有边界的 Popover 可以滚动，而锚定面板反而更聚焦。"
+    ],
+    "props": {
+      "children": "触发元素，必须包含 button 或 role=“button” 的元素。",
+      "anchorRef": "兄弟模式下作为锚点的外部引用。",
+      "content": "浮层里显示的内容。",
+      "placement": "相对触发器的位置。逻辑值 start / end 按书写方向解析。",
+      "alignment": "沿 placement 轴的对齐，逻辑值跟随浮层自身。",
+      "isOpen": "受控模式下是否显示。",
+      "onOpenChange": "可见性变化时的回调。",
+      "isEnabled": "为 false 时忽略触发交互。",
+      "width": "浮层容器宽度。仍会被视口限制并做对齐修正。",
+      "padding": "浮层表面的内边距，按间距阶梯取值。",
+      "label": "浮层对话框的无障碍标签。没有它时以触发元素命名。",
+      "role": "浮层包裹层的 ARIA role。对话框式浮层用 dialog。",
+      "isModal": "对话框式浮层是否设置 aria-modal，仅在 role 为 dialog 时生效。",
+      "hasCloseButton": "是否包含一个隐藏的关闭按钮以照顾无障碍。",
+      "closeButtonLabel": "隐藏关闭按钮的标签。",
+      "hasAutoFocus": "打开时是否把焦点移入浮层，焦点落在第一个可聚焦元素上。",
+      "hasLightDismiss": "点击外部是否关闭。需要用户明确操作的面板应设为 false。",
+      "hasEscapeDismiss": "按 Esc 是否关闭。",
+      "presentation": "承载内容的表面。popover 锚定在触发器上，bottom 形式从底部升起。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。"
+    }
+  },
+  "Banner": {
+    "practices": [
+      "状态与消息匹配：更新用 info，提醒用 warning，问题用 error，确认用 success。",
+      "页面内容内部用 card 容器；横跨整页的消息用 section 容器。",
+      "info 与 success 横幅做成可关闭；error 横幅保留到用户解决问题为止。",
+      "标题短而可扫读：「支付失败」优于「您最近的支付处理出现了问题」。",
+      "用 Banner 展示会自动消失的短消息；那该用 Toast。",
+      "堆叠多条同状态的横幅；把相关消息合并成一条。",
+      "用户需要依据内容行动时（如失败字段清单），设 collapsible={false}。",
+      "Banner 的状态只控制颜色与图标，不构成实时播报区；异步结果要在触发它的地方播报。"
+    ],
+    "props": {
+      "status": "控制图标与颜色的状态类型。",
+      "title": "头部显示的标题文字或节点。",
+      "description": "头部标题下方的描述文字。",
+      "icon": "覆盖默认的状态图标。",
+      "isDismissable": "是否允许用户关闭。",
+      "onDismiss": "点击关闭按钮时调用；无论是否处理，横幅都会自行隐藏。",
+      "dismissLabel": "关闭按钮的无障碍名称与可见提示，传入已翻译好的文案。",
+      "endContent": "头部区域内尾部对齐的动作内容，空间不足时换行独占一行。",
+      "container": "容器类型：card 带圆角；section 满宽无圆角。",
+      "elevation": "静止阴影深度。悬浮于内容之上的横幅可使用，none 为平面。",
+      "children": "彩色头部下方卡片背景区的内容。",
+      "collapsible": "内容区是否收在展开 / 收起开关之后。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Spinner": {
+    "practices": [
+      "给一个有意义的标签，说明正在加载什么，供屏幕阅读器播报。",
+      "放在深色或强调色背景上时使用 onMedia 色调。",
+      "尺寸已知的内容区用它；应当用 Skeleton 保持布局稳定。",
+      "同一视图里堆多个转圈；用一个代表整体加载状态。"
+    ],
+    "props": {
+      "size": "转圈直径：10px、14px、18px、28px。",
+      "shade": "深色或浅色背景对应的色调。",
+      "label": "转圈下方可见的内容。字符串标签会通过 aria 为该指示器命名。",
+      "aria-label": "供屏幕阅读器使用的无障碍名称。默认取 label（字符串时）或翻译后的默认文案。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "ProgressBar": {
+    "practices": [
+      "总工作量已知时用确定进度条，未知时用不确定态。",
+      "颜色变体与语境匹配：一般进度用 accent，完成用 success，警告或错误用对应变体。",
+      "始终提供标签，即使隐藏；屏幕阅读器需要它来播报加载的是什么。",
+      "把图标或文字放进进度条内部；应当用布局组件放在它旁边。",
+      "用进度条表示瞬时动作；它是为明显耗时的操作准备的。",
+      "为同一操作堆叠多条进度条；用一条并显示数值标签即可。"
+    ],
+    "props": {
+      "label": "无障碍标签。",
+      "value": "当前值，不确定态时忽略。",
+      "max": "最大值。",
+      "isLabelHidden": "视觉隐藏标签，仍然可访问。",
+      "hasValueLabel": "是否显示格式化的数值文本，不确定态时忽略。",
+      "formatValueLabel": "自定义数值标签格式化函数，默认显示百分比。",
+      "variant": "语义颜色变体。",
+      "isIndeterminate": "进度未知时的动画加载指示器。开启减少动态效果时改为原地脉冲。",
+      "marks": "在轨道上绘制固定目标标记，取值与 value 处于同一 0 到 max 标尺。",
+      "isDisabled": "视觉禁用态：填充与文字变灰。用于已取消或未激活的操作。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  }
+}

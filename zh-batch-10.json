@@ -1,0 +1,119 @@
+{
+  "Avatar": {
+    "practices": [
+      "始终传 name，图片加载失败时能显示首字母，屏幕阅读器也有名字可读。",
+      "尺寸与语境匹配：行内提及用 xsm 或 sm，列表与头部用 md 或 lg。",
+      "需要知道对方是否在线时（聊天、团队视图）加状态点。",
+      "用自己的 Tooltip 或 HoverCard 包裹 Avatar 时设 tooltip={false}，避免内建提示重复。",
+      "每个可交互头像（href 或 onClick）都要有 name 或 alt，它是这个控件的无障碍名称。",
+      "用状态标签给可交互头像命名。「在线」并没有说明这是谁。",
+      "用 Avatar 表示 logo、产品图或非人 / 非团队的内容；那些该用图片组件。",
+      "用 xstyle 或 className 改形状；请用 shape prop，主题才能统一控制。"
+    ],
+    "props": {
+      "src": "主图地址。",
+      "fallbackSrc": "主图加载失败时的备用图。",
+      "name": "用户名，用于生成首字母与 alt 文本。",
+      "alt": "alt 文本，缺省回退到 name。",
+      "size": "尺寸。命名档位：xsm 20px、sm 24px、md 36px、lg 48px、xl 128px。",
+      "shape": "形状变体。circle 为默认的全圆。",
+      "status": "角落的状态指示内容。AvatarStatusDot 会把它的 label 并入头像的无障碍名称。",
+      "tooltip": "悬停与键盘聚焦时的提示。省略或为 true 时显示 name。",
+      "href": "设置后头像渲染为可交互链接。",
+      "as": "设置 href 时使用的自定义链接组件。",
+      "target": "链接的 target 属性，仅设置 href 时生效。",
+      "rel": "链接的 rel 属性，仅设置 href 时生效。",
+      "onClick": "点击回调。只设 onClick 而不设 href 时，头像渲染为按钮。"
+    }
+  },
+  "Kbd": {
+    "practices": [
+      "把快捷键放在它触发的动作附近：提示里、菜单项里或行内说明里。",
+      "用 mod 而不是 ctrl 或 cmd，它会自动适配用户所在平台。",
+      "让 Kbd 命名这个快捷键：屏幕阅读器会把按键读成词语，例如「Command + K」。",
+      "把 Kbd 当作发现某个操作唯一途径；它应当补充可见控件，而不是替代。",
+      "指望 Kbd 处理按键。它只负责显示，监听要在自己的代码里做。"
+    ],
+    "props": {
+      "keys": "快捷键字符串，用加号连接各个按键，支持特殊键名。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "ref": "透传给快捷键组元素的引用。"
+    }
+  },
+  "Code": {
+    "practices": [
+      "用 Code 表示正文里的技术术语，如函数名、prop 名、文件路径。",
+      "行内代码需要与周围字号、行高一致时，把 size 设为 inherit。",
+      "用 Code 显示多行或独立代码片段；请用 CodeBlock，读者才有合适的排版。",
+      "把 Code 当作可交互的复制或跳转控件；应配合合适的 Button 使用。"
+    ],
+    "props": {
+      "children": "行内代码内容。",
+      "color": "文字颜色。用 inherit 继承周围文字颜色。",
+      "size": "设为 inherit 时继承周围的字号与行高。",
+      "ref": "透传给语义 code 元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式，必须是 stylex.create() 的值。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "Blockquote": {
+    "practices": [
+      "用于引用文本、用户评价或外部来源的摘录。",
+      "知道出处时提供 cite prop。",
+      "出处通过 cite 传入，而不是写进 children，这样才会渲染成语义化的引用。",
+      "用它做提示框或说明性注释；那该用 Banner。",
+      "自己用 footer 包住署名。blockquote 里的 footer 会变成内容的一部分，而不是署名。"
+    ],
+    "props": {
+      "children": "引用的内容。",
+      "cite": "可选的出处，渲染在 cite 元素中。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "EmptyState": {
+    "practices": [
+      "给清晰的标题和一个行动按钮，让用户知道下一步怎么做。",
+      "用能强化空态语境的插画或图标。",
+      "空间受限的卡片或侧栏里用 compact 变体。",
+      "让空态没有任何引导；始终说明发生了什么、用户可以做什么。",
+      "用「暂无数据」这类笼统文案；要具体说明什么为空、为什么为空。",
+      "用 EmptyState 展示需要立即处理的错误；那该用 Banner。"
+    ],
+    "props": {
+      "title": "主文案，按配置的标题层级渲染。",
+      "description": "可选的补充说明，位于标题下方。",
+      "icon": "可选的图标或插画，位于标题上方。",
+      "actions": "可选的操作按钮，位于描述下方。",
+      "headingLevel": "只控制渲染出的 HTML 标题标签（h1 到 h6），以保证文档大纲正确。",
+      "isCompact": "启用紧凑变体，缩小间距，适合受限空间。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Thumbnail": {
+    "practices": [
+      "始终提供 label（如文件名），缩略图与它的删除按钮才有无障碍名称。",
+      "首次上传过程中用不带 src 的 isLoading 显示骨架；带 src 的 isLoading 显示上传覆盖层。",
+      "把 onClick 配合灯箱或详情视图，让用户能查看原图。",
+      "用 Thumbnail 表示 PDF、表格等非图片文件；应使用文件附件组件。",
+      "提供 src 时省略 alt；屏幕阅读器需要图片描述。"
+    ],
+    "props": {
+      "src": "图片地址。",
+      "alt": "图片的 alt 文本。省略时图片会被显式标记为装饰性。",
+      "label": "无障碍标签（如文件名），悬停时作为提示显示。",
+      "onRemove": "覆盖在角落的删除按钮回调。",
+      "onClick": "点击回调。会加上按钮语义与悬停覆盖层。",
+      "isLoading": "无 src 时显示骨架，有 src 时显示上传覆盖层。",
+      "isDisabled": "是否禁用。",
+      "showRemoveOn": "删除按钮何时可见。hover 为默认，悬停才显现。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "LayoutHeader": {
+    "props": {
+      "children": "头部内容。",
+      "hasDivider": "是否在底部加边框。",
+      "height": "头部高度。数字按像素处理，字符串原样使用。",
+      "label": "该地标元素的无障碍标签。",
+      "paddingBlockEnd": "块级结束（下）内边距，按间距阶梯取值。",
+      "role": "ARIA 地标角色。"
+    }
+  },
+  "LayoutPanel": {
+    "props": {
+      "children": "面板内容。",
+      "hasDivider": "在相应边缘加边框。",
+      "padding": "内部留白，按间距阶梯取值。",
+      "isScrollable": "启用滚动溢出。",
+      "label": "该地标元素的无障碍标签，区域滚动时依然生效。",
+      "role": "ARIA 地标角色。",
+      "width": "面板宽度。数字按像素处理，字符串原样使用。",
+      "resizable": "useResizable() 的输出或其 props。"
+    }
+  },
+  "TopNavItem": {
+    "props": {
+      "label": "导航项的无障碍标签，默认渲染为可见文字。",
+      "href": "导航目标地址。",
+      "isSelected": "该导航项当前是否选中。",
+      "isDisabled": "是否禁用，会设置 aria-disabled。",
+      "isIconOnly": "渲染成方形纯图标元素。",
+      "icon": "标签前显示的图标。",
+      "children": "替代 label 渲染的自定义内容。",
+      "as": "替代 a 标签渲染的自定义组件。"
+    }
+  },
+  "TopNavMegaMenu": {
+    "props": {
+      "label": "触发按钮的可见标签。",
+      "items": "菜单项槽位，通常是 TopNavMegaMenuItem。",
+      "featured": "推荐内容槽位，渲染在面板右侧。",
+      "delay": "显示菜单前的延迟（毫秒）。",
+      "hideDelay": "隐藏菜单前的延迟（毫秒）。",
+      "onOpenChange": "大菜单打开或关闭时调用。"
+    }
+  },
+  "TopNavMegaMenuFeaturedCard": {
+    "props": {
+      "title": "卡片标题。",
+      "description": "标题下方的描述文字。",
+      "image": "显示在主体上方的可选图片地址。",
+      "imageAlt": "图片的 alt 文本；省略时按装饰性处理。",
+      "linkLabel": "CTA 链接文字。",
+      "linkHref": "CTA 链接地址。",
+      "children": "渲染在标准内容下方的自定义内容。"
+    }
+  },
+  "TopNavMegaMenuItem": {
+    "props": {
+      "title": "菜单项的显示标题。",
+      "description": "标题下方显示的可选描述。",
+      "icon": "左侧显示的可选图标。",
+      "href": "点击后跳转的地址。",
+      "onClick": "点击时的回调。",
+      "as": "跳转时替代 a 标签渲染的自定义组件。"
+    }
+  },
+  "RadioListItem": {
+    "props": {
+      "label": "单选项的主标签，支持富标签。",
+      "aria-label": "单选控件的纯文本无障碍名称。",
+      "value": "该单选项的值。",
+      "description": "标签下方显示的次级内容。",
+      "align": "起始与结束内容相对标签区的垂直对齐。",
+      "isDisabled": "该单项是否禁用。",
+      "startContent": "单选圆圈之前渲染的内容。",
+      "endContent": "标签之后渲染的内容。"
+    }
+  },
+  "Skeleton": {
+    "practices": [
+      "与正在加载内容的尺寸和形状保持一致，占位才显得真实。",
+      "多个骨架用 index 错开动画，形成自然的波浪感。",
+      "内容尺寸未知时用它；那该用 Spinner。",
+      "在同一内容区同时放骨架与转圈；只选一种加载表达。",
+      "让骨架无限显示；加载过久时应当展示错误状态。"
+    ],
+    "props": {
+      "width": "宽度，数字为像素，也可传 CSS 值。",
+      "height": "高度，数字为像素，也可传 CSS 值。",
+      "radius": "圆角，使用设计 token 阶梯。",
+      "index": "用于错开动画时机的索引，多条骨架时使用。"
+    }
+  },
+  "Step": {
+    "props": {
+      "step": "该步骤的索引（从 0 开始），用于推导状态。",
+      "label": "步骤标签文字，保持单行。",
+      "description": "标签下方显示的可选描述。",
+      "children": "渲染在标签与描述下方的内容。",
+      "status": "步骤的语义颜色，控制配色。",
+      "indicator": "步骤指示处显示什么，auto 表示自动判断。",
+      "isDisabled": "禁用交互并减淡步骤指示。",
+      "isOptional": "把该步骤标记为可选，会附加「可选」标记。",
+      "endContent": "渲染在步骤末尾的尾部内容。",
+      "density": "控制步骤的垂直内边距。"
+    }
+  },
+  "Tab": {
+    "props": {
+      "value": "该标签的唯一值，与 TabList 的 value 匹配。",
+      "label": "标签的无障碍标签，同时作为可见文字。",
+      "isLabelHidden": "是否视觉隐藏标签；为真时只显示图标。",
+      "href": "跳转地址；提供后标签渲染为链接。",
+      "panelId": "该标签所控制面板的 id，用于建立 ARIA 关联。",
+      "as": "提供 href 时使用的自定义组件。",
+      "icon": "未选中时显示的图标。",
+      "selectedIcon": "选中时显示的图标。",
+      "endContent": "标签之后渲染的内容，如徽章。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TreeList": {
+    "practices": [
+      "给每个节点有意义的标签与图标，层级才看得懂。",
+      "预展开重要的分支，用户能立刻看到关键内容。",
+      "树中存在分支节点时，叶子行也要保留箭头列的占位。",
+      "嵌套超过 4 到 5 层；应当扁平化或换一种结构。",
+      "用树展示扁平、无层级的数据；那该用 List。"
+    ],
+    "props": {
+      "items": "递归的树项数据，含 id、label 等字段。",
+      "density": "条目的间距密度。",
+      "variant": "层级引导线的视觉处理方式。",
+      "animatedLayout": "useAnimatedLayout({containerRef}) 返回的句柄。",
+      "header": "头部内容，通过 aria-label 与树关联。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "MediaTheme": {
+    "practices": [
+      "用于任何置于深色背景上的内容，如图片浮层、视频遮罩。",
+      "表面颜色来自主题 token 时，优先用 mode=“auto”。",
+      "配合背景色使用；MediaTheme 只翻转 token 上下文，不负责绘制背景。",
+      "主题可以通过 onDark.components 定制媒体表面上的组件。",
+      "用 MediaTheme 实现应用级深色模式；那该用 Theme 的 mode=“dark”。"
+    ],
+    "props": {
+      "mode": "表面亮度上下文，dark 表示深色背景上的内容。",
+      "fallback": "auto 无法判定表面明暗时，使用哪一侧的取值。",
+      "children": "在反转 token 上下文下渲染的内容。"
+    }
+  },
+  "Theme": {
+    "practices": [
+      "应用级、提前确定的主题，用 astryx theme build 生成。",
+      "主题在浏览器里创建或编辑时，用运行时主题。",
+      "token 名一律以两个短横线开头，如 --color-accent。",
+      "在 SSR 生产应用中默认使用运行时主题；组件覆盖会带来额外开销。"
+    ],
+    "props": {
+      "theme": "要应用的主题对象，优先使用构建产物。",
+      "mode": "颜色模式，system 表示跟随系统偏好。",
+      "children": "在该主题下渲染的内容。"
+    }
+  },
+  "VisuallyHidden": {
+    "practices": [
+      "用它给纯图标按钮与控件提供屏幕阅读器可读的无障碍名称。",
+      "用块级元素（as=“div”）配 aria-live 播报动态消息。",
+      "用它隐藏内容让所有人看不到；它仍然留在无障碍树里。",
+      "在其中放交互控件；内容不可见，也就无法操作。"
+    ],
+    "props": {
+      "children": "对辅助技术暴露、但视觉上隐藏的内容。",
+      "as": "渲染成的 HTML 标签；播报动态消息时用块级元素。"
+    }
+  }
+}

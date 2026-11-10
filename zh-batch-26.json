@@ -1,0 +1,283 @@
+{
+  "AvatarGroupOverflow": {
+    "practices": [
+      "把真实被隐藏的人数传给 count，无障碍标签才能与视觉一致。",
+      "用 +12、99+ 这类简短自定义文字；指示器是圆形的，容不下长文本。",
+      "溢出指示器会打开成员列表、弹出层或详情时，提供 onClick。",
+      "传与 count 不一致的自定义文字；count 仍是无障碍名称的来源。",
+      "在指示器里放长标签；更长的参与者说明请放到别处。"
+    ],
+    "props": {
+      "count": "被隐藏头像的数量，用于默认显示与无障碍名称。",
+      "children": "在指示器内渲染的可选自定义计数文字。",
+      "onClick": "点击溢出指示器时调用。",
+      "ref": "透传给溢出指示器元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "BottomSheetSwitcher": {
+    "practices": [
+      "优先为每一步各写一个独立 BottomSheet，用一份状态记录当前打开的步骤。",
+      "就地迁移已有流程：把 activeSheet 与 onActiveSheetChange 换成每步独立的面板。",
+      "用户需要对比信息时，把内容拆到不同面板。",
+      "多个面板必须同时可交互或可见时，使用步骤流。"
+    ],
+    "props": {
+      "ref": "解析到承载面板的原生 dialog 元素的引用。",
+      "onCancel": "切换器处理原生 cancel 之前调用。",
+      "activeSheet": "可交互面板的 ID，没有打开时为 null。",
+      "onActiveSheetChange": "活动面板被关闭时以 null 调用。",
+      "hasScrim": "面板对话框是否为模态。",
+      "children": "以唯一 sheetId 标识的 BottomSheet。"
+    }
+  },
+  "BreadcrumbItem": {
+    "props": {
+      "children": "面包屑条目的标签内容。",
+      "href": "条目链接到的地址；纯非导航项可以省略。",
+      "onClick": "条目的点击处理器。",
+      "isCurrent": "把该项标记为当前页，并应用对应样式。",
+      "startIcon": "标签前渲染的图标。",
+      "menu": "条目被激活时打开的菜单。",
+      "menuSize": "传给菜单项的尺寸，默认继承当前上下文。",
+      "as": "替代 a 标签渲染的自定义链接组件。"
+    }
+  },
+  "ToggleButtonGroup": {
+    "props": {
+      "children": "ToggleButton 子元素，每个成员需要给一个 value。",
+      "label": "整组的无障碍标签（aria-label）。",
+      "type": "选择模式。single 表示只允许一个按钮激活。",
+      "value": "当前选中的值，类型取决于选择模式。",
+      "onChange": "选择变化时调用。",
+      "orientation": "按钮组的排列方向。",
+      "size": "组内按钮的默认尺寸。",
+      "isDisabled": "是否禁用组内所有按钮。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "ChatComposerDrawer": {
+    "practices": [
+      "给 label 一个具体的复数名词，如「附件」，展开与收起按钮才有意义。",
+      "另一处也需要控制折叠时，用受控的 isCollapsed 与 onCollapsedChange。",
+      "把输入区的主要动作放进抽屉；那些该放 footer 或 sendActions。"
+    ],
+    "props": {
+      "children": "抽屉内渲染的内容：token、chip、预览等。",
+      "count": "折叠徽章中显示的总条目数。",
+      "label": "默认折叠摘要里、计数旁显示的标签。",
+      "collapsedSummary": "完整折叠摘要的视觉内容。",
+      "isCollapsed": "受控的折叠状态，配合 onCollapsedChange 使用。",
+      "defaultIsCollapsed": "非受控用法的初始折叠状态。",
+      "onCollapsedChange": "用户切换抽屉时调用。"
+    }
+  },
+  "ChatDictationButton": {
+    "practices": [
+      "把听写按钮放在 ChatComposer 的 sendActions 槽位，位置才符合预期。",
+      "给 useChatDictation 传 inputRef，临时转写才能以幽灵文本出现。",
+      "开启 useChatDictation 的 hasSounds，听写时给用户音频反馈。",
+      "在聊天输入区之外使用听写按钮；它是为该上下文设计的。",
+      "忘记处理浏览器不支持的情况；按钮默认会自动隐藏。"
+    ],
+    "props": {
+      "dictation": "useChatDictation 的返回值。",
+      "size": "按钮尺寸，与 ChatComposer 的密度匹配。",
+      "isHiddenWhenUnsupported": "为真时，浏览器不支持听写就什么都不渲染。",
+      "label": "无障碍标签覆盖，默认是「开始听写」。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "ChatMessageMetadata": {
+    "practices": [
+      "消息使用气泡时，把元数据放在最后一个气泡的 metadata 槽位。",
+      "分别传 timestamp 与 footer 内容；两者都为空时节分隔符会被省略。",
+      "提供 footer 动作却不给它们各自的无障碍名称与交互语义。",
+      "在气泡与它所属的消息上重复放同一份元数据。"
+    ]
+  },
+  "ChatSendButton": {
+    "practices": [
+      "放在 ChatComposer 内部时，它的可用性与发送、停止行为会跟随上下文。",
+      "独立使用时，要同时提供状态与对应的 onSend 或 onStop。",
+      "提供自定义内容时，保留已翻译的「发送」「停止」无障碍名称。",
+      "在 props 没有可用 onStop 的情况下渲染停止态。",
+      "指望 isDisabled 禁用停止动作；它只作用于发送。"
+    ]
+  },
+  "ChatSystemMessage": {
+    "practices": [
+      "可见消息保持简洁、自洽，才能一眼看懂。",
+      "时间或区段边界用 divider 变体，其余事实性提示用默认变体。",
+      "用 ChatSystemMessage 承载发送者撰写的内容；那该用 ChatMessage 与气泡。",
+      "把调用方提供的图标当作唯一语义来源；文字才是主要载体。"
+    ]
+  },
+  "ChatTokenizedText": {
+    "practices": [
+      "让输入区插入与消息渲染复用同一份 token 定义。",
+      "序列化值使用非空且稳定的内容，每个定义才能稳定对应到一个实体。",
+      "用 token 标签替代周围的消息文本；上下文仍然要靠文字表达。",
+      "在自定义 token 渲染里塞组件自有的交互或无障碍行为。"
+    ],
+    "props": {
+      "children": "含序列化 token 值的纯文本消息。",
+      "tokens": "与输入区使用同一类型的 token 定义。",
+      "xstyle": "根文本包装层的 StyleX 样式。"
+    }
+  },
+  "CheckboxListItem": {
+    "props": {
+      "label": "条目的主文本标签，支持富标签。",
+      "aria-label": "复选框的纯文本无障碍名称。",
+      "value": "身份键；父级 CheckboxList 为集合模式时必填。",
+      "description": "标签下方的次级内容。",
+      "endContent": "标签区之后渲染的内容。",
+      "align": "起始与结束内容相对标签区的垂直对齐。",
+      "isDisabled": "该单项是否禁用。",
+      "isLoading": "该项是否处于加载中，会显示转圈。",
+      "isChecked": "独立模式下的直接勾选状态；在组内由父级接管。",
+      "onCheck": "独立模式下的直接勾选处理器。"
+    }
+  },
+  "Citation": {
+    "practices": [
+      "来源标题能为读者提供有意义的上下文时，用 label 变体。",
+      "正文内的紧凑行内引用，用 number 变体。",
+      "在同一段落里混用 label 与 number 变体；每篇只用一种。"
+    ],
+    "props": {
+      "source": "引用来源对象，含标题与链接等字段。",
+      "number": "该引用的展示序号。",
+      "variant": "展示样式。label 表示带来源标题的 chip。"
+    }
+  },
+  "CommandPaletteInput": {
+    "practices": [
+      "传一个简洁的 label，说明能搜什么；默认的「搜索命令」过于笼统。",
+      "用 endContent 在尾部放简短辅助控件或快捷键提示。",
+      "覆盖 combobox 的 role 或弹层状态；这些由 CommandPaletteInput 自己管理。"
+    ],
+    "props": {
+      "placeholder": "输入框的占位文字。",
+      "label": "查询字段的无障碍标签，会作为提示播报。",
+      "hasAutoFocus": "挂载时自动聚焦。",
+      "endContent": "输入框尾部渲染的内容。",
+      "value": "搜索值。在 CommandPalette 内省略时由父级接管。",
+      "onValueChange": "搜索值变化时调用。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "DialogHeader": {
+    "props": {
+      "title": "对话框标题，渲染在可聚焦的 h2 内。"
+    }
+  },
+  "DrawerHeader": {
+    "props": {
+      "title": "抽屉标题，渲染为 h2，保持行内简洁。",
+      "subtitle": "标题下方的副标题，接受行内内容。",
+      "onOpenChange": "关闭按钮的回调，以 false 调用。",
+      "startContent": "标题前的内容，例如返回按钮。",
+      "endContent": "标题之后、关闭按钮之前的内容。",
+      "endContentEdgeCompensation": "为尾部内容选择补偿轴。",
+      "hasDivider": "在底部加边框，默认值随抽屉样式决定。"
+    }
+  },
+  "DropdownMenuCheckboxItem": {
+    "props": {
+      "label": "标识该项的主标签文字。",
+      "description": "标签下方显示的次级描述。",
+      "icon": "标签前显示的图标。",
+      "value": "该项是否勾选，受控状态。",
+      "onChange": "以新的勾选状态调用。",
+      "isDisabled": "该项是否禁用。",
+      "hasCloseOnSelect": "切换该项后是否关闭菜单。",
+      "ref": "透传给行根元素的引用，该元素承载 menuitemcheckbox 状态。",
+      "endContent": "标签与描述之后渲染的内容。"
+    }
+  },
+  "DropdownMenuGroup": {
+    "practices": [
+      "标题用简短、可描述的文案，说明这组行是什么。",
+      "标题保持非交互，所有可用动作才都留在菜单里。",
+      "在标题里放按钮、链接、字段或其他控件。",
+      "把不构成有意义集合的行包成一组。"
+    ],
+    "props": {
+      "title": "组上方显示的非交互标题内容。",
+      "children": "组内的行，如 DropdownMenuItem。",
+      "xstyle": "应用于 role=“group” 包装层的 StyleX 样式。",
+      "className": "应用于 role=“group” 包装层的类名。",
+      "style": "应用于 role=“group” 包装层的行内样式。",
+      "ref": "透传给 role=“group” 包装层的引用。"
+    }
+  },
+  "DropdownMenuRadioItem": {
+    "props": {
+      "value": "该项在其组内代表的值。",
+      "label": "标识该选项的主标签文字。",
+      "description": "标签下方显示的次级描述。",
+      "icon": "标签前显示的图标。",
+      "isDisabled": "该单个单选项是否禁用。",
+      "endContent": "标签与描述之后渲染的内容。",
+      "ref": "透传给行根元素的引用，该元素承载 menuitemradio 状态。"
+    }
+  },
+  "FieldStatus": {
+    "practices": [
+      "消息属于带边框的输入时，用 attached 变体置于输入下方。",
+      "复选框、开关与自定义控件用 detached 变体。",
+      "用 FieldStatus 展示通用警告或页面级通知；那该用 Banner 或 Toast。",
+      "字段状态会在首次出现与消息变化时被播报。"
+    ],
+    "props": {
+      "type": "状态类型。",
+      "message": "状态消息文本。",
+      "id": "用于 aria-describedby 关联的 id。",
+      "variant": "视觉变体。attached 会覆盖在输入之上。"
+    }
+  },
+  "InputGroupText": {
+    "practices": [
+      "文字保持简短，如美元符号、https://、kg，且始终单行显示。",
+      "屏幕阅读器需要的信息放在输入自己的 label 里。",
+      "在 InputGroupText 里放按钮、链接或其他控件；那些该用 Button。",
+      "在 InputGroup 之外使用 InputGroupText；它的边框与圆角是与相邻元素拼接的。"
+    ],
+    "props": {
+      "children": "文字或图标内容。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "类名。",
+      "style": "行内样式。",
+      "ref": "透传给该文本单元格元素的引用。"
+    }
+  },
+  "InfoTip": {
+    "practices": [
+      "提示内容保持简洁、纯文本、非交互；需要更多内容时用 Popover。",
+      "「更多信息」太笼统时覆盖 label，例如「关于这项设置」。",
+      "触屏上优先用 InfoTip 而不是手写信息按钮；它能让提示保持展开。",
+      "用 Icon 加 Tooltip 手写信息提示；裸 Icon 缺少按钮语义。",
+      "用 InfoTip 承载完成任务所必需的关键信息。"
+    ],
+    "props": {
+      "content": "提示中显示的内容，通常是纯文本。",
+      "label": "触发按钮的无障碍名称。",
+      "size": "信息图标尺寸（12、16、20、24px）。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "GridSpan": {
+    "props": {
+      "columns": "跨越的列数；用 full 跨越所有列。",
+      "rows": "跨越的行数。",
+      "children": "内容。",
+      "xstyle": "应用于跨度包装层的 StyleX 样式。",
+      "className": "应用于跨度包装层的类名。",
+      "style": "应用于跨度包装层的行内样式。",
+      "ref": "透传给跨度包装层的引用。"
+    }
+  }
+}

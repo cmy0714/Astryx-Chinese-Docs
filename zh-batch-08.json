@@ -1,0 +1,163 @@
+{
+  "Breadcrumbs": {
+    "practices": [
+      "放在页面标题上方，让用户先看到自己的位置，再读内容。",
+      "标签保持简短，并与它链接的页面标题一致：「设置」而不是「应用设置页面」。",
+      "在管理后台、侧边栏这类信息密集的界面里用 supporting 变体，让面包屑不抢视觉焦点。",
+      "最后一项用纯文本而不是链接，它代表当前页。组件默认已经这样做。",
+      "组件实现的是 WAI-ARIA APG 面包屑模式：带标签的 nav 地标内部包着一个有序列表。",
+      "一个页面出现多条路径时，给每条独立的 label，让 nav 地标保持可区分。",
+      "用面包屑做主导航。它补充侧边栏或顶部导航，而不是替代它们。",
+      "在没有父级的顶级页面显示面包屑，只会增加杂乱，对用户没有帮助。"
+    ],
+    "props": {
+      "children": "面包屑路径中的 BreadcrumbItem 元素。",
+      "separator": "条目之间的分隔符，内建斜杠会随书写方向镜像。",
+      "variant": "视觉变体，supporting 更小并使用次级文字样式。",
+      "label": "nav 地标的无障碍标签（aria-label）。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。"
+    }
+  },
+  "Pagination": {
+    "practices": [
+      "放在它所控制的内容下方，用户应先看到结果再翻页。",
+      "数据表格里用户需要跳到指定页时，用 pages 变体。",
+      "用户需要控制每页条数时，用 count 变体并配一个每页条数选择器。",
+      "轮播、引导流程这类总数小、位置感更重要的场景，用 dots 变体。",
+      "总数已知时传 totalItems，让用户看到还剩多少内容。",
+      "所有条目一页就能放下时还显示分页，没有可翻的内容。",
+      "超过约 10 页还用 dots 变体，圆点会小到没法用。",
+      "把分页放在内容上方，用户预期它在下方。"
+    ],
+    "props": {
+      "page": "当前页码，从 1 开始。第 1 页即第一页。",
+      "onChange": "页码变化时调用。",
+      "changeAction": "翻页时的异步动作，在 onChange 之后触发并使用 React transition。",
+      "totalItems": "条目总数，用于计算页数，优先级高于 totalPages。",
+      "totalPages": "总页数。知道页数但不知道条目数时使用。",
+      "hasMore": "当前页之后是否还有更多页，用于游标分页。",
+      "pageSize": "每页条数。会强制为正整数，非有限值会被纠正。",
+      "pageSizeOptions": "可选的每页条数，提供后显示每页条数下拉选择器。",
+      "onPageSizeChange": "每页条数变化时调用，并自动重置到第 1 页。",
+      "variant": "控制上一页与下一页之间显示什么的视觉变体。",
+      "pageLabel": "input 变体中，可编辑框前面显示的名词。",
+      "hasFirstLast": "是否在上一页与下一页两侧显示首页与末页的双箭头按钮。",
+      "step": "上一页与下一页每次点击前进的页数，会被夹在合法范围内。",
+      "siblingCount": "当前页两侧各显示多少个页码按钮。",
+      "size": "分页控件的尺寸。",
+      "isDisabled": "是否禁用。",
+      "label": "导航地标的无障碍标签。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TabList": {
+    "practices": [
+      "标签保持简短、可描述，让用户快速扫到有哪些区段。",
+      "保留溢出处理：比标签窄的条带会滚动，且选中的标签始终保持在可见范围内。",
+      "使用 hasDivider 并在标签旁放动作按钮时，让 Button 的 size 与 TabList 的 size 一致。",
+      "条带用于就地切换面板时用 role=“tablist”，并给每个标签指向面板的 panelId。",
+      "需要让标签条在带内边距的 LayoutHeader、Card、Section 里通栏时，设 isFullBleed。",
+      "用标签表示顺序步骤或流程；请用步骤条或向导模式。",
+      "在溢出菜单之前露出超过 6 到 8 个标签；优先保留最重要的分类。",
+      "把 TabList 与 SegmentedControl、ToggleButton 混为一谈。TabList 用于视图之间的导航。"
+    ],
+    "props": {
+      "value": "当前选中的标签值。",
+      "onChange": "选中某个标签时的回调。",
+      "size": "应用于所有子标签的尺寸变体。",
+      "layout": "标签宽度的布局模式。hug 让每个标签贴合内容宽度，fill 均分整条。",
+      "hasDivider": "是否在标签条下方显示分隔线。",
+      "isFullBleed": "让标签条脱离父容器的内边距，延伸到容器边缘。",
+      "role": "条带的 ARIA role。tablist 会启用 WAI-ARIA 标签页模式。",
+      "overflow": "标签总宽超过条带时的行为。auto 让内容可滚动。",
+      "children": "标签条中渲染的 Tab 与 TabMenu 项。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Stepper": {
+    "practices": [
+      "步骤标签保持简短、可描述：「支付」而不是「输入你的支付信息」。",
+      "步骤带较长说明时用纵向排列；横向步骤条只能容纳有限的文字。",
+      "页面已经提供「上一步 / 继续」时，把 horizontalOptions.collapsedVariant 设为 withLabel。",
+      "非线性流程里用户可能回到之前的步骤时，提供 onStepClick。",
+      "status 只用来施加语义颜色（accent、success、warning、error）；更丰富的表达用自定义图标。",
+      "少于 3 步还用步骤条；一个标题或进度条就够。",
+      "超过 7 步；考虑合并相关步骤或改用其他模式。"
+    ],
+    "props": {
+      "activeStep": "当前激活步骤的索引（从 0 开始）。该索引之前的步骤被视为已完成。",
+      "children": "步骤条中渲染的 Step 元素。",
+      "orientation": "步骤条的布局方向。",
+      "onStepClick": "点击步骤或使用紧凑摘要控件时调用。",
+      "label": "描述这组步骤的无障碍标签，应用于有序列表。",
+      "density": "控制所有步骤的内边距。",
+      "indicatorPosition": "步骤指示点相对连接轨道的位置。",
+      "horizontalOptions": "横向折叠的选项。minimumStepWidth 是每一步的宽度阈值。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Outline": {
+    "practices": [
+      "传入一个扁平的有序标题列表，用 level 控制缩进。",
+      "自定义滚动逻辑接管激活态时，使用 activeId。",
+      "侧边栏空间紧张时用 density=“compact”。",
+      "标题由内容生成时，用 useOutlineFromMarkdown 或 useOutlineFromDOM。需要可链接锚点时同理。",
+      "内容在分栏、弹窗或面板内滚动而不是在视口内滚动时，传 scrollContainerRef。",
+      "把 offset 设为遮挡内容的固定头部高度，标题才会落在它下方而不是被遮住。",
+      "用 Outline 做应用导航；路由请用 SideNav 或 TopNav。",
+      "用 Outline 表达可展开层级；节点需要展开与收起时请用 TreeList。"
+    ],
+    "props": {
+      "items": "有序的标题项，每项含 id、label 与 level（1 到 6）。",
+      "activeId": "当前激活标题的 id。提供后激活态变为受控。",
+      "onActiveIdChange": "内建滚动侦测或用户操作导致激活项变化时调用。",
+      "label": "nav 地标的无障碍标签。",
+      "density": "控制条目内边距的密度变体，compact 适合信息密集的界面。",
+      "onNavigateStart": "导航开始、滚动之前，以条目 id 调用。",
+      "onNavigateEnd": "导航结束（平滑滚动完成）后，以条目 id 调用。",
+      "offset": "覆盖在滚动根顶部的固定头部高度（像素）。",
+      "scrollContainerRef": "要跟踪的滚动容器，替代自动检测最近的滚动祖先。",
+      "hasScrollOnClick": "激活条目时是否平滑滚动到它。设为 false 可自行接管滚动。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TopNav": {
+    "practices": [
+      "在 heading 槽放入产品 logo 与名称，清楚表明这是哪个应用。",
+      "主导航项控制在 5 个以内，便于快速扫读、降低认知负担。",
+      "用 TopNav 过滤页面内容；请用 Tabs 或筛选控件。",
+      "让导航层级过深；菜单保持一层。"
+    ],
+    "props": {
+      "heading": "heading 槽内容（logo、品牌），位于容器左边缘。",
+      "startContent": "起始槽，放导航项或面包屑，位于 heading 之后。",
+      "children": "startContent 的别名。与 heading 组合时优先使用 startContent。",
+      "centerContent": "居中槽（标签、搜索框、主导航），提供后会占据中间区域。",
+      "endContent": "结束槽，放搜索、图标或用户资料，位于右边缘。",
+      "label": "导航地标的无障碍标签，作为 aria-label 应用。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "SideNav": {
+    "practices": [
+      "用分组把相关导航项归在一起，帮助用户扫到自己要去的目标。",
+      "轮廓与填充两种图标变体搭配使用，让选中态在视觉上可区分。",
+      "用 isSelected 标记当前页，它会设置 aria-current=“page”，当前目的地才对无障碍可读。",
+      "SideNav 渲染导航地标，可折叠条目遵循 WAI-ARIA APG 的 Disclosure 模式。",
+      "导航折叠时，带子项的条目会在飞出子菜单中显示它们。不支持悬停的设备上要评估这条路径。",
+      "TopNav 已经提供应用标识时再加 SideNavHeading，品牌会重复。",
+      "用它过滤内容；请用标签或筛选按钮。"
+    ],
+    "props": {
+      "header": "头部区域（通常是 SideNavHeading），吸顶。",
+      "topContent": "头部下方的内容，例如「新建」按钮。",
+      "children": "导航分组与条目，可滚动。",
+      "footer": "图标栏上方的底部区域。",
+      "footerIcons": "底部图标栏，会向交互子项级联 sm 尺寸。",
+      "collapsible": "启用折叠行为。true 为无受控模式并使用默认切换按钮。",
+      "resizable": "在行内结束边缘启用拖拽调宽。true 使用默认宽度 260。",
+      "handleRef": "已废弃。用于命令式触发的折叠手柄。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  }
+}

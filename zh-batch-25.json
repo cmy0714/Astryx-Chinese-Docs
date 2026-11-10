@@ -1,0 +1,139 @@
+{
+  "StatusDot": {
+    "practices": [
+      "把 StatusDot 当作「有 / 无」的二元信号，不要用它编码很多种不同状态。",
+      "始终配可见文字标签，状态不能只靠颜色传达。",
+      "提供描述性的 label prop，供屏幕阅读器使用。",
+      "需要以形状区分时，把圆点与承载状态的图标搭配使用。",
+      "无法加标签或图标时，确保状态还能通过其他可见方式表达。",
+      "只靠颜色传达状态；StatusDot 本身并不完全无障碍。",
+      "把脉冲动画用于纯装饰；它应当留给真正在变化的状态。"
+    ],
+    "props": {
+      "variant": "语义颜色变体。",
+      "label": "通过 aria-label 暴露的无障碍标签。",
+      "isPulsing": "启用脉冲动画，会遵循 prefers-reduced-motion 设置。",
+      "tooltip": "悬停时用于解释状态的提示文字。",
+      "icon": "渲染在圆点中央的可选图标，尺寸极小时会隐藏。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "InternationalizationProvider": {
+    "practices": [
+      "使用 Astryx 已发布的语言目录，位于 @astryxdesign/core/locales/*。",
+      "只有 Astryx 尚未发布该语言时，才提供同结构的本地目录。",
+      "使用真实的 BCP 47 标签，如 fr-FR、pt-BR、ar-SA；区域化语言才能选到正确目录。",
+      "自己把 dir 属性设到 html 或包裹元素上，Provider 不会改文档方向。",
+      "需要 Calendar、DateInput、DateRangeInput 使用对应历法时，设置 calendar。",
+      "把自定义目录映射断言为 any；i18n 包已经导出了 ProviderMessages 这类类型。"
+    ],
+    "props": {
+      "locale": "当前语言的 BCP 47 标签。",
+      "messages": "可选的 BCP 47 标签到目录的映射。",
+      "overrides": "叠加在目录之上的按语言稀疏覆盖。",
+      "dir": "显式的文本方向覆盖。",
+      "calendar": "子树使用的历法，例如 persian。",
+      "children": "在国际化上下文下渲染的内容。"
+    }
+  },
+  "ChatLayout": {
+    "practices": [
+      "把 ChatMessageList 传给 children，把 ChatComposer 传给 composer。",
+      "提供 emptyState，新对话才有提示而不是一片空白。",
+      "聊天嵌入页面、且由父元素负责滚动时，用 scrollRef。",
+      "给布局设固定高度；让它填满容器。",
+      "在同一滚动容器里渲染多个 ChatLayout 实例。"
+    ],
+    "props": {
+      "children": "消息内容，通常是 ChatMessageList，按正常文档流滚动。",
+      "composer": "输入区元素，通常是 ChatComposer，固定在底部。",
+      "emptyState": "消息为空时居中显示的内容。",
+      "scrollButton": "渲染在输入区上方的「滚动到底部」按钮。",
+      "scrollRef": "外部滚动容器引用；提供后由调用方接管滚动。",
+      "density": "视觉密度，控制底部内边距与消息间距。"
+    }
+  },
+  "CommandPaletteItem": {
+    "practices": [
+      "每个 value 在结果列表内必须唯一，高亮与激活状态才对应得上。",
+      "在 CommandPalette 内部，每一项都是列表框弹层里的一个选项。",
+      "在条目内嵌套按钮、链接等交互控件；选项本身已经可以激活。",
+      "把 isHighlighted 当作选中。高亮是键盘当前所在项，选中是另一回事。"
+    ],
+    "props": {
+      "value": "用于条目身份、高亮与查询的唯一值。",
+      "children": "非交互的条目内容，如图标与文字。",
+      "onSelect": "该条目被指针激活后调用。",
+      "isHighlighted": "该项是否为键盘当前高亮项。",
+      "isSelected": "该项是否代表当前选中的值。",
+      "isDisabled": "该项是否不可用并阻止指针激活。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "DropdownMenuRadioGroup": {
+    "practices": [
+      "保持 value 受控，并在 onChange 里更新，勾选状态才能跟上。",
+      "即使 aria-labelledby 已指向可见文字，也提供简洁的 label。",
+      "只有菜单必须保持打开以展示另一处结果时，才设 hasCloseOnSelect=false。",
+      "在单选组里放按钮、链接、复选框或任意菜单行。",
+      "再套一层按键处理或 roving focus；键盘模型由 DropdownMenu 统一负责。"
+    ],
+    "props": {
+      "value": "组内当前选中的值。",
+      "onChange": "选中值变化时调用。",
+      "label": "组的无障碍名称，作为 aria-label 应用。",
+      "hasCloseOnSelect": "选中某项后是否关闭菜单。",
+      "ref": "透传给 role=“group” 根元素的引用。",
+      "children": "组成该组的 DropdownMenuRadioItem。"
+    }
+  },
+  "MetadataList": {
+    "practices": [
+      "按内容选择标签位置：短值用 start，长值或换行内容用 top。",
+      "用 maxNumOfItems 折叠长列表，保持页面可扫读。",
+      "用它承载大量表单输入；那该用表单布局。",
+      "用它展示没有清晰键值结构的数据。"
+    ],
+    "props": {
+      "children": "元数据条目，即 MetadataListItem 组件。",
+      "columns": "列布局模式。",
+      "label": "标签展示配置，其中 position 控制标签位置。",
+      "maxNumOfItems": "折叠前最多显示多少条，折叠后提供展开入口。",
+      "orientation": "布局方向。横向模式让条目按行流动。",
+      "title": "列表上方的可选标题。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TopNavHeading": {
+    "props": {
+      "logo": "标题文字前显示的 logo 元素。",
+      "heading": "作为主标题显示的产品或应用名。",
+      "headingHref": "标题文字的链接，例如产品首页。",
+      "superheading": "标题上方的文字，例如套件名。",
+      "superheadingHref": "上方文字的链接，例如套件首页。",
+      "subheading": "标题下方的文字，例如账号上下文。",
+      "subheadingHref": "下方文字的链接。",
+      "headerEndContent": "渲染在标题行尾部的内容。",
+      "menu": "弹出下拉里显示的菜单内容。",
+      "as": "替代 a 标签渲染的自定义组件，会覆盖 href 的默认行为。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TableSelectionToolbar": {
+    "practices": [
+      "直接把 useTableSelectionState 返回的 selectionState 传进来，计数与清空才能同步。",
+      "产品动作作为 startContent 传入，而不是编码进配置项。",
+      "通过 Table 插件或它的横向滚动包装层注入工具条。"
+    ],
+    "props": {
+      "selection": "useTableSelectionState 返回的共享选中状态。",
+      "startContent": "产品自己的操作控件，左对齐。",
+      "label": "动作区域的无障碍名称。",
+      "renderSelectionLabel": "覆盖可见的计数文案，用于本地化。",
+      "clearLabel": "清空选中命令的可见标签。",
+      "size": "工具条尺寸，会级联到产品操作控件。",
+      "variant": "工具条表面的视觉变体。",
+      "xstyle": "调用方自己的布局样式，包括 sticky 定位。"
+    }
+  }
+}

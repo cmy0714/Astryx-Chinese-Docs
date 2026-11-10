@@ -1,0 +1,133 @@
+{
+  "ChatToolCalls": {
+    "practices": [
+      "每个调用都带 target 字符串，用户才能看出这个工具操作了什么。",
+      "已完成的调用显示耗时，用户才能判断哪些工具慢。",
+      "自动计数说不清这组调用在做什么时，提供分组标签。",
+      "有输出的调用（diff、日志）用带代码块的 resultDetail 承载。",
+      "流式输出时给每个调用项设唯一 key，React 才能正确播放新增动画。",
+      "省略 status 字段。缺省会被当成已完成，实际还在运行的调用会显示错误状态。",
+      "在聊天消息上下文之外展示工具调用；它们是为消息流设计的。",
+      "给单个调用套自定义包装；组件已经处理了间距与状态。"
+    ],
+    "props": {
+      "calls": "工具调用数据数组，每项含 name、status 等字段。",
+      "label": "展开分组时显示的自定义摘要标签。",
+      "isExpanded": "受控的展开状态。",
+      "defaultIsExpanded": "非受控时的默认展开状态。",
+      "onExpandedChange": "展开状态变化时调用。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Lightbox": {
+    "practices": [
+      "每张图片都提供 alt 文本，满足屏幕阅读器的无障碍要求。",
+      "多图集合用画廊模式并配 onIndexChange。",
+      "只有查看高分辨率图片、缩放确实有价值时，才开启 hasZoom。",
+      "用灯箱展示非图片内容；它专为图片设计。",
+      "在说明文字里嵌套交互内容；保持纯文本。"
+    ],
+    "props": {
+      "isOpen": "灯箱是否打开。",
+      "onOpenChange": "灯箱开合状态变化时调用。",
+      "media": "要显示的媒体。单张传对象，多张传数组。",
+      "index": "画廊模式下的当前索引。",
+      "onIndexChange": "通过上一张 / 下一张切换索引时调用。",
+      "hasZoom": "启用缩放（仅图片）：双指或 Ctrl 滚轮缩放、拖动平移。",
+      "defaultIndex": "画廊模式非受控时的初始图片索引。",
+      "hasAutoPlay": "显示视频时自动开始播放。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Overlay": {
+    "practices": [
+      "用于紧贴表面、短小的上下文动作或标签。",
+      "内容保持紧凑，才能在遮罩上清晰可读。",
+      "用它承载锚定在表面之外的浮动内容；那该用 Popover。"
+    ],
+    "props": {
+      "content": "遮罩内渲染的内容。",
+      "children": "基础内容，如图片、视频、卡片或媒体。",
+      "showOn": "可见性触发方式。悬停模式在聚焦时也会显示。",
+      "isOpen": "受控的可见性覆盖，设置后优先于 showOn。",
+      "scrim": "遮罩背景模式。设为 false 则不渲染遮罩。",
+      "position": "遮罩在基础表面中出现的位置。",
+      "align": "遮罩内内容的对齐方式。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "附加在根元素上的类名，样式优先用 xstyle。",
+      "style": "根元素的行内样式，样式优先用 xstyle。",
+      "ref": "透传给遮罩根元素的引用。"
+    }
+  },
+  "CollapsibleGroup": {
+    "props": {
+      "type": "同一时间可以展开一项还是多项。",
+      "defaultValue": "非受控用法下的默认展开项；多项时传数组。",
+      "value": "受控的展开项。",
+      "onChange": "展开集合变化时调用。",
+      "hasDividers": "是否在分组项之间画细分隔线。",
+      "density": "行密度，控制触发器与内容的块级内边距。",
+      "chevronPosition": "组内直接子 Collapsible 共享的箭头位置。",
+      "children": "要协调的 Collapsible 实例。",
+      "ref": "分组包装层的引用，hasDividers 为真时生效。",
+      "xstyle": "分组包装层的 StyleX 样式，hasDividers 为真时生效。",
+      "className": "分组包装层的类名，hasDividers 为真时生效。",
+      "style": "分组包装层的行内样式，hasDividers 为真时生效。",
+      "data-testid": "转发给分组包装层的测试选择器。"
+    }
+  },
+  "AvatarGroup": {
+    "practices": [
+      "自己裁剪列表，只传想要显示的头像；3 到 5 个最合适。",
+      "需要自定义溢出内容（如弹出触发）时，用 AvatarGroupOverflow。",
+      "直接把状态点、点击回调或提示传在每个 Avatar 子元素上。",
+      "把 Avatar 子元素包进 HoverCard 或 Tooltip，悬停时展示更多信息。",
+      "用 href 或 onClick 让头像可交互，指向个人资料。",
+      "嵌套 AvatarGroup；用一个组包含所有头像。",
+      "给子头像设 size；组的尺寸优先级更高。"
+    ],
+    "props": {
+      "children": "Avatar 子元素，末尾可选一个 AvatarGroupOverflow。",
+      "size": "应用于所有头像的尺寸。",
+      "shape": "通过上下文应用于所有头像的形状，会覆盖单个头像的设置。",
+      "ref": "透传给根元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "Layout": {
+    "practices": [
+      "内容需要具名的 header、start、content、end、footer 区域时，用 Layout。",
+      "内容区内部的简单方向堆叠，用 HStack 与 VStack。",
+      "用它做简单的堆叠布局；那该用 HStack 或 VStack。",
+      "把 Layout 当页面外壳或应用级导航；那该用 AppShell。"
+    ],
+    "props": {
+      "content": "内容槽位（中央）。",
+      "header": "头部槽位。",
+      "footer": "底部槽位。",
+      "start": "逻辑起始槽位（LTR 为左）。",
+      "end": "逻辑结束槽位（LTR 为右）。",
+      "height": "高度行为：填满容器高度，或随内容增长。",
+      "contentWidth": "各槽位内对齐内容的最大宽度。",
+      "padding": "布局外边缘的内边距，按间距阶梯取值。",
+      "defaultHasDividers": "LayoutHeader 与 LayoutFooter 的默认分隔线可见性。"
+    }
+  },
+  "FormLayout": {
+    "practices": [
+      "多数表单把字段纵向堆叠，从上到下最好扫读。",
+      "字段天然成对时，在纵向 FormLayout 里嵌套一个横向的。",
+      "设置页里标签位于输入框旁边时，用 horizontal-labels。",
+      "用 FormLayout 管理表单状态或提交；它只负责布局，外面记得套 form。",
+      "在横向布局里把无关字段并排放；这种布局留给天然成组的字段。",
+      "在另一个 FormLayout 里嵌套 horizontal-labels；它使用 CSS Grid，需要独立的网格上下文。"
+    ],
+    "props": {
+      "direction": "控制字段排列方式。vertical 表示从上到下堆叠。",
+      "defaultOptionality": "表单视为默认的可选性状态，从而只标出例外项。",
+      "children": "要排列的表单字段，接受 Astryx 输入组件。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  }
+}

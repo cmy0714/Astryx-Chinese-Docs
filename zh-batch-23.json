@@ -1,0 +1,127 @@
+{
+  "Toolbar": {
+    "practices": [
+      "次级动作（如「返回」）放左侧，主要动作（如「保存」）放右侧。",
+      "批量选择这类临时工具条要在视觉上明显区分，让用户知道当前处于特殊状态。",
+      "用分隔线、背景或间距把工具条与下方内容分开。",
+      "卡片头部带筛选等交互时，可以直接用 Toolbar 充当卡片头部。",
+      "工具条里塞太多动作；不常用的移进 MoreMenu。",
+      "给子按钮单独设 size；在工具条上设一次就会级联给所有子项。",
+      "用 Toolbar 做应用级导航（主菜单链接、退出登录）；那该用 TopNav。"
+    ],
+    "props": {
+      "label": "工具条的无障碍标签，作为 aria-label 应用。",
+      "startContent": "对齐到起始位置（LTR 为左）的内容。",
+      "centerContent": "居中内容。提供后布局会切换为 CSS grid。",
+      "endContent": "对齐到结束位置（LTR 为右）的内容。",
+      "size": "工具条尺寸，控制最小高度并级联给子项。",
+      "gap": "各槽位内部条目之间的间距。",
+      "orientation": "键盘导航的方向，控制方向键行为。",
+      "variant": "透传给 Section 的视觉变体。",
+      "dividers": "工具条周围渲染的边框与分隔线。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "List": {
+    "practices": [
+      "提供 header 给列表命名，并给屏幕阅读器提供上下文。",
+      "用 start 与 end 内容槽位给每个条目加图标、头像或徽章。",
+      "要让行文字与上方的标题对齐时设置 edge，静态行用 flush。",
+      "既要与标题对齐、又要在高亮周围留出空间时，用 outset。",
+      "在可交互的列表项里再放可交互元素，会产生嵌套交互冲突。",
+      "用列表承载单个条目或无关内容的排布；列表传达的是「同质条目的集合」。",
+      "在同一列表里混用可点击与不可点击条目，却不做视觉区分。"
+    ],
+    "props": {
+      "children": "列表项，即 ListItem 组件。",
+      "density": "条目的间距密度。触屏下可交互条目会获得更大的命中区域。",
+      "hasDividers": "是否在条目之间显示分隔线。",
+      "edge": "每行文字、分隔线与悬停选中区域的对齐基准。",
+      "edgeCompensation": "已废弃，请改用 edge=“outset”，本属性即等价于设置它。",
+      "header": "头部内容，通过 aria-label 与列表关联。",
+      "listStyle": "列表标记样式。decimal 会把列表渲染为 ol 元素。",
+      "start": "有序列表的起始编号，listStyle 为 decimal 时生效。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "OverflowList": {
+    "practices": [
+      "提供有意义的 overflowRenderer：+N 徽章、下拉或计数。",
+      "行内已经有自己的菜单时，用 onOverflowChange 把折叠集合喂给它。",
+      "用 minVisibleItems 保证关键项可见，用 maxVisibleItems 控制上限。",
+      "用 maxRows 让条目在有界行数内换行，例如两行标签。",
+      "用 OverflowList 做纵向堆叠；它支持的是横向多行换行。"
+    ],
+    "props": {
+      "children": "要渲染的条目，每个子元素应当是单个元素。",
+      "overflowRenderer": "溢出指示器的渲染函数，会收到被折叠的条目。",
+      "onOverflowChange": "折叠集合变化时调用，会带上被折叠的条目。",
+      "gap": "条目之间的间距，按间距 token 阶梯取值。",
+      "minVisibleItems": "即使溢出也始终显示的最少条目数。",
+      "maxVisibleItems": "最多显示的条目数。",
+      "maxRows": "折叠前最多可换行到几行。",
+      "collapseFrom": "溢出时从哪一端开始折叠。",
+      "behavior": "以哪个元素作为可用宽度的测量基准。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Timer": {
+    "practices": [
+      "需要可能跨越秒、分、时的紧凑耗时文本时，用 elapsed。",
+      "秒数在进入分钟后仍有意义的秒表界面，用 clock。",
+      "操作在 Timer 挂载前就已开始时，传 startTime，显示才准确。",
+      "用 Timer 表示日期、时区或相对日历表达；那该用 Timestamp。",
+      "没有必要时加 aria-live；每次 tick 都播报会干扰用户。"
+    ],
+    "props": {
+      "startTime": "被计时操作开始时的 Unix 毫秒时间戳。",
+      "format": "标准时长表示。elapsed 使用紧凑格式。",
+      "type": "语义文本类型，沿用 Text 的排版行为。",
+      "size": "显式字号覆盖，优先于 type 带来的尺寸。",
+      "color": "文字颜色。",
+      "weight": "字重覆盖。",
+      "xstyle": "Text 包装层的 StyleX 样式。",
+      "className": "Text 包装层的类名，样式优先用 xstyle。",
+      "style": "Text 包装层的行内样式，样式优先用 xstyle。"
+    }
+  },
+  "SegmentedControl": {
+    "practices": [
+      "用于 2 到 5 个互斥视图或模式的切换，且所有选项都应当可见。",
+      "给控件提供可描述的标签，确保整组可访问。",
+      "用它做页面级导航；请用 TabList。",
+      "用它表示简单的开与关；请用 ToggleButton。",
+      "把禁用的 SegmentedControl 包进 Tooltip 解释原因；它自带 disabledMessage。"
+    ],
+    "props": {
+      "value": "当前选中的值（受控）。",
+      "onChange": "选中某个分段时调用。",
+      "label": "单选组的无障碍标签，作为 aria-label 使用。",
+      "size": "控件的尺寸变体。",
+      "layout": "布局模式。hug 为默认，分段宽度贴合内容。",
+      "isDisabled": "整个控件是否禁用，选中项仍会显示。",
+      "disabledMessage": "说明禁用原因，作用于整组禁用态。",
+      "children": "SegmentedControlItem 子元素。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "AspectRatio": {
+    "practices": [
+      "比值写成可读的算式，如 ratio={16 / 9}，而不是直接写小数。",
+      "用于需要在各屏幕尺寸下保持比例的媒体。",
+      "图片与视频用 fit=“cover”，让组件负责子元素尺寸。",
+      "只传一个子元素。设置 fit 后，每个直接子元素都会被拉伸填满。",
+      "用 alt 描述媒体子元素；纯装饰图片用 alt=“”。",
+      "比例需要随断点变化时，做响应式覆盖：给一个 as 或外层包装。",
+      "用它做通用布局容器；那该用标准布局组件。",
+      "嵌套 AspectRatio 容器；一层就足够。"
+    ],
+    "props": {
+      "ratio": "宽高比（如 16/9、1），会输出为 CSS 的 aspect-ratio。",
+      "shape": "容器形状。两者都尊重 ratio，ellipse 表示椭圆。",
+      "fit": "子元素在比例盒内的尺寸方式，cover 表示裁切填满。",
+      "children": "绝对定位、填满容器的内容。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  }
+}

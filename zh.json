@@ -1,0 +1,4041 @@
+{
+  "AppShell": {
+    "desc": "应用整体外壳，提供顶部导航、侧边导航、横幅与主内容四个区域。每个页面都应把它当作最外层容器。",
+    "practices": [
+      "选对高度：内部滚动的看板用 fill，随页面滚动的文档用 auto。",
+      "按内容类型设置 contentPadding：表单与设置用 4，表格用 0。",
+      "给每个导航槽位一个无障碍名称。AppShell 会把 TopNav 与 SideNav 渲染为地标。",
+      "页面标题放在 children 里。AppShell 负责跳转链接、横幅与主区域。",
+      "手机上在 viewport meta 中加 viewport-fit=cover，让页面占满屏幕。",
+      "嵌套 AppShell；它是最外层的布局框架。",
+      "用它做子页面布局；AppShell 内部的内容区域请用 Layout。",
+      "自己再加跳转链接或 main 元素。AppShell 已经渲染了这两者，重复会造成结构冲突。"
+    ],
+    "props": {
+      "children": "主内容区，渲染在 main 元素内。",
+      "contentPadding": "主内容区的内边距，按内容类型设置。",
+      "topNav": "顶部导航槽位，通常是 TopNav。",
+      "sideNav": "侧边导航槽位，通常是 SideNav。",
+      "mobileNav": "移动导航配置，接受 false 表示禁用。",
+      "banner": "系统级公告的横幅槽位，位于内容上方。",
+      "height": "高度行为。fill 让外壳占满视口。",
+      "variant": "导航背景样式，控制导航区域的观感。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "应用外壳"
+  },
+  "AspectRatio": {
+    "desc": "让子元素在容器缩放时保持固定宽高比。适合视频、图片、缩略图等媒体容器。",
+    "practices": [
+      "比值写成可读的算式，如 ratio={16 / 9}，而不是直接写小数。",
+      "用于需要在各屏幕尺寸下保持比例的媒体。",
+      "图片与视频用 fit=“cover”，让组件负责子元素尺寸。",
+      "只传一个子元素。设置 fit 后，每个直接子元素都会被拉伸填满。",
+      "用 alt 描述媒体子元素；纯装饰图片用 alt=“”。",
+      "比例需要随断点变化时，做响应式覆盖：给一个 as 或外层包装。",
+      "用它做通用布局容器；那该用标准布局组件。",
+      "嵌套 AspectRatio 容器；一层就足够。"
+    ],
+    "props": {
+      "ratio": "宽高比（如 16/9、1），会输出为 CSS 的 aspect-ratio。",
+      "shape": "容器形状。两者都尊重 ratio，ellipse 表示椭圆。",
+      "fit": "子元素在比例盒内的尺寸方式，cover 表示裁切填满。",
+      "children": "绝对定位、填满容器的内容。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "固定比例"
+  },
+  "Badge": {
+    "desc": "用最短的形式标出状态或分类。仅当一个值代表明确状态（启用、失败）或分组标签（工程、设计）时使用；日期、时长、计数这类元数据应当用普通文本。",
+    "practices": [
+      "每个状态徽章都会抢注意力。只在用户需要注意到或采取行动时使用：错误、警告、待跟进项。没有后续动作就用普通文字。",
+      "success / warning / error 只用于需要引起注意的系统状态：「失败」「降级」「需要处理」。它们是大面积实心底色。",
+      "颜色变体（blue、purple、teal 等）用于给条目分类：团队名、内容类型、优先级。",
+      "标签控制在一到两个词。需要更多说明就放到周边文字里。",
+      "图标能帮助快速识别类型时可以加，但必须同时保留文字标签。",
+      "给每个正常条目都挂 success 徽章。全绿等于没有重点，只会增加噪音。",
+      "用徽章承载元数据。时长、计数、日期、描述都不是状态或分类，应当用普通文本。",
+      "把语义状态变体（success/warning/error/info）用于分类或说明性内容。它们视觉上很响，应只表达系统状态。"
+    ],
+    "props": {
+      "variant": "视觉样式变体。语义变体（neutral/info/success/warning/error）用实心底色，其余颜色变体用浅色底。",
+      "label": "徽章文字。单行显示，高度随字号增长；超宽时截断省略，完整文字放在 title 里。",
+      "icon": "可选的前置图标。"
+    },
+    "name": "徽章"
+  },
+  "Banner": {
+    "desc": "在页面或区块顶部固定展示一条消息。用于表单错误、系统更新、维护公告或需要持续可见的成功提示。",
+    "practices": [
+      "状态与消息匹配：更新用 info，提醒用 warning，问题用 error，确认用 success。",
+      "页面内容内部用 card 容器；横跨整页的消息用 section 容器。",
+      "info 与 success 横幅做成可关闭；error 横幅保留到用户解决问题为止。",
+      "标题短而可扫读：「支付失败」优于「您最近的支付处理出现了问题」。",
+      "用 Banner 展示会自动消失的短消息；那该用 Toast。",
+      "堆叠多条同状态的横幅；把相关消息合并成一条。",
+      "用户需要依据内容行动时（如失败字段清单），设 collapsible={false}。",
+      "Banner 的状态只控制颜色与图标，不构成实时播报区；异步结果要在触发它的地方播报。"
+    ],
+    "props": {
+      "status": "控制图标与颜色的状态类型。",
+      "title": "头部显示的标题文字或节点。",
+      "description": "头部标题下方的描述文字。",
+      "icon": "覆盖默认的状态图标。",
+      "isDismissable": "是否允许用户关闭。",
+      "onDismiss": "点击关闭按钮时调用；无论是否处理，横幅都会自行隐藏。",
+      "dismissLabel": "关闭按钮的无障碍名称与可见提示，传入已翻译好的文案。",
+      "endContent": "头部区域内尾部对齐的动作内容，空间不足时换行独占一行。",
+      "container": "容器类型：card 带圆角；section 满宽无圆角。",
+      "elevation": "静止阴影深度。悬浮于内容之上的横幅可使用，none 为平面。",
+      "children": "彩色头部下方卡片背景区的内容。",
+      "collapsible": "内容区是否收在展开 / 收起开关之后。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "横幅"
+  },
+  "BottomSheet": {
+    "desc": "移动端从底部升起的触控面板，用于筛选、操作、表单和详情。多步骤流程应为每一步各配一个独立面板。",
+    "practices": [
+      "用于移动优先的面板：筛选、分享、快捷操作。",
+      "需要下钻时，在当前面板之上打开下一个，并让每个面板各自管理自己的状态。",
+      "选一个与内容匹配的起始高度，短内容用 hug。",
+      "用 purpose=“form” 保护已输入的数据，避免点遮罩或滑动误关。",
+      "让面板内容过长；拆成多个步骤，每步一个面板。",
+      "堆超过两三层；更深层会共用第二层的记忆与返回路径。"
+    ],
+    "props": {
+      "isOpen": "独立面板是否打开，完全受控。",
+      "onOpenChange": "独立面板请求改变状态时调用。",
+      "finalFocusRef": "独立面板关闭后焦点返回的目标。",
+      "purpose": "控制隐式关闭行为，与 Dialog 一致。",
+      "sheetId": "随 BottomSheetSwitcher 一起废弃；改为每步一个面板。",
+      "label": "面板的无障碍标签，必填。",
+      "children": "面板内容，位于可滚动区域内。",
+      "padding": "面板内容的内边距。",
+      "height": "面板高度。命名预算 hug 表示贴合内容。",
+      "snapPoints": "拖动时可停留的额外高度。",
+      "hasScrim": "独立 BottomSheet 是否渲染遮罩。"
+    },
+    "name": "底部面板"
+  },
+  "BottomSheetSwitcher": {
+    "desc": "已废弃。改为每一步各写一个 BottomSheet，用一份状态记录当前打开的是哪一步。",
+    "practices": [
+      "优先为每一步各写一个独立 BottomSheet，用一份状态记录当前打开的步骤。",
+      "就地迁移已有流程：把 activeSheet 与 onActiveSheetChange 换成每步独立的面板。",
+      "用户需要对比信息时，把内容拆到不同面板。",
+      "多个面板必须同时可交互或可见时，使用步骤流。"
+    ],
+    "props": {
+      "ref": "解析到承载面板的原生 dialog 元素的引用。",
+      "onCancel": "切换器处理原生 cancel 之前调用。",
+      "activeSheet": "可交互面板的 ID，没有打开时为 null。",
+      "onActiveSheetChange": "活动面板被关闭时以 null 调用。",
+      "hasScrim": "面板对话框是否为模态。",
+      "children": "以唯一 sheetId 标识的 BottomSheet。"
+    },
+    "name": "底部面板切换器"
+  },
+  "Breadcrumbs": {
+    "desc": "展示从根级到当前页面的路径。放在详情页、设置页顶部，或任何需要让用户知道「自己在哪」的地方。",
+    "practices": [
+      "放在页面标题上方，让用户先看到自己的位置，再读内容。",
+      "标签保持简短，并与它链接的页面标题一致：「设置」而不是「应用设置页面」。",
+      "在管理后台、侧边栏这类信息密集的界面里用 supporting 变体，让面包屑不抢视觉焦点。",
+      "最后一项用纯文本而不是链接，它代表当前页。组件默认已经这样做。",
+      "组件实现的是 WAI-ARIA APG 面包屑模式：带标签的 nav 地标内部包着一个有序列表。",
+      "一个页面出现多条路径时，给每条独立的 label，让 nav 地标保持可区分。",
+      "用面包屑做主导航。它补充侧边栏或顶部导航，而不是替代它们。",
+      "在没有父级的顶级页面显示面包屑，只会增加杂乱，对用户没有帮助。"
+    ],
+    "props": {
+      "children": "面包屑路径中的 BreadcrumbItem 元素。",
+      "separator": "条目之间的分隔符，内建斜杠会随书写方向镜像。",
+      "variant": "视觉变体，supporting 更小并使用次级文字样式。",
+      "label": "nav 地标的无障碍标签（aria-label）。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。"
+    },
+    "name": "面包屑"
+  },
+  "Button": {
+    "desc": "点击后触发一个动作。用于表单提交、确认、跳转，以及任何需要明确行动号召的交互。",
+    "practices": [
+      "一个视图里 primary 只留给最重要的一个操作，其余按强调程度用 secondary 或 ghost。",
+      "标签写清楚动作本身（「保存修改」「删除账号」「发送邀请」），不要用「确定」「点这里」这类含糊说法。",
+      "耗时操作（保存、提交）要显示加载态，让用户知道正在处理。",
+      "纯图标按钮必须给 label，屏幕阅读器才有得读；给视力正常用户再加一个 tooltip。",
+      "专用的纯图标按钮请用 IconButton，它是独立组件，不从 Button 导出。",
+      "同一视图里放多个 primary 按钮，会稀释视觉层级。",
+      "对不可撤销操作（如删除数据）使用 destructive 变体却不加确认步骤。",
+      "用按钮做导航。若只是跳转页面请用链接；按钮只负责保存、删除、提交这类动作。"
+    ],
+    "props": {
+      "label": "无障碍标签。默认同时作为可见文字；isIconOnly 为真时用作 aria-label。",
+      "variant": "视觉样式变体。",
+      "size": "尺寸档位。",
+      "elevation": "悬浮按钮的静止阴影（如 FAB）。none 是默认平面样式，low/med/high 对应阴影阶梯。",
+      "type": "原生 button 的 type 属性。",
+      "name": "表单提交时的 HTML name。",
+      "value": "表单提交时的 HTML value。",
+      "form": "通过 id 把按钮关联到某个表单。",
+      "isLoading": "显示加载转圈并阻止重复点击，但保持可聚焦（用 aria-busy + aria-disabled，而非原生 disabled）。",
+      "isInterruptible": "clickAction 进行中仍可再次点击：仍显示转圈与 aria-busy，但不禁用按钮。",
+      "isDisabled": "禁用按钮。存在 tooltip 时改用 aria-disabled，让按钮仍可聚焦。",
+      "icon": "文字前渲染的图标。未指定尺寸的 Astryx Icon 会按按钮尺寸自动取 sm 或 md。",
+      "isIconOnly": "为真时渲染成方形纯图标按钮，label 转为 aria-label。需要 icon；专用图标按钮请改用 IconButton。",
+      "width": "按钮宽度。数字按像素处理，字符串原样使用（如 '100%' 表示满宽）。",
+      "children": "可选，覆盖可见文字。提供后显示它而不是 label，但 label 仍然必填（它才是无障碍名称）。",
+      "endContent": "文字后渲染的尾部图标或徽章。isIconOnly 为真时忽略，颜色继承自按钮。",
+      "tooltip": "悬停时显示的提示文字。",
+      "onClick": "标准点击回调（透传自原生 button 属性）。",
+      "clickAction": "异步点击回调。返回的 Promise 未完成期间自动显示加载态。",
+      "href": "提供后按钮渲染成链接（a 标签或自定义链接组件）。",
+      "as": "提供 href 时使用的自定义链接组件（如 Next.js 的 Link）。",
+      "target": "渲染为链接时的 HTML target，如 _blank。",
+      "rel": "渲染为链接时的 HTML rel，如 noopener noreferrer。"
+    },
+    "name": "按钮"
+  },
+  "ButtonGroup": {
+    "desc": "把一组相关操作合并成一个连体控件。适用于多个按钮在视觉与语义上属于同一组选项或操作的情况。",
+    "practices": [
+      "把操作同一对象的按钮归为一组，比如对选中文本做复制、剪切、粘贴。",
+      "组内按钮使用同一变体，看起来才像一个连体控件。",
+      "每组保持小规模（2 到 4 个）。操作更多时改用 Toolbar 或 DropdownMenu。",
+      "把差异很大的操作混在一起。同一个组里放保存和删除会让人困惑。",
+      "用 ButtonGroup 做导航；切换视图请用 SegmentedControl 或 TabList。",
+      "嵌套 ButtonGroup。需要多组时并排放置，中间留出间距。",
+      "组名要说明这些按钮作用于什么。label 是整组的无障碍名称，屏幕阅读器会先读它。",
+      "整组只占一个 Tab 停靠点。方向键沿排列方向在成员间移动，Home 与 End 跳到两端。"
+    ],
+    "props": {
+      "children": "Button 或 IconButton 子元素。",
+      "label": "整组的无障碍标签（aria-label）。",
+      "orientation": "按钮组的排列方向。",
+      "size": "组内按钮的默认尺寸，单个按钮可以覆盖。",
+      "isDisabled": "是否禁用组内所有按钮。",
+      "elevation": "整组的静止阴影。连体按钮共用一个表面，阴影整体抬起。",
+      "ref": "透传给根元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式，必须是 stylex.create() 的值。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "按钮组"
+  },
+  "IconButton": {
+    "desc": "只显示图标、不含可见文字的按钮。用于工具栏、表格行和空间紧张的紧凑界面，前提是该图标已被普遍理解。",
+    "practices": [
+      "aria-label 要具体：垃圾桶图标标成「删除对话」比「删除」清楚得多。",
+      "加 tooltip：即使齿轮图标也可能被理解为设置、偏好或配置。",
+      "工具栏与信息密集区域用 ghost，减少视觉噪音。",
+      "图标本身不足以表达动作时仍用 IconButton；请用带文字的 Button。",
+      "省略 tooltip；label 只有屏幕阅读器能读到，视力正常用户需要悬停提示。"
+    ],
+    "props": {
+      "label": "无障碍标签，用作 aria-label，不渲染为可见文字。",
+      "icon": "按钮内渲染的图标元素。",
+      "variant": "视觉样式变体。",
+      "size": "尺寸档位。",
+      "elevation": "静止阴影深度。最常见的 FAB 就是纯图标按钮加阴影。",
+      "isLoading": "显示加载转圈并阻止重复点击，同时保持可聚焦。",
+      "isDisabled": "禁用按钮。存在 tooltip 时改用 aria-disabled，让按钮仍可聚焦。",
+      "tooltip": "悬停与键盘聚焦时的提示文字，同时用来描述动作。",
+      "onClick": "标准点击回调。",
+      "clickAction": "异步点击回调，自动显示加载态。",
+      "isInterruptible": "clickAction 进行中仍可再次点击：仍显示转圈与 aria-busy，但不禁用按钮。",
+      "width": "按钮宽度。数字按像素处理，字符串原样使用。",
+      "type": "原生 button 的 type 属性。",
+      "name": "表单提交时的 HTML name。",
+      "value": "表单提交时的 HTML value。",
+      "form": "通过 id 把按钮关联到某个表单。",
+      "href": "提供后按钮渲染成链接（a 标签或自定义链接组件）。",
+      "as": "提供 href 时使用的自定义链接组件（如 Next.js 的 Link）。",
+      "target": "渲染为链接时的 target，如 _blank。",
+      "rel": "渲染为链接时的 rel，如 noopener noreferrer。"
+    },
+    "name": "图标按钮"
+  },
+  "ToggleButton": {
+    "desc": "在选中与未选中之间切换，表达一种持久开关状态。可单独用于加粗、静音、收藏等二元操作，也可组合成按钮组。",
+    "practices": [
+      "按下态用填充或彩色图标，让当前状态可见。",
+      "按下与未按下保持同一标签，让视觉变化来说明状态。",
+      "把相关开关放进带无障碍标签的 ToggleButtonGroup，屏幕阅读器才能读出组语义。",
+      "用 ToggleButton 表示一次性动作（提交、删除）；那该用 Button。",
+      "在同一组里混用 ToggleButton 与普通 Button；只用 ToggleButton。",
+      "用它做跨会话持久的开关设置；那该用 Switch。"
+    ],
+    "props": {
+      "label": "无障碍标签，同时作为可见文字。",
+      "isPressed": "当前是否按下。在组内会被忽略。",
+      "onPressedChange": "按下状态应当变化时同步调用。",
+      "pressedChangeAction": "由 API 或导航驱动的切换动作处理器。",
+      "size": "按钮尺寸，在组内默认取组尺寸。",
+      "elevation": "悬浮（FAB 式）切换按钮的静止阴影。",
+      "isDisabled": "按钮是否禁用。",
+      "isLoading": "按钮是否显示加载转圈。",
+      "icon": "图标元素。只给图标不给 children 时会变成纯图标按钮。",
+      "isIconOnly": "为真时渲染成方形纯图标按钮。",
+      "pressedIcon": "按下时显示的图标，未提供则回退到 icon。",
+      "children": "可见内容。与 icon 搭配时省略则成为纯图标按钮。",
+      "tooltip": "悬停时显示的提示文字。",
+      "value": "在 ToggleButtonGroup 内使用的值标识。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "切换按钮"
+  },
+  "Calendar": {
+    "desc": "让用户从月历网格中选择某个日期或日期区间。用于预订流程、排期界面、日期筛选等需要看到前后日期的场景。",
+    "practices": [
+      "设置 min 与 max 把选择限制在有效窗口内，例如只允许未来日期。",
+      "用户需要选择开始与结束日期（行程、报表区间）时，用区间模式。",
+      "用 dateConstraints 禁用周末、节假日等特定日期，并向用户说明原因。",
+      "用户经常选择跨月的日期时，并排显示两个月。",
+      "需要自定义月视图时，使用 useCalendarNavigation 与 useCalendarDays。",
+      "用日历选择很久以前或很久以后的日期（如生日）；文本输入更合适。",
+      "大面积禁用日期却不给上下文；用户应当明白为什么这些日期不可选。"
+    ],
+    "props": {
+      "mode": "选择模式。",
+      "value": "受控的选中值。没有选择时用 null。",
+      "defaultValue": "非受控的默认值。",
+      "onChange": "选择回调。",
+      "numberOfMonths": "显示几个月的网格。",
+      "min": "可选的最小日期。",
+      "max": "可选的最大日期。",
+      "dateConstraints": "自定义约束函数，用于禁用特定日期。",
+      "maxRangeSpan": "区间模式下最多可跨多少天（含首尾）。",
+      "minRangeSpan": "区间模式下至少需跨多少天（含首尾）。",
+      "focusDate": "受控的可见月份。不设置时，日历打开在焦点日期所在月。",
+      "onFocusDateChange": "月份导航时的回调。",
+      "handleRef": "命令式句柄，支持日历导航。",
+      "hasOutsideDays": "显示相邻月份的日期。",
+      "hasWeekNumbers": "显示 ISO 8601 周数。",
+      "hasVariableRowCount": "每个月只占自己需要的行数；默认固定行数以避免布局跳动。",
+      "weekStartsOn": "每周起始日。接受数字（0 为周日）或三位缩写。",
+      "calendar": "网格使用的历法，例如 persian、hebrew。"
+    },
+    "name": "日历"
+  },
+  "Card": {
+    "desc": "带边框与层次感的容器，用于承载可独立存在的内容（可重排、可移除、可单独交互的条目）。Card 不是默认的布局工具——多数内容分组靠间距和对齐就够了，只有需要明确交互边界或并排比较时才用卡片。",
+    "practices": [
+      "先问「这一块我能独立重排或移除吗？」能，它才是卡片；不能，它只是页面上的一个区段，用标题加 Section。",
+      "卡片用于独立条目：一个用户资料、一条通知、一个指标、网格里的一件商品，每张卡代表一件事。",
+      "光靠间距和对齐就能形成视觉分组。不是所有东西都需要容器，试着去掉卡片看分组是否还成立。",
+      "同级卡片保持一致的 padding，网格或列表里才对得齐。",
+      "需要结构化头部、可滚动内容加底部操作时，把卡片和 Layout 搭配使用。",
+      "手机上让卡片共享一行或网格：卡片会收缩到所在轨道宽度，并在边缘截断无法换行的内容。",
+      "默认用卡片做视觉分组。标题加带正确间距的 Stack 就能建立层级，不必到处加边框。",
+      "把页面区段包进卡片。「通用设置」「通知偏好」、表单分组都是页面区域，用 Section 或标题即可。"
+    ],
+    "props": {
+      "width": "卡片宽度（数字为像素，字符串原样使用）。在弹性行或网格轨道中即占该宽度。",
+      "height": "卡片高度（数字为像素，字符串原样使用）。",
+      "maxWidth": "卡片最大宽度。",
+      "minHeight": "卡片最小高度。",
+      "children": "卡片内容。",
+      "padding": "内边距，按间距阶梯取值。省略时使用主题的卡片内边距。",
+      "variant": "背景色变体。default 用标准卡片背景，transparent 完全去掉背景。",
+      "elevation": "静止阴影深度。none 为平面，low/med/high 对应阴影阶梯。"
+    },
+    "name": "卡片"
+  },
+  "ClickableCard": {
+    "desc": "可点击的卡片，用于导航或触发操作。卡片内部嵌套的可交互元素各自独立生效。",
+    "practices": [
+      "用于跳转到详情页或触发单一动作的卡片。",
+      "内部可以自由嵌套按钮或链接，它们各自处理自己的事件。",
+      "用它做选中切换；那该用 SelectableCard。"
+    ],
+    "props": {
+      "label": "无障碍标签。",
+      "onClick": "点击回调，仅在卡片表面触发。",
+      "href": "跳转地址。支持普通打开、新标签、Cmd/Ctrl 点击与中键点击。",
+      "target": "链接的 target。",
+      "isDisabled": "禁用卡片并移除链接目的地。",
+      "children": "卡片内容。",
+      "padding": "内部留白。",
+      "variant": "背景色变体。",
+      "elevation": "静止阴影深度，常抬高以暗示可点击。",
+      "width": "卡片宽度。",
+      "height": "卡片高度。",
+      "maxWidth": "卡片最大宽度。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "可点击卡片"
+  },
+  "SelectableCard": {
+    "desc": "可在选中与未选中之间切换的卡片，选中时显示强调色边框。仅作导航用途时请改用 ClickableCard。",
+    "practices": [
+      "用于多选场景：筛选 chip、功能附加项、选项网格。",
+      "多选组把选中的 ID 存在一个集合里。",
+      "卡片获得焦点时，用空格或回车切换选中。",
+      "用它做导航；那该用 ClickableCard。",
+      "用它做单选组：每张卡都是一个复选框，辅助技术会当成多选处理。"
+    ],
+    "props": {
+      "label": "无障碍标签。",
+      "isSelected": "受控的选中状态。",
+      "onChange": "切换选中时调用。",
+      "isDisabled": "禁用卡片。",
+      "children": "卡片内容。",
+      "padding": "内部留白。",
+      "variant": "背景色变体。",
+      "elevation": "静止阴影深度，选中环会与之叠加。",
+      "width": "卡片宽度。",
+      "height": "卡片高度。",
+      "maxWidth": "卡片最大宽度。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "可选择卡片"
+  },
+  "Carousel": {
+    "desc": "当一行内容超出可用宽度时支持横向滚动。用于卡片列表、图片画廊、商品列表等需要横向浏览的集合。",
+    "practices": [
+      "希望每一项都精确停在起始边缘时，启用 scroll-snap。",
+      "iOS 手指分页与触控板滑动场景，传 hasSnap={useSnapPaging()}。",
+      "小规模可循环的集合（如相册）用 hasLoop，才能真正绕回开头。",
+      "始终提供描述轮播内容的 aria-label，例如「精选推荐」。",
+      "Carousel 实现了 WAI-ARIA APG 的轮播模式。",
+      "保持一致的 gap 与项宽，轮播才显得是刻意设计。",
+      "信任内建导航：触控板可横向滑动，鼠标用户可用按钮。",
+      "用轮播承载每个用户都必须看到的内容；不是所有人都会横向滚动。"
+    ],
+    "props": {
+      "children": "在水平滚动容器中渲染的轮播项。",
+      "gap": "项之间的间距，使用间距 token 阶梯。",
+      "hasButtons": "内容可滚动时显示上一页与下一页按钮。",
+      "hasEdgeFade": "内容溢出时在边缘显示渐变遮罩。",
+      "hasLoop": "循环滚动：末尾按下一页会滚回开头。",
+      "hasSnap": "让每个子项吸附到起始边缘，使用原生 scroll-snap。",
+      "padding": "滚动容器内部的行内内边距。",
+      "aria-label": "轮播区域的无障碍标签。",
+      "ref": "透传给根元素的引用。",
+      "handleRef": "命令式句柄，提供 scrollNext()、scrollPrev() 等方法。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "轮播"
+  },
+  "CheckboxInput": {
+    "desc": "切换单个开关值。用于「开启通知」、同意条款、订阅选项等设置。同组多个复选项请使用 CheckboxList。",
+    "practices": [
+      "始终给可见标签，让用户知道在切换什么。只有周边上下文很明显时才用 isLabelHidden。",
+      "需要额外解释的选项加 description，例如说明「共享使用数据」到底共享了什么。",
+      "「全选」复选框在组内只选了一部分时，用半选状态表示。",
+      "用复选框做互斥选择；只能选一个时请用 RadioList。",
+      "用复选框做立即生效的开关；请改用 Switch 或按钮。",
+      "把禁用的复选框包进 Tooltip 来解释原因；禁用控件会吞掉包装器需要的悬停事件。请改用 disabledMessage。"
+    ],
+    "props": {
+      "ref": "透传给底层 input 的 ref。",
+      "label": "复选框标签，始终为无障碍而渲染。",
+      "isLabelHidden": "是否视觉隐藏标签，屏幕阅读器仍可读。",
+      "description": "显示在标签下方的说明。",
+      "value": "勾选状态：选中、未选中或半选。",
+      "onChange": "状态变化时的回调。",
+      "changeAction": "变化后的异步动作。若未被阻止，会在 onChange 之后触发，等待期间显示转圈。",
+      "isLoading": "加载态，显示转圈并阻止交互。",
+      "isDisabled": "是否禁用。",
+      "htmlName": "底层 input 的 name，表单提交时使用。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 在悬停或键盘聚焦时以提示显示，并保持可聚焦。",
+      "isReadOnly": "只读：正常显示当前状态，但不接受交互。",
+      "isOptional": "是否为可选，与 isRequired 互斥。",
+      "isRequired": "是否必填，与 isOptional 互斥。",
+      "size": "尺寸。sm 用于紧凑布局，md 为默认；粗指针设备下带标签的复选框会加大命中区域。",
+      "onFocus": "获得焦点时的回调。",
+      "onBlur": "失去焦点时的回调。",
+      "labelIcon": "标签文字前的语义图标名或自定义内容。",
+      "status": "状态指示，在复选框下方显示彩色提示并设置 aria-invalid。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。作用于整个字段。"
+    },
+    "name": "复选框"
+  },
+  "CheckboxList": {
+    "desc": "一小批复选框，让用户一次性开启或关闭多个选项。放在设置页、筛选面板，或每个选项都应当可见的表单里。",
+    "practices": [
+      "列表保持短：3 到 7 个最合适，超过就换 MultiSelector（它带搜索）。",
+      "条目下方有辅助文字时打开 hasDividers；否则标签和描述会糊在一起。",
+      "组标签要说明这些选项代表什么：「导出格式」比「选项」信息量大。",
+      "用户只能选一个时用 CheckboxList；那是 RadioList 的职责。",
+      "在尾部插槽里放按钮或链接；整行已可点击，嵌套控件会造成歧义。",
+      "把禁用的 CheckboxList 包进 Tooltip 解释原因；请改用 disabledMessage。"
+    ],
+    "props": {
+      "label": "复选组标签，始终为无障碍而渲染。",
+      "children": "CheckboxListItem 元素。",
+      "value": "当前选中的值集合（集合模式）。",
+      "onChange": "选中集合变化时的回调。",
+      "changeAction": "变化时的异步动作，带乐观更新。Promise 未完成期间相关开关保持禁用态。",
+      "isLabelHidden": "是否视觉隐藏标签。",
+      "description": "显示在标签下方的说明。",
+      "isOptional": "组是否可选。会在组标签后显示可选标记。",
+      "isRequired": "组是否至少需勾选一项。会在组标签后显示必填标记。",
+      "density": "列表项的间距密度。",
+      "hasDividers": "是否在条目之间显示分隔线。",
+      "isDisabled": "是否禁用所有复选项。",
+      "disabledMessage": "说明整组被禁用的原因，作用于整组禁用态。",
+      "isReadOnly": "是否所有复选项只读。正常显示状态但不接受交互。",
+      "status": "状态指示（类型与消息）。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。作用于整个字段。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。在 InputGroup 内无效。",
+      "containerClassName": "字段容器的类名，作用范围同上。",
+      "containerStyle": "字段容器的行内样式，作用范围同上。",
+      "controlXstyle": "可视控件框的 StyleX 样式，该元素负责画边框与背景并承载图标。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "复选组"
+  },
+  "Collapsible": {
+    "desc": "通过触发按钮隐藏或展开内容。用于设置面板、问答页、详情视图，让页面保持可扫读，同时支持逐层深入。",
+    "practices": [
+      "每个触发器都要有有意义的无障碍名称，可见文字通常就够。",
+      "FAQ 类列表在 CollapsibleGroup 上开启 hasDividers，内建行分隔线更整齐。",
+      "手风琴布局里把每个 Collapsible 包进 Card，获得视觉分隔。",
+      "设置页或 FAQ 页只允许展开一项时，CollapsibleGroup 用 type=“single”。",
+      "用户需要跨区段比较内容时（如功能对照），用 type=“multiple”。",
+      "首次访问大概率需要的内容，默认展开（defaultIsOpen）。",
+      "把关键或必需内容藏在折叠里；用户可能根本发现不了。",
+      "嵌套超过两层；内容会变得难以找到和阅读。"
+    ],
+    "props": {
+      "trigger": "触发器区域的内容，始终可见。",
+      "children": "可折叠与展开的内容。",
+      "defaultIsOpen": "独立非受控用法下的默认展开状态。",
+      "isOpen": "独立用法下的受控展开状态，在组内会被忽略。",
+      "isDisabled": "禁用该项，触发器无法切换。",
+      "onOpenChange": "独立展开状态变化时调用。",
+      "chevronPosition": "展开箭头的逻辑位置。",
+      "value": "用于组内协调的标识符。",
+      "animatedLayout": "useAnimatedLayout 返回的句柄，用于动画布局。",
+      "ref": "透传给根元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "折叠面板"
+  },
+  "CommandPalette": {
+    "desc": "可搜索的命令弹窗，用于快速访问命令、导航和操作。作为键盘驱动的启动器，由 SearchSource 提供筛选能力。",
+    "practices": [
+      "提供带 bootstrap 结果的 searchSource，让用户在输入前就能看到有用选项。",
+      "用条目的 auxiliaryData.group 自动把结果组织成带标签的分组。",
+      "同一页面可能出现多个命令面板时，给每个具体不同的 label。",
+      "保持 renderItem 内容非交互；每一行本身就是一个选项。",
+      "拦截查询框的键盘事件却不保留输入法组合状态，中文与日文输入会被打断。",
+      "用 CommandPalette 做简单下拉或菜单；行内场景请用 Menu 或 Selector。",
+      "塞太多分组与条目；精选结果才能让面板既快又好扫读。"
+    ],
+    "props": {
+      "isOpen": "命令面板对话框是否可见。",
+      "onOpenChange": "面板可见性变化时调用。",
+      "searchSource": "通过 search(query) 与 bootstrap 提供条目的搜索源。",
+      "input": "输入区槽位，默认为带状态显示的 CommandPaletteInput。",
+      "footer": "底部槽位，默认为显示操作提示的 CommandPaletteFooter。",
+      "renderItem": "逐条渲染函数，用于非交互式的结果展示。",
+      "emptySearchText": "搜索无结果时显示的内容。",
+      "emptyBootstrapText": "没有查询且 bootstrap 也为空时显示的内容。",
+      "value": "选择器模式下的受控选中值。",
+      "onValueChange": "选择器模式下选中值变化时调用。",
+      "label": "命令面板对话框的无障碍标签。",
+      "width": "对话框宽度。",
+      "maxHeight": "对话框最大高度。",
+      "isInline": "就地渲染命令面板内容，不使用模态行为。"
+    },
+    "name": "命令面板"
+  },
+  "ContextMenu": {
+    "desc": "在光标位置弹出的右键菜单。用于给特定元素或区域提供就地操作，而不必在界面上常驻一排按钮。",
+    "practices": [
+      "菜单项简洁且面向动作，用户期待快速拿到上下文操作。",
+      "条目多时用分组与分隔线整理相关动作。",
+      "右键应当保持跟随光标位置时，用 presentation=“adaptive”。",
+      "确保右键菜单里的所有动作也能通过其他 UI 元素触发。",
+      "移动端的重要动作保留一个可见的 MoreMenu 或等效入口。",
+      "把右键菜单当作重要动作的唯一入口；并不是所有用户都知道可以右键。",
+      "单个菜单里放超过 10 到 12 项却不做分组。"
+    ],
+    "props": {
+      "children": "触发区域：在这块内容上右键即可打开菜单。",
+      "items": "数据驱动的菜单条目，与 menuContent 二选一。",
+      "menuContent": "组合模式下的自定义 JSX 菜单内容，与 items 二选一。",
+      "menuWidth": "自定义菜单宽度。",
+      "size": "菜单项尺寸，控制内边距密度。",
+      "label": "菜单表面的无障碍名称，打开时播报。",
+      "onOpenChange": "菜单打开或关闭时调用。",
+      "presentation": "呈现策略，popover 表示在指针位置打开。",
+      "isDisabled": "为真时右键显示浏览器原生菜单。",
+      "triggerXstyle": "应用于触发包装层的样式。",
+      "triggerAs": "触发包装层渲染成什么元素，div 为默认。"
+    },
+    "name": "右键菜单"
+  },
+  "DateInput": {
+    "desc": "让用户手动输入或从日历浮层中选择日期。用于排期、截止日期、预订日期等需要具体日历日的表单字段。",
+    "practices": [
+      "ref、id、data-*、aria-* 与 DOM 事件等基础 props 会落在日期输入框元素本身上。",
+      "提供清晰的标签与说明，让用户知道要填哪个日期。",
+      "用 min、max 与 dateConstraints 把可选日期限制在有效范围内。",
+      "佛历或民国纪年的日期字段要设 min 与 max，误输的公历年会被拦下。",
+      "日期为可选项时启用 hasClear，让用户能清空。",
+      "日期会触发服务端保存时，用 changeAction 显示加载态。",
+      "精确指针设备下，字段遵循 WAI-ARIA combobox 模式，弹出的是对话框式浮层。",
+      "需要加简短的静态前缀或后缀（如「截止日」）时，把 DateInput 放进 InputGroup。"
+    ],
+    "props": {
+      "label": "标签文字。",
+      "isLabelHidden": "视觉隐藏标签。",
+      "description": "显示在标签下方的辅助说明。",
+      "isOptional": "在标签旁显示「可选」标记。",
+      "isRequired": "标记为必填。",
+      "isDisabled": "禁用输入框与日历。字段仍可聚焦，用于展示禁用原因。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 以提示形式显示。",
+      "value": "选中的日期，格式为 YYYY-MM-DD。",
+      "onChange": "选中日期变化时调用。",
+      "changeAction": "onChange 之后的异步动作，驱动乐观更新。",
+      "isLoading": "是否处于加载态。字段仍可聚焦。",
+      "min": "可选的最小日期（YYYY-MM-DD）。",
+      "max": "可选的最大日期（YYYY-MM-DD）。",
+      "dateConstraints": "自定义约束函数数组，用于禁用特定日期。",
+      "placeholder": "文本框的占位文字。",
+      "size": "输入控件的尺寸。",
+      "status": "用于错误、警告或成功状态的状态指示对象。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴其下方。",
+      "labelTooltip": "标签末尾信息图标里的提示文字。",
+      "hasClear": "已选日期时显示清除按钮。",
+      "numberOfMonths": "日历浮层同时显示的月份数。",
+      "weekStartsOn": "日历的每周起始日。数字 0 表示周日。",
+      "format": "已提交日期的显示格式。",
+      "calendar": "文本框读写与日历使用的历法。",
+      "presentation": "由哪种表面绘制日期选择器，adaptive-native 为默认。",
+      "nativePicker": "已废弃，请改用 presentation。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "containerXstyle": "Field 盒子（标签、控件、状态）的 StyleX 样式。",
+      "containerClassName": "Field 盒子的类名。",
+      "containerStyle": "Field 盒子的行内样式。",
+      "controlXstyle": "可视控件框（画边框的元素）的 StyleX 样式。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "日期输入"
+  },
+  "DateRangeInput": {
+    "desc": "从双月日历浮层中选择开始与结束日期。用于按时间区间筛选数据、生成报表、分析看板等场景。",
+    "practices": [
+      "ref、id、data-*、aria-* 与 DOM 事件等基础 props 会落在区间触发器元素上。",
+      "为「最近 7 天」这类常用区间提供 presets，加快选择。",
+      "用 min 与 max 把可选日期限制在有效范围内。",
+      "保持 hasClear 开启（默认），让用户能重置筛选。",
+      "提供清晰的标签与说明，让用户知道这个区间控制的是什么。",
+      "只需要单个日期时用 DateRangeInput；请用 DateInput。",
+      "周边上下文没让用途足够明显时隐藏标签。",
+      "把禁用的 DateRangeInput 包进 Tooltip；请改用 disabledMessage。"
+    ],
+    "props": {
+      "label": "标签文字。",
+      "isLabelHidden": "视觉隐藏标签。",
+      "description": "显示在标签下方的辅助说明。",
+      "isOptional": "在标签旁显示「可选」标记。",
+      "isRequired": "标记为必填。",
+      "isDisabled": "禁用触发器与选择器。触发器仍可聚焦，用于展示禁用原因。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 以提示形式显示。",
+      "value": "选中的日期区间，未选择时为 null。",
+      "onChange": "区间变化时调用，清空时收到 null。",
+      "changeAction": "onChange 之后的异步动作，驱动乐观更新。",
+      "isLoading": "是否处于加载态，会禁用交互。",
+      "min": "可选的最小日期。",
+      "max": "可选的最大日期。",
+      "dateConstraints": "自定义约束函数，用于禁用特定日期。",
+      "maxRangeSpan": "区间最多可跨多少天（含首尾两端）。",
+      "minRangeSpan": "区间至少需跨多少天（含首尾两端）。",
+      "presets": "在日历旁以快捷项展示的预设区间。",
+      "hasClear": "已选区间时显示清除按钮。",
+      "placeholder": "未选区间时的占位文字。",
+      "size": "触发器尺寸。",
+      "status": "错误、警告或成功状态的状态指示。",
+      "statusVariant": "状态提示相对控件的放置位置。attached 紧贴其下方。",
+      "labelTooltip": "标签末尾信息图标的提示文字。",
+      "numberOfMonths": "日历同时显示的月份数。",
+      "weekStartsOn": "日历的每周起始日，数字 0 表示周日。",
+      "calendar": "触发器文本与浮层日历共同使用的历法。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "containerXstyle": "Field 盒子（标签、控件、状态）的 StyleX 样式。",
+      "controlXstyle": "可视控件框（画边框的元素）的 StyleX 样式。"
+    },
+    "name": "日期区间输入"
+  },
+  "DateTimeInput": {
+    "desc": "在同一个字段里同时选择日期与时间。默认 presentation=\"adaptive-native\"：鼠标设备使用 Astryx 的输入框加浮层，触屏设备调用系统选择器。",
+    "practices": [
+      "ref、id、data-*、aria-* 与 DOM 事件等基础 props 会落在日期输入元素上。",
+      "提供清晰的标签与说明，让用户知道期望的是哪个日期时间。",
+      "用 min 与 max 把可选日期时间限制在有效范围内。",
+      "佛历或民国纪年的字段要设 min 与 max，误输的公历年会被拦下。",
+      "日期时间为可选项时启用 hasClear，让用户能清空。",
+      "不要设 hourFormat，让字段跟随 InternationalizationProvider 区域设置的小时制。",
+      "只需要日期时用 DateTimeInput；请用 DateInput。",
+      "只需要时间时用 DateTimeInput；请用 TimeInput。"
+    ],
+    "props": {
+      "label": "标签文字。",
+      "isLabelHidden": "视觉隐藏标签。",
+      "description": "显示在标签下方的辅助说明。",
+      "isOptional": "在标签旁显示「可选」标记。",
+      "isRequired": "标记为必填。",
+      "isDisabled": "禁用输入与选择器。字段仍可聚焦，用于展示禁用原因。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 以提示形式显示。",
+      "value": "选中的日期时间，ISO 8601 格式（YYYY-MM-DDTHH:MM 或含秒）。",
+      "onChange": "选中日期时间变化时调用。",
+      "changeAction": "onChange 之后的异步动作，驱动乐观更新。",
+      "isLoading": "是否处于加载态，会禁用交互。",
+      "min": "可选的最小日期时间，同时约束日期与时间部分。",
+      "max": "可选的最大日期时间，同时约束日期与时间部分。",
+      "dateConstraints": "自定义约束函数数组，用于禁用特定日期。",
+      "hasSeconds": "时间部分是否包含秒。",
+      "hourFormat": "小时显示格式。12h 显示区域设置的上午 / 下午。",
+      "timeIncrement": "Astryx 输入式时间字段中，方向键每次增减的分钟数。",
+      "timeOptionInterval": "预设时间下拉中的分钟间隔。",
+      "hasClear": "已选日期时间时显示清除按钮。",
+      "placeholder": "未选日期时，日期部分的占位文字。",
+      "calendar": "日期段读写输入式日期与浮层日历使用的历法。",
+      "timePlaceholder": "未选时间时，时间部分的占位文字。",
+      "timeLabel": "时间部分的无障碍标签，默认由 label 派生。",
+      "size": "输入控件的尺寸。",
+      "status": "用于错误、警告或成功状态的状态指示对象。",
+      "labelTooltip": "标签末尾信息图标的提示文字。",
+      "numberOfMonths": "Astryx 浮层日历同时显示的月份数。",
+      "weekStartsOn": "日历的每周起始日，数字 0 表示周日。",
+      "presentation": "由哪种表面绘制日期与时间选择器，adaptive-native 为默认。",
+      "nativePicker": "已废弃，请改用 presentation。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "containerXstyle": "Field 盒子（标签、控件、状态）的 StyleX 样式。",
+      "controlXstyle": "可视控件框（承载日期与时间的那一行）的 StyleX 样式。"
+    },
+    "name": "日期时间输入"
+  },
+  "AlertDialog": {
+    "desc": "在执行破坏性或不可撤销操作前要求确认。用于删除内容、撤销权限、放弃未保存的修改等场景。",
+    "practices": [
+      "动作按钮文案要具体：「删除项目」比「确定」「确认」好得多。",
+      "在描述里写清会发生什么，让用户确认前就知道后果。",
+      "取消按钮保持破坏性最小的焦点落点。窄屏上破坏性操作在视觉上靠后。",
+      "动作标签简洁具体。宽度较窄时完整按钮可能换行独占一行，注意布局。",
+      "用 AlertDialog 处理非破坏性操作；请用普通 Dialog。",
+      "只靠颜色表达危险；动作标签本身就该说明会发生什么。",
+      "在操作完成前从 onAction 里关闭弹窗；应保持打开并用 isActionLoading，完成后再调用 onOpenChange 关闭。"
+    ],
+    "props": {
+      "isOpen": "是否打开。",
+      "onOpenChange": "可见性变化时的回调。",
+      "title": "对话框标题，通过 aria-labelledby 关联。",
+      "description": "后果描述，通过 aria-describedby 关联。",
+      "actionLabel": "动作按钮的文案。",
+      "onAction": "点击动作按钮时调用，不会自动关闭。",
+      "cancelLabel": "取消按钮的文案。",
+      "actionVariant": "动作按钮的变体。",
+      "isActionLoading": "在动作按钮上显示加载转圈。",
+      "width": "请求的弹窗宽度。Dialog 会保留该首选宽度并限制在容器内。",
+      "isInline": "就地渲染内容，不使用模态行为，用于文档演示。"
+    },
+    "name": "警告对话框"
+  },
+  "Dialog": {
+    "desc": "模态浮层，在用户回应之前阻断页面交互。用于删除确认、编辑表单、条款同意等需要明确决定的场景。",
+    "practices": [
+      "先选对用途：info 用于可关闭的信息；form 防止点遮罩误关；required 用于必须回应的场景。",
+      "头部要有清晰标题，让用户立刻明白弹窗在问什么。",
+      "含输入框的弹窗用 purpose=\"form\"，避免用户点遮罩丢失数据。",
+      "弹窗只聚焦单一任务；内容多到放不下时，考虑改用整页。",
+      "用弹窗展示本可以内联或 Toast 表达的简单消息。",
+      "在弹窗里再套弹窗；把流程改成一个弹窗内的多个步骤。",
+      "用 fullscreen 变体做简单确认；它是给编辑器、长表单这类复杂内容准备的。"
+    ],
+    "props": {
+      "isOpen": "是否打开。",
+      "onOpenChange": "可见性变化时的回调。",
+      "children": "弹窗内容。",
+      "width": "首选宽度，可为像素或任意 CSS 值；标准弹窗会限制在容器内。",
+      "maxHeight": "最大高度。默认取动态视口值，以适配浏览器 UI 变化。",
+      "position": "弹窗的固定位置；省略时居中。行内偏移请用逻辑值 start / end。",
+      "variant": "弹窗变体：fullscreen 占满整个视口。",
+      "purpose": "控制关闭行为：required 禁用 Esc 与点遮罩；form 在输入后禁用点遮罩。",
+      "padding": "弹窗内边距，按间距阶梯取值。",
+      "isInline": "就地渲染内容，不使用 dialog 元素、遮罩和模态行为。用于文档演示。"
+    },
+    "name": "对话框"
+  },
+  "Divider": {
+    "desc": "视觉分隔线，把内容切成不同区块。用于在相关内容之间建立边界，或标出可交互区域的起止。",
+    "practices": [
+      "相关内容之间用 subtle，强边界用 strong。",
+      "区段需要可见的分类标题时，给分隔线加 label。",
+      "滥用分隔线；能靠间距和布局分开的就别加线。"
+    ],
+    "props": {
+      "orientation": "分隔线方向。",
+      "label": "可选的居中标签。数字 0 会保留，null、布尔值与空字符串则不显示。",
+      "variant": "分隔线的视觉轻重：subtle 或 strong。",
+      "isFullBleed": "用负外边距把分隔线延伸到容器边缘。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "分隔线"
+  },
+  "Drawer": {
+    "desc": "从侧边浮在页面内容之上的面板，用于检查器和详情视图——「点一行表格，看它的详情」这种模式。与停靠面板不同，它覆盖在布局之上。",
+    "practices": [
+      "用于上下文详情视图（行检查器、实体详情），让用户仍能看到下面的列表。",
+      "以调用方为唯一状态源：从选中状态推导 isOpen，并在 onOpenChange 中清除选中。",
+      "主从流程用 hasScrim={false}；非模态抽屉不锁定焦点，背后页面仍可操作。",
+      "关闭时保留最后选中的条目：children 在退出动画期间保持挂载，此时立刻置空内容会闪一下。",
+      "每个抽屉都要有可见的关闭动作，通常用 DrawerHeader 加 onOpenChange；非模态抽屉没有遮罩可点。",
+      "误点遮罩会丢失未保存输入时，用 purpose=“form”。",
+      "用 Drawer 做简短确认或小表单；请用 Dialog 或 AlertDialog。",
+      "内容本该把页面挤到一边时用 Drawer；Drawer 浮在内容之上，这种场景请用停靠面板。"
+    ],
+    "props": {
+      "isOpen": "是否打开。完全受控，配合 onOpenChange 使用。",
+      "onOpenChange": "抽屉请求改变开合状态时调用，Esc 与点击遮罩也会走这里。",
+      "label": "抽屉的无障碍标签，必填；抽屉没有内建的标题。",
+      "children": "抽屉内容，渲染在整高的可滚动区域内，布局由你组合。",
+      "side": "从哪条边滑出。end 在 LTR 中即右侧，符合检查器惯例。",
+      "width": "桌面端宽度预算。数字为像素，字符串为任意 CSS 长度。",
+      "experimental": "实验性选项，对象内任何内容都可能在补丁版本中变更或移除。",
+      "hasScrim": "抽屉背后的模态遮罩。true 使用 showModal()，进入顶层并锁定焦点。",
+      "purpose": "配置隐式关闭行为，与 Dialog 一致。info 表示 Esc 与点击遮罩都会关闭。",
+      "padding": "抽屉内容的内边距，按间距阶梯取值。"
+    },
+    "name": "抽屉"
+  },
+  "DropdownMenu": {
+    "desc": "由按钮触发的下拉操作列表。用于呈现流程下一步的动作选项，或给某个对象提供一组就地操作。",
+    "practices": [
+      "菜单项简洁且以动作为导向，便于快速扫读。",
+      "条目多时用分组和分隔线组织相关操作。",
+      "动作集合短且扁平、产品策略要求模态触控面板时，用 presentation=“bottom-sheet”。",
+      "同一组短动作需要在指针布局上锚定、在触屏上变成面板时，用 presentation=“adaptive”。",
+      "层级在紧凑触屏上放不下相邻的飞出面板时，产品可以显式使用底部面板。",
+      "在产品代码里显式选择 presentation；「紧凑、粗指针、无悬停」的媒体查询是一种常用判断。",
+      "当内容不再是「一小组即时动作」时，重新评估交互并换用合适的组件。",
+      "用 DropdownMenu 做导航；请改用导航类组件。"
+    ],
+    "props": {
+      "button": "触发按钮的 props（Button 的属性，onClick 除外）。与 renderTrigger 互斥。",
+      "renderTrigger": "自定义菜单挂载的控件——图标按钮、chip、头像、链接等。",
+      "items": "菜单条目数组，每项是动作项、分隔线或分组。",
+      "presentation": "数据驱动条目的呈现表面。popover 保持锚定，bottom-sheet 从底部升起。",
+      "isMenuOpen": "受控的打开状态。以 true 挂载会直接渲染为打开态。",
+      "onOpenChange": "打开状态变化时的回调。",
+      "menuWidth": "popover 呈现的最小宽度，长度值可随内容增长。",
+      "menuMaxHeight": "popover 呈现的最大高度（像素），用于必须容纳的长菜单。",
+      "header": "行上方、菜单之外的区域内容，如筛选框或开关。",
+      "footer": "行下方、菜单之外的区域内容，如「创建」按钮。",
+      "placement": "相对触发器的浮层位置，底部面板呈现会忽略。",
+      "alignment": "沿 placement 轴的对齐，底部面板呈现会忽略。",
+      "onClick": "触发器被接受激活时的回调。",
+      "hasChevron": "触发按钮是否显示下拉箭头。纯图标按钮应设为 false。",
+      "children": "组合模式下的菜单内容：DropdownMenuItem、DropdownMenuDivider 等。"
+    },
+    "name": "下拉菜单"
+  },
+  "Field": {
+    "desc": "底层包装器，为自定义控件、原生控件或第三方控件补齐标签、描述和状态提示。这些控件自身不带 Field 的那套 UI 时使用。",
+    "practices": [
+      "用它包裹需要标签、说明与状态提示的自定义控件、原生输入或第三方组件。",
+      "始终为无障碍提供标签，即使视觉上隐藏。",
+      "用 inputID 与 descriptionID 把标签和说明连接到内部控件。",
+      "在 TextInput、Typeahead、Selector、DateInput 这类已自带字段样式的输入外面再套一层 Field。",
+      "只有被包裹控件是不透明、带边框且高度固定时，才用 attached 状态提示。",
+      "在同一字段上同时设置 isOptional 与 isRequired。",
+      "隐藏标签，却不提供别的途径让用户理解这个字段的用途。"
+    ],
+    "props": {
+      "label": "字段标签文字，始终为无障碍而渲染。",
+      "inputID": "输入元素的 id，用于 label 的 htmlFor。",
+      "labelID": "标签元素自身的 id，供 radiogroup 等分组语义使用。",
+      "isGroupLabel": "把标签渲染为 span，用于控件组（如 radiogroup）。",
+      "children": "要渲染的输入或控件。",
+      "isLabelHidden": "视觉隐藏标签，仍对屏幕阅读器可访问。",
+      "isDisabled": "关联输入是否禁用，会向内部控件传播禁用状态。",
+      "description": "显示在标签与输入之间的说明。",
+      "descriptionID": "说明元素的 id，供内部控件设置 aria-describedby。",
+      "isOptional": "字段是否可选，与 isRequired 互斥。",
+      "isRequired": "字段是否必填，与 isOptional 互斥。",
+      "labelIcon": "标签文字前显示的图标。",
+      "labelTooltip": "标签后信息按钮的帮助文字。",
+      "status": "状态指示，含类型与可选消息。",
+      "statusVariant": "状态反馈的放置方式。attached 会覆盖在符合条件的控件下方。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "ref": "透传给根元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "附加在根元素上的类名，样式优先用 xstyle。",
+      "style": "根元素的行内样式，优先级高于同名 prop。"
+    },
+    "name": "字段"
+  },
+  "FieldStatus": {
+    "desc": "为字段类控件渲染校验反馈。自定义控件需要与原生字段一致的错误、警告、成功提示时，直接使用它。",
+    "practices": [
+      "消息属于带边框的输入时，用 attached 变体置于输入下方。",
+      "复选框、开关与自定义控件用 detached 变体。",
+      "用 FieldStatus 展示通用警告或页面级通知；那该用 Banner 或 Toast。",
+      "字段状态会在首次出现与消息变化时被播报。"
+    ],
+    "props": {
+      "type": "状态类型。",
+      "message": "状态消息文本。",
+      "id": "用于 aria-describedby 关联的 id。",
+      "variant": "视觉变体。attached 会覆盖在输入之上。"
+    },
+    "name": "字段状态"
+  },
+  "InputGroup": {
+    "desc": "把输入框与前后缀附加内容连成一个视觉整体。用于网址、金额、带操作按钮的搜索框等需要带单位的输入。",
+    "practices": [
+      "用文本附加项展示单位、前缀或后缀，说明输入格式。",
+      "静态前后缀（美元符号、kg、https://）用 InputGroupText。",
+      "附着在输入上的操作用 Button，InputGroup 会连接它们的圆角。",
+      "只与兼容的单行输入搭配：TextInput、NumberInput、TimeInput 等。",
+      "每个内部输入的标签保持具体，成组后组件会自动合并名称。",
+      "在一个组里放多个文本输入；应当拆成独立字段。",
+      "把无关的输入放进 InputGroup；它是「一个输入加装饰」。",
+      "与 TextArea、Slider、Switch、CheckboxInput、RadioList 搭配使用。"
+    ],
+    "props": {
+      "children": "InputGroupText、Button 附加项与兼容的输入子元素。",
+      "label": "整组的无障碍标签。",
+      "isLabelHidden": "视觉隐藏标签。",
+      "description": "显示在标签与整组之间的辅助说明。",
+      "isDisabled": "禁用整个组。",
+      "isOptional": "在标签后显示「可选」标记。",
+      "isRequired": "标记为必填。",
+      "size": "组内输入的默认尺寸。",
+      "status": "校验状态，其消息显示在整组下方。",
+      "labelTooltip": "标签末尾的提示文字。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "输入组"
+  },
+  "FileInput": {
+    "desc": "文件上传控件，可选支持拖放。支持单选与多选，并内置对文件类型、大小、数量的校验。",
+    "practices": [
+      "始终指定 accept，把用户引导到合法文件类型。",
+      "用 maxSize 与 maxFiles 防止超大上传；组件会自行校验并报错。",
+      "加 description 说明限制，如文件大小上限或可接受的格式。",
+      "立即上传的流程用 changeAction，可以获得乐观更新。",
+      "用 FileInput 选目录或文件夹；v1 不支持。",
+      "除非空间极其紧张，不要放弃 dropzone 模式；拖放才是用户预期的交互。",
+      "把禁用的 FileInput 包进 Tooltip 解释原因；禁用控件会吞掉悬停事件。请改用 disabledMessage。"
+    ],
+    "props": {
+      "label": "文件输入的无障碍标签。",
+      "value": "当前选中的文件，受控组件。",
+      "onChange": "选择或移除文件时调用。",
+      "changeAction": "异步变化动作（React 19 transition 模式），用于立即上传。",
+      "accept": "可接受的文件类型，使用 HTML accept 属性格式。",
+      "isMultiple": "是否允许选择多个文件。为真时 value 与 onChange 按数组处理。",
+      "maxSize": "单文件大小上限（字节），超出会被拒绝并报错。",
+      "maxFiles": "文件数量上限，仅在 isMultiple 为真时生效。",
+      "isLabelHidden": "视觉隐藏标签，屏幕阅读器仍可读。",
+      "description": "显示在标签与控件之间的说明。",
+      "isOptional": "在标签旁显示「可选」标记，与 isRequired 互斥。",
+      "isRequired": "在标签旁显示「必填」并设置 aria-required，与 isOptional 互斥。",
+      "isDisabled": "禁用控件，阻止交互并减淡显示。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 以提示形式显示。",
+      "isLoading": "加载态，显示转圈并设置 aria-busy。",
+      "placeholder": "未选择文件时显示的占位文字。",
+      "mode": "视觉模式。input 是紧凑行内样式；dropzone 是大面积拖放区。",
+      "status": "校验状态：为边框上色；提供 message 时显示提示。",
+      "statusVariant": "状态提示相对控件的位置。attached 紧贴其下方。",
+      "labelTooltip": "标签末尾信息图标的提示文字。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。",
+      "containerClassName": "字段容器的类名。",
+      "containerStyle": "字段容器的行内样式。",
+      "controlXstyle": "可视控件框（画边框与背景的元素）的 StyleX 样式。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "文件上传"
+  },
+  "HoverCard": {
+    "desc": "鼠标悬停或键盘聚焦时显示补充信息。用于个人资料卡、链接摘要、行内名词解释等不宜打断当前操作的场景。",
+    "practices": [
+      "内容保持补充性质；悬停卡应当帮助理解，而不是阻断任务。",
+      "文本触发器加虚线下划线，用户才知道这里可以悬停。",
+      "需要更精细地控制时机或位置时，改用 useHoverCard 钩子。",
+      "让 touchTrigger 保持 auto，轻触即可打开卡片。",
+      "把关键操作或必需信息放进悬停卡；用户很容易错过。",
+      "简单的 Tooltip 或 Popover 就够用时，还上悬停卡。",
+      "用 HoverCard 承载必须交互的内容；光标一移开它就消失。",
+      "优先把 HoverCard 放在块级上下文里，而不是直接塞进段落或标题中。"
+    ],
+    "props": {
+      "children": "触发器。文本子节点会被识别为可悬停文本。",
+      "content": "悬停卡的内容。",
+      "placement": "相对锚点元素的位置，逻辑值按书写方向解析。",
+      "alignment": "沿 placement 轴的对齐方式。",
+      "delay": "显示延迟（毫秒）。",
+      "hideDelay": "隐藏延迟（毫秒）。",
+      "focusTrigger": "何时由聚焦打开悬停卡。",
+      "touchTrigger": "没有悬停能力时轻触的行为。",
+      "isEnabled": "启用或禁用悬停与聚焦触发。",
+      "label": "悬停卡弹窗的无障碍名称，提供后作为对话框命名。",
+      "onOpenChange": "可见性变化时的回调。",
+      "hasHoverIndication": "在文本触发器上显示虚线下划线，auto 表示按触发器类型自动判断。",
+      "isDefaultOpen": "挂载时是否默认显示，仍然可以被关闭。",
+      "isOpen": "受控打开状态。",
+      "xstyle": "卡片表面（承载内容的外层元素）的 StyleX 样式。",
+      "className": "附加在卡片表面的类名。",
+      "style": "卡片表面的行内样式。"
+    },
+    "name": "悬停卡片"
+  },
+  "InfoTip": {
+    "desc": "一个显示帮助信息的小「i」图标按钮。悬停与键盘聚焦时预览，点击、轻触、回车或空格可将其固定展开，直至按 Esc 或再次触发。",
+    "practices": [
+      "提示内容保持简洁、纯文本、非交互；需要更多内容时用 Popover。",
+      "「更多信息」太笼统时覆盖 label，例如「关于这项设置」。",
+      "触屏上优先用 InfoTip 而不是手写信息按钮；它能让提示保持展开。",
+      "用 Icon 加 Tooltip 手写信息提示；裸 Icon 缺少按钮语义。",
+      "用 InfoTip 承载完成任务所必需的关键信息。"
+    ],
+    "props": {
+      "content": "提示中显示的内容，通常是纯文本。",
+      "label": "触发按钮的无障碍名称。",
+      "size": "信息图标尺寸（12、16、20、24px）。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "提示图标"
+  },
+  "Item": {
+    "desc": "统一的条目原语，把「前置内容 + 标题 + 描述 + 尾部内容」这套结构收敛到一个组件里。任何需要结构化行的地方都可以用。",
+    "practices": [
+      "常见布局用命名槽位：startContent、label、description、endContent。",
+      "菜单与密集列表用 density=“compact”，标准行用 balanced，更宽松的行用 spacious。",
+      "内容长度会变化时，用 labelLines 与 descriptionLines 控制截断。",
+      "换行的标签旁边是一个小标记（状态点等）时，用 align=“first-line”。",
+      "给滑动手势的动作在行里另留一个入口（菜单或 endContent 里的按钮）；滑动手势本身不好被发现。",
+      "在可交互的 Item 里再嵌可交互元素（按钮、链接），会产生嵌套交互冲突。",
+      "用 Item 做视图之间的导航；请用专门的导航组件。",
+      "直接在 Item 里加已读、未读或收件箱专属行为；应当组合一层薄包装。"
+    ],
+    "props": {
+      "label": "标识该条目的主文本，接受字符串并自动截断。",
+      "marker": "作为直接弹性子元素渲染在 startContent 之前的标记。",
+      "startContent": "渲染在标签与描述区之前的内容，如头像或图标。",
+      "description": "次级文本：副标题、描述或补充信息。",
+      "endContent": "渲染在标签与描述区之后的内容，如徽章或按钮。",
+      "as": "根元素渲染成什么：HTML 元素或组件。",
+      "align": "start 与 end 内容槽位的垂直对齐，center 表示居中。",
+      "density": "间距密度。compact 使用 4px 块级内边距。",
+      "labelLines": "标签截断前的最大行数。",
+      "descriptionLines": "描述截断前的最大行数。",
+      "layout": "标签与描述的组合方式，stacked 表示上下堆叠。",
+      "onClick": "点击回调。会让条目可点击并获得按钮语义。",
+      "interactiveRef": "指向嵌套控件（如 startContent 里的复选框）的引用。",
+      "href": "链接地址。通过不可见锚点元素让整行成为链接。",
+      "target": "链接的 target，仅在设置 href 时使用。设为 _blank 会自动补全安全 rel。",
+      "rel": "链接关系值，会自动合并 noopener 与 noreferrer。",
+      "isHighlighted": "高亮态（悬停或键盘聚焦时的外观）。",
+      "isSelected": "选中态。",
+      "isDisabled": "禁用态。",
+      "swipeActions": "触屏滑动动作：横向拖动能露出哪些操作。",
+      "swipeBehavior": "滑动后的行为，reveal 表示让该行保持展开。",
+      "ref": "透传给根元素的引用，类型跟随 as。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素的类名。",
+      "style": "根元素的行内样式。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "条目"
+  },
+  "Center": {
+    "desc": "把内容对齐到容器中央。用于空状态、加载页、登录表单等需要居中的场景。",
+    "practices": [
+      "只在横排书写模式下，或确认当前书写模式后，才使用单轴取值。",
+      "横排书写下用 axis=“vertical” 时，要给 Center 高度；居中需要纵向有可用空间。",
+      "需要让图标、徽章这类小元素在一行文字里居中又不打断文字流时，用 isInline。",
+      "把语义结构和无障碍名称留在内容上。Center 只是布局容器，不提供语义。",
+      "用 Center 包大块页面区域；页面级结构请用 Layout 或 AppShell。",
+      "用 Center 排横向列表；改用 Stack 的 hAlign=“center”。"
+    ],
+    "props": {
+      "axis": "使用哪种居中模式。横排书写下 horizontal 表示居中主轴。",
+      "width": "容器宽度（像素或 CSS 值）。",
+      "height": "容器高度（像素或 CSS 值）。",
+      "maxWidth": "容器最大宽度（像素或 CSS 值）。",
+      "minHeight": "容器最小高度（像素或 CSS 值）。",
+      "padding": "四边内边距，按间距阶梯取值。",
+      "paddingInline": "逻辑行内轴内边距，与 padding 同时设置时覆盖行内轴。",
+      "paddingInlineStart": "逻辑行内起始内边距，实际物理边随书写方向变化。",
+      "paddingInlineEnd": "逻辑行内结束内边距，实际物理边随书写方向变化。",
+      "paddingBlock": "逻辑块级轴内边距，覆盖块轴的 padding。",
+      "paddingBlockStart": "逻辑块级起始内边距，物理边随书写方向变化。",
+      "paddingBlockEnd": "逻辑块级结束内边距，物理边随书写方向变化。",
+      "isInline": "使用 inline-flex，适合文字或图标。",
+      "children": "需要居中的内容。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "居中容器"
+  },
+  "FormLayout": {
+    "desc": "负责排列表单字段、保证间距与方向一致的布局容器。它只管字段位置，不管状态与提交——外面记得套原生 <form>。",
+    "practices": [
+      "多数表单把字段纵向堆叠，从上到下最好扫读。",
+      "字段天然成对时，在纵向 FormLayout 里嵌套一个横向的。",
+      "设置页里标签位于输入框旁边时，用 horizontal-labels。",
+      "用 FormLayout 管理表单状态或提交；它只负责布局，外面记得套 form。",
+      "在横向布局里把无关字段并排放；这种布局留给天然成组的字段。",
+      "在另一个 FormLayout 里嵌套 horizontal-labels；它使用 CSS Grid，需要独立的网格上下文。"
+    ],
+    "props": {
+      "direction": "控制字段排列方式。vertical 表示从上到下堆叠。",
+      "defaultOptionality": "表单视为默认的可选性状态，从而只标出例外项。",
+      "children": "要排列的表单字段，接受 Astryx 输入组件。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "表单布局"
+  },
+  "Grid": {
+    "desc": "CSS 网格布局容器，把子元素排成行列。用于卡片画廊、看板和多列布局；需要按屏幕宽度重排列数时配合响应式设置。",
+    "practices": [
+      "需要在小屏也成立的布局，默认用响应式列，例如 columns={{minWidth: 240, max: 4}}。",
+      "对必须适配小屏的行使用 columns={4}；数字永不回流，会挤成四条窄轨。",
+      "minWidth 始终配 max：max 限制宽屏下的列数，并让最后一列收缩到自然宽度。",
+      "想要一致的项目宽度用 repeat 的 fill（默认）；需要项目拉伸填满整行时用 fit。",
+      "手写 CSS grid；Grid 已经处理了间距与响应式行为。",
+      "用可换行的 HStack 做网格；请用 Grid。",
+      "轨道模板走 CSS 变量间接层而非裸行内样式，所以用 xstyle 覆盖 gridTemplateColumns 能生效。"
+    ],
+    "props": {
+      "columns": "列配置。数字表示所有宽度下固定 N 条 1fr 轨道，不会响应式回流。",
+      "width": "容器宽度。数字按像素处理，字符串原样使用。",
+      "height": "容器高度。数字按像素处理，字符串原样使用。",
+      "maxWidth": "容器最大宽度。数字按像素处理，字符串原样使用。",
+      "minHeight": "容器最小高度。数字按像素处理，字符串原样使用。",
+      "gap": "所有项目之间的间距。",
+      "rowGap": "行间距，覆盖行轴上的 gap。",
+      "columnGap": "列间距，覆盖列轴上的 gap。",
+      "rowHeight": "每个隐式行轨道的高度（像素），配合 GridSpan 的 rows={N} 使用。",
+      "align": "项目的垂直对齐（align-items）。不设置则沿用浏览器默认。",
+      "justify": "项目的水平对齐（justify-items）。不设置则沿用浏览器默认。",
+      "children": "网格内容。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "网格"
+  },
+  "Layout": {
+    "desc": "五区布局原语，用来安排 header、start、content、end、footer 五个区域。AppShell 负责页面外壳，Layout 负责页面内部划分。",
+    "practices": [
+      "内容需要具名的 header、start、content、end、footer 区域时，用 Layout。",
+      "内容区内部的简单方向堆叠，用 HStack 与 VStack。",
+      "用它做简单的堆叠布局；那该用 HStack 或 VStack。",
+      "把 Layout 当页面外壳或应用级导航；那该用 AppShell。"
+    ],
+    "props": {
+      "content": "内容槽位（中央）。",
+      "header": "头部槽位。",
+      "footer": "底部槽位。",
+      "start": "逻辑起始槽位（LTR 为左）。",
+      "end": "逻辑结束槽位（LTR 为右）。",
+      "height": "高度行为：填满容器高度，或随内容增长。",
+      "contentWidth": "各槽位内对齐内容的最大宽度。",
+      "padding": "布局外边缘的内边距，按间距阶梯取值。",
+      "defaultHasDividers": "LayoutHeader 与 LayoutFooter 的默认分隔线可见性。"
+    },
+    "name": "布局"
+  },
+  "Section": {
+    "desc": "创建页面区块、对相关内容分组的标准做法。用于设置分组、表单区段、侧栏区域等需要视觉分界的场合。",
+    "practices": [
+      "用 Section 做页面级分组：设置面板、表单分组、侧栏区域。",
+      "从默认变体开始；只有需要强调某个区域时才用 muted。",
+      "同底色区段之间需要分隔时加分隔线。",
+      "与标题和 Stack 组合，形成典型的页面区段模式。",
+      "该用 Section 时用 Card。卡片用于独立条目（一条通知、一个资料），Section 用于页面区域。"
+    ],
+    "props": {
+      "variant": "区段容器的背景变体。",
+      "width": "区段宽度。数字按像素处理，字符串原样使用。",
+      "height": "区段高度。数字按像素处理，字符串原样使用。",
+      "maxWidth": "区段最大宽度。",
+      "minHeight": "区段最小高度。",
+      "children": "区段内容。",
+      "dividers": "区段的哪几边带分隔线。",
+      "padding": "内部留白，按间距阶梯取值。",
+      "paddingInline": "行内（水平）内边距覆盖，只作用于行内轴。",
+      "paddingInlineStart": "行内起始内边距覆盖（LTR 为左，RTL 为右）。",
+      "paddingInlineEnd": "行内结束内边距覆盖（LTR 为右，RTL 为左）。",
+      "paddingBlock": "块级（垂直）内边距覆盖，只作用于块轴。",
+      "paddingBlockStart": "块级起始（上）内边距，覆盖块轴起点。",
+      "paddingBlockEnd": "块级结束（下）内边距，覆盖块轴终点。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "区段"
+  },
+  "Stack": {
+    "desc": "按行或列排列子元素，并用 gap 控制间距。",
+    "practices": [
+      "用 gap 控制间距，不要手动加 margin。",
+      "用 StackItem 的 size=“fill” 让某一项伸展开占满剩余空间。",
+      "嵌套多层 Stack；先试 wrap=“wrap” 让内容换行。"
+    ],
+    "props": {
+      "direction": "排列方向。horizontal 沿行内轴从左到右排列。",
+      "gap": "间距档位（数字字面量）：0、0.5、1、1.5、2、3、4、5、6、8、10。用 JSX 数字表达式传入，如 gap={4}。",
+      "padding": "四边内边距，按间距阶梯取值。",
+      "paddingInline": "行内（水平）内边距；与 padding 同时设置时覆盖行内轴。",
+      "paddingInlineStart": "行内起始内边距（LTR 为左，RTL 为右），只覆盖该边。",
+      "paddingInlineEnd": "行内结束内边距（LTR 为右，RTL 为左），只覆盖该边。",
+      "paddingBlock": "块级（垂直）内边距；与 padding 同时设置时覆盖块轴。",
+      "paddingBlockStart": "块级起始（上）内边距，只覆盖该边。",
+      "paddingBlockEnd": "块级结束（下）内边距，只覆盖该边。",
+      "isScrollable": "允许溢出滚动（overflow: auto）。",
+      "width": "容器宽度。数字按像素处理，字符串原样使用。",
+      "height": "容器高度。数字按像素处理，字符串原样使用。",
+      "maxWidth": "容器最大宽度。",
+      "minHeight": "容器最小高度。",
+      "hAlign": "水平对齐。direction 为 horizontal 时作用于主轴（justify-content）。",
+      "vAlign": "垂直对齐。direction 为 horizontal 时作用于交叉轴（align-items）。",
+      "justify": "主轴对齐的别名，按方向解析为 hAlign 或 vAlign，取值含 between。",
+      "align": "交叉轴对齐的别名，对应 CSS 的 align-items。",
+      "wrap": "弹性换行行为。",
+      "as": "渲染成哪个 HTML 元素。",
+      "children": "Stack 内容。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。",
+      "className": "附加在容器元素上的类名，位于组件样式之后。",
+      "style": "行内样式。其中 width、height、maxWidth、minHeight 会覆盖同名 prop。",
+      "ref": "渲染出的容器元素引用。"
+    },
+    "name": "栈"
+  },
+  "Lightbox": {
+    "desc": "全屏查看图片与视频的浮层。支持单张与画廊模式，带上一张/下一张导航，图片可选缩放与拖拽平移。",
+    "practices": [
+      "每张图片都提供 alt 文本，满足屏幕阅读器的无障碍要求。",
+      "多图集合用画廊模式并配 onIndexChange。",
+      "只有查看高分辨率图片、缩放确实有价值时，才开启 hasZoom。",
+      "用灯箱展示非图片内容；它专为图片设计。",
+      "在说明文字里嵌套交互内容；保持纯文本。"
+    ],
+    "props": {
+      "isOpen": "灯箱是否打开。",
+      "onOpenChange": "灯箱开合状态变化时调用。",
+      "media": "要显示的媒体。单张传对象，多张传数组。",
+      "index": "画廊模式下的当前索引。",
+      "onIndexChange": "通过上一张 / 下一张切换索引时调用。",
+      "hasZoom": "启用缩放（仅图片）：双指或 Ctrl 滚轮缩放、拖动平移。",
+      "defaultIndex": "画廊模式非受控时的初始图片索引。",
+      "hasAutoPlay": "显示视频时自动开始播放。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "灯箱"
+  },
+  "Link": {
+    "desc": "带样式的链接元素，支持行内与独立使用。支持外链、下划线样式、提示气泡，以及接入路由的自定义链接组件。",
+    "practices": [
+      "链接文字要能描述目的地，简洁且明确。",
+      "链接出现在正文之外时设 isStandalone，才能获得正确的排版基线。",
+      "需要随周围文本一起截断时，把 Link 放进 Text 的 maxLines 里。",
+      "只在链接内容不是可描述文字（如纯图标链接）时才设 label。",
+      "用 Link 表示不跳转的动作；那该用 Button。",
+      "用「点这里」「了解更多」这类笼统文字；要说明目的地。",
+      "给文本链接设 label；aria-label 会让辅助技术读不到可见文字。",
+      "给被截断 Text 里的 Link 单独设 display 或 maxLines，或让它渲染成按钮。"
+    ],
+    "props": {
+      "as": "替代 a 标签渲染的自定义组件。",
+      "label": "无障碍标签（aria-label）。仅在 children 不是可描述文字时使用。",
+      "href": "链接目标地址。",
+      "hasUnderline": "始终显示下划线。",
+      "isDisabled": "禁用链接。",
+      "isExternalLink": "在新标签打开，并显示外链图标与安全的 rel 值。",
+      "newTabLabel": "屏幕阅读器播报「外链将在新标签打开」的文案。",
+      "target": "在何处打开目标文档。设置为 _blank 会自动补全安全 rel。",
+      "rel": "链接关系值，会自动合并 noopener 与 noreferrer。",
+      "download": "让浏览器下载链接地址，字符串可指定文件名。",
+      "referrerPolicy": "链接的 referrer 策略。",
+      "onClick": "点击事件回调。",
+      "tooltip": "悬停时显示的提示文字。",
+      "isStandalone": "应用基础字号。",
+      "size": "显式字号覆盖，透传给 Text。",
+      "weight": "字重覆盖，透传给 Text。",
+      "color": "文字颜色，透传给 Text。",
+      "display": "Text 的显示方式。",
+      "maxLines": "截断前允许的最大行数。",
+      "children": "链接内容。"
+    },
+    "name": "链接"
+  },
+  "List": {
+    "desc": "纵向条目集合，统一间距、分隔线，可选前置标记。支持标题、图标、头像、徽章，以及可点击/可跳转的条目。",
+    "practices": [
+      "提供 header 给列表命名，并给屏幕阅读器提供上下文。",
+      "用 start 与 end 内容槽位给每个条目加图标、头像或徽章。",
+      "要让行文字与上方的标题对齐时设置 edge，静态行用 flush。",
+      "既要与标题对齐、又要在高亮周围留出空间时，用 outset。",
+      "在可交互的列表项里再放可交互元素，会产生嵌套交互冲突。",
+      "用列表承载单个条目或无关内容的排布；列表传达的是「同质条目的集合」。",
+      "在同一列表里混用可点击与不可点击条目，却不做视觉区分。"
+    ],
+    "props": {
+      "children": "列表项，即 ListItem 组件。",
+      "density": "条目的间距密度。触屏下可交互条目会获得更大的命中区域。",
+      "hasDividers": "是否在条目之间显示分隔线。",
+      "edge": "每行文字、分隔线与悬停选中区域的对齐基准。",
+      "edgeCompensation": "已废弃，请改用 edge=“outset”，本属性即等价于设置它。",
+      "header": "头部内容，通过 aria-label 与列表关联。",
+      "listStyle": "列表标记样式。decimal 会把列表渲染为 ol 元素。",
+      "start": "有序列表的起始编号，listStyle 为 decimal 时生效。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "列表"
+  },
+  "MetadataList": {
+    "desc": "以键值对形式展示对象的属性（品质、状况、状态等）。用于详情面板、设置摘要等需要结构化阅读的地方。",
+    "practices": [
+      "按内容选择标签位置：短值用 start，长值或换行内容用 top。",
+      "用 maxNumOfItems 折叠长列表，保持页面可扫读。",
+      "用它承载大量表单输入；那该用表单布局。",
+      "用它展示没有清晰键值结构的数据。"
+    ],
+    "props": {
+      "children": "元数据条目，即 MetadataListItem 组件。",
+      "columns": "列布局模式。",
+      "label": "标签展示配置，其中 position 控制标签位置。",
+      "maxNumOfItems": "折叠前最多显示多少条，折叠后提供展开入口。",
+      "orientation": "布局方向。横向模式让条目按行流动。",
+      "title": "列表上方的可选标题。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "元数据列表"
+  },
+  "MoreMenu": {
+    "desc": "三点按钮，点击后展开操作列表。用于无需常驻的次级操作，例如表格行、卡片头部、工具栏里。",
+    "practices": [
+      "用于溢出或次级操作；主要操作保持在菜单外可见。",
+      "条目多时用分隔线或分组整理相关操作。",
+      "可见的溢出触发器在触屏上应打开拇指可达的底部面板时，用 presentation=“adaptive”。",
+      "把主要操作藏进 MoreMenu；它们应当直接可见。"
+    ],
+    "props": {
+      "items": "菜单条目：动作、分隔线与分组的数组，类型同 DropdownMenu。",
+      "label": "触发按钮的无障碍标签（aria-label）与提示文字。",
+      "variant": "触发按钮的视觉样式变体。",
+      "size": "触发按钮的尺寸。",
+      "icon": "覆盖默认的三点图标，接受任意节点。",
+      "isDisabled": "菜单触发器是否禁用。",
+      "placement": "菜单相对触发器的位置。逻辑值 start / end 按书写方向解析。",
+      "alignment": "沿 placement 轴的对齐。用 end 让菜单与触发器对齐。",
+      "presentation": "透传给 DropdownMenu 的呈现策略，adaptive 会保持锚定。",
+      "onOpenChange": "菜单打开或关闭时的回调。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "更多菜单"
+  },
+  "MobileNav": {
+    "desc": "移动端滑出的导航抽屉，是 SideNav 在窄屏下的对应物，接受相同的子元素。宽度不足以常驻侧栏时使用。",
+    "practices": [
+      "把 MobileNav 与 SideNav 的导航项抽成共享配置，两边使用同一份。",
+      "抽屉用途从内容看不出来时，提供 header。",
+      "在 AppShell 里用 MobileNavToggle 打开抽屉，它会从上下文读取状态。",
+      "在桌面端使用 MobileNav；应当用常驻的 SideNav。"
+    ],
+    "props": {
+      "isOpen": "抽屉是否打开。在 AppShell 内部由外层管理该状态。",
+      "onOpenChange": "可见性变化时调用，点击遮罩也会走这里。",
+      "children": "抽屉内容，通常是 SideNavSection 与 SideNavItem。",
+      "header": "抽屉头部内容，渲染在关闭按钮旁边。",
+      "width": "抽屉宽度（像素），上限 85vw 以防溢出。",
+      "side": "从哪一侧滑出。LTR 下 start 即左侧。"
+    },
+    "name": "移动导航"
+  },
+  "NavIcon": {
+    "desc": "带强调色背景的圆形图标容器。用于 TopNavHeading、PageNavHeader 这类导航头部，帮助识别分区。",
+    "practices": [
+      "用于导航头部，为分区提供可识别的视觉锚点。",
+      "传入 Icon 或尺寸相当的图标组件，保证比例正确。",
+      "把 NavIcon 用作交互元素；它只是展示容器，不是按钮。"
+    ],
+    "props": {
+      "icon": "渲染在圆形背景里的图标元素。"
+    },
+    "name": "导航图标"
+  },
+  "SideNav": {
+    "desc": "侧边栏导航，用分组、嵌套条目和图标组织应用页面。应用有 5 个以上栏目时，应当将它作为主导航。",
+    "practices": [
+      "用分组把相关导航项归在一起，帮助用户扫到自己要去的目标。",
+      "轮廓与填充两种图标变体搭配使用，让选中态在视觉上可区分。",
+      "用 isSelected 标记当前页，它会设置 aria-current=“page”，当前目的地才对无障碍可读。",
+      "SideNav 渲染导航地标，可折叠条目遵循 WAI-ARIA APG 的 Disclosure 模式。",
+      "导航折叠时，带子项的条目会在飞出子菜单中显示它们。不支持悬停的设备上要评估这条路径。",
+      "TopNav 已经提供应用标识时再加 SideNavHeading，品牌会重复。",
+      "用它过滤内容；请用标签或筛选按钮。"
+    ],
+    "props": {
+      "header": "头部区域（通常是 SideNavHeading），吸顶。",
+      "topContent": "头部下方的内容，例如「新建」按钮。",
+      "children": "导航分组与条目，可滚动。",
+      "footer": "图标栏上方的底部区域。",
+      "footerIcons": "底部图标栏，会向交互子项级联 sm 尺寸。",
+      "collapsible": "启用折叠行为。true 为无受控模式并使用默认切换按钮。",
+      "resizable": "在行内结束边缘启用拖拽调宽。true 使用默认宽度 260。",
+      "handleRef": "已废弃。用于命令式触发的折叠手柄。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "侧边导航"
+  },
+  "TopNav": {
+    "desc": "位于应用头部的横向导航栏，承担产品级导航。常驻导航项不超过 5 个时使用。",
+    "practices": [
+      "在 heading 槽放入产品 logo 与名称，清楚表明这是哪个应用。",
+      "主导航项控制在 5 个以内，便于快速扫读、降低认知负担。",
+      "用 TopNav 过滤页面内容；请用 Tabs 或筛选控件。",
+      "让导航层级过深；菜单保持一层。"
+    ],
+    "props": {
+      "heading": "heading 槽内容（logo、品牌），位于容器左边缘。",
+      "startContent": "起始槽，放导航项或面包屑，位于 heading 之后。",
+      "children": "startContent 的别名。与 heading 组合时优先使用 startContent。",
+      "centerContent": "居中槽（标签、搜索框、主导航），提供后会占据中间区域。",
+      "endContent": "结束槽，放搜索、图标或用户资料，位于右边缘。",
+      "label": "导航地标的无障碍标签，作为 aria-label 应用。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "顶部导航"
+  },
+  "NumberInput": {
+    "desc": "数字输入框，内置校验、最大最小值限制和步进按钮。用于数量、度量、百分比等数值输入。",
+    "practices": [
+      "允许粘贴带格式的数字：粘贴 1,234,234,234 会按字段的区域设置解析，最终提交为 1234234234。",
+      "设置 min、max、step，把用户引导到合法取值。",
+      "显示单位（如 % 或 GB），让用户知道这个数字代表什么。",
+      "输入框位于「滚轮应当滚动页面」的滚动区域内时，设 isWheelEnabled={false}。",
+      "用 NumberInput 收集恰好含数字的自由文本；请改用 TextInput。",
+      "在同一字段上同时设置 isOptional 与 isRequired。",
+      "把禁用的 NumberInput 包进 Tooltip；请改用 disabledMessage，它会附带原因说明。"
+    ],
+    "props": {
+      "label": "输入框标签，始终为无障碍而渲染。",
+      "value": "当前值。",
+      "onChange": "合法文本在失焦或回车提交时触发，或在使用步进、清除按钮时触发。",
+      "size": "尺寸档位。",
+      "isLabelHidden": "视觉隐藏标签，屏幕阅读器仍可读。",
+      "description": "显示在标签与输入框之间的说明。",
+      "isOptional": "字段是否可选，与 isRequired 互斥。",
+      "onKeyDown": "输入框 keydown 事件回调。",
+      "isRequired": "字段是否必填，与 isOptional 互斥。",
+      "isDisabled": "是否禁用。",
+      "isReadOnly": "只读：值正常显示、仍随表单提交，但不能编辑。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 在悬停或键盘聚焦时以提示显示。",
+      "placeholder": "占位文字。",
+      "labelTooltip": "标签末尾信息图标里的提示文字。",
+      "startIcon": "输入框起始位置的图标。",
+      "labelIcon": "标签文字前的图标。",
+      "status": "校验状态，可附带提示信息。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴其下方。",
+      "min": "允许的最小值。更小的输入会在失焦或回车时按此值提交。",
+      "max": "允许的最大值。更大的输入会在失焦或回车时按此值提交。",
+      "step": "步进增量。",
+      "formatValue": "未聚焦时格式化已提交的值，底层仍是原始数值。",
+      "isWheelEnabled": "聚焦时滚动滚轮是否改变数值。放在滚动区域内时应关闭。",
+      "hasNumberSteppers": "在精确指针设备上于末尾显示加减按钮，触屏设备隐藏。",
+      "units": "末尾显示的单位文本（如 % 或 GB）。",
+      "isIntegerOnly": "只允许整数。",
+      "hasClear": "有值时显示清除按钮；为真时 onChange 还会收到 null。",
+      "htmlName": "原生 name 属性，便于表单提交。",
+      "autoComplete": "原生 autocomplete 属性。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。作用于整个字段。",
+      "hasAutoFocus": "挂载时是否聚焦。",
+      "onFocus": "获得焦点时的回调。",
+      "onBlur": "失去焦点时的回调。",
+      "onEnter": "按下回车时的回调。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。在 InputGroup 内无效。",
+      "containerClassName": "字段容器的类名，作用范围同上。",
+      "containerStyle": "字段容器的行内样式，作用范围同上。",
+      "controlXstyle": "可视控件框的 StyleX 样式，该元素负责画边框与背景并承载图标。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "数字输入"
+  },
+  "Outline": {
+    "desc": "文档页、帮助中心、知识库和长设置页使用的目录侧栏。它用于页内导航，而不是应用路由。",
+    "practices": [
+      "传入一个扁平的有序标题列表，用 level 控制缩进。",
+      "自定义滚动逻辑接管激活态时，使用 activeId。",
+      "侧边栏空间紧张时用 density=“compact”。",
+      "标题由内容生成时，用 useOutlineFromMarkdown 或 useOutlineFromDOM。需要可链接锚点时同理。",
+      "内容在分栏、弹窗或面板内滚动而不是在视口内滚动时，传 scrollContainerRef。",
+      "把 offset 设为遮挡内容的固定头部高度，标题才会落在它下方而不是被遮住。",
+      "用 Outline 做应用导航；路由请用 SideNav 或 TopNav。",
+      "用 Outline 表达可展开层级；节点需要展开与收起时请用 TreeList。"
+    ],
+    "props": {
+      "items": "有序的标题项，每项含 id、label 与 level（1 到 6）。",
+      "activeId": "当前激活标题的 id。提供后激活态变为受控。",
+      "onActiveIdChange": "内建滚动侦测或用户操作导致激活项变化时调用。",
+      "label": "nav 地标的无障碍标签。",
+      "density": "控制条目内边距的密度变体，compact 适合信息密集的界面。",
+      "onNavigateStart": "导航开始、滚动之前，以条目 id 调用。",
+      "onNavigateEnd": "导航结束（平滑滚动完成）后，以条目 id 调用。",
+      "offset": "覆盖在滚动根顶部的固定头部高度（像素）。",
+      "scrollContainerRef": "要跟踪的滚动容器，替代自动检测最近的滚动祖先。",
+      "hasScrollOnClick": "激活条目时是否平滑滚动到它。设为 false 可自行接管滚动。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "页内目录"
+  },
+  "OverflowList": {
+    "desc": "横向列表，宽度不够时自动隐藏放不下的项目。用于面包屑、工具栏、标签列表等需要收纳溢出的行。",
+    "practices": [
+      "提供有意义的 overflowRenderer：+N 徽章、下拉或计数。",
+      "行内已经有自己的菜单时，用 onOverflowChange 把折叠集合喂给它。",
+      "用 minVisibleItems 保证关键项可见，用 maxVisibleItems 控制上限。",
+      "用 maxRows 让条目在有界行数内换行，例如两行标签。",
+      "用 OverflowList 做纵向堆叠；它支持的是横向多行换行。"
+    ],
+    "props": {
+      "children": "要渲染的条目，每个子元素应当是单个元素。",
+      "overflowRenderer": "溢出指示器的渲染函数，会收到被折叠的条目。",
+      "onOverflowChange": "折叠集合变化时调用，会带上被折叠的条目。",
+      "gap": "条目之间的间距，按间距 token 阶梯取值。",
+      "minVisibleItems": "即使溢出也始终显示的最少条目数。",
+      "maxVisibleItems": "最多显示的条目数。",
+      "maxRows": "折叠前最多可换行到几行。",
+      "collapseFrom": "溢出时从哪一端开始折叠。",
+      "behavior": "以哪个元素作为可用宽度的测量基准。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "溢出列表"
+  },
+  "Overlay": {
+    "desc": "把操作或辅助内容覆盖在媒体、卡片、视频等有界表面之上，可选遮罩与揭示动效。",
+    "practices": [
+      "用于紧贴表面、短小的上下文动作或标签。",
+      "内容保持紧凑，才能在遮罩上清晰可读。",
+      "用它承载锚定在表面之外的浮动内容；那该用 Popover。"
+    ],
+    "props": {
+      "content": "遮罩内渲染的内容。",
+      "children": "基础内容，如图片、视频、卡片或媒体。",
+      "showOn": "可见性触发方式。悬停模式在聚焦时也会显示。",
+      "isOpen": "受控的可见性覆盖，设置后优先于 showOn。",
+      "scrim": "遮罩背景模式。设为 false 则不渲染遮罩。",
+      "position": "遮罩在基础表面中出现的位置。",
+      "align": "遮罩内内容的对齐方式。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "附加在根元素上的类名，样式优先用 xstyle。",
+      "style": "根元素的行内样式，样式优先用 xstyle。",
+      "ref": "透传给遮罩根元素的引用。"
+    },
+    "name": "覆盖层"
+  },
+  "Pagination": {
+    "desc": "让用户在分页内容之间前后翻页。放在表格、列表或卡片网格下方。",
+    "practices": [
+      "放在它所控制的内容下方，用户应先看到结果再翻页。",
+      "数据表格里用户需要跳到指定页时，用 pages 变体。",
+      "用户需要控制每页条数时，用 count 变体并配一个每页条数选择器。",
+      "轮播、引导流程这类总数小、位置感更重要的场景，用 dots 变体。",
+      "总数已知时传 totalItems，让用户看到还剩多少内容。",
+      "所有条目一页就能放下时还显示分页，没有可翻的内容。",
+      "超过约 10 页还用 dots 变体，圆点会小到没法用。",
+      "把分页放在内容上方，用户预期它在下方。"
+    ],
+    "props": {
+      "page": "当前页码，从 1 开始。第 1 页即第一页。",
+      "onChange": "页码变化时调用。",
+      "changeAction": "翻页时的异步动作，在 onChange 之后触发并使用 React transition。",
+      "totalItems": "条目总数，用于计算页数，优先级高于 totalPages。",
+      "totalPages": "总页数。知道页数但不知道条目数时使用。",
+      "hasMore": "当前页之后是否还有更多页，用于游标分页。",
+      "pageSize": "每页条数。会强制为正整数，非有限值会被纠正。",
+      "pageSizeOptions": "可选的每页条数，提供后显示每页条数下拉选择器。",
+      "onPageSizeChange": "每页条数变化时调用，并自动重置到第 1 页。",
+      "variant": "控制上一页与下一页之间显示什么的视觉变体。",
+      "pageLabel": "input 变体中，可编辑框前面显示的名词。",
+      "hasFirstLast": "是否在上一页与下一页两侧显示首页与末页的双箭头按钮。",
+      "step": "上一页与下一页每次点击前进的页数，会被夹在合法范围内。",
+      "siblingCount": "当前页两侧各显示多少个页码按钮。",
+      "size": "分页控件的尺寸。",
+      "isDisabled": "是否禁用。",
+      "label": "导航地标的无障碍标签。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "分页"
+  },
+  "Popover": {
+    "desc": "点击触发的浮层，锚定在按钮或触发元素上。用于次级操作、就地确认，或无需打断流程的补充信息。",
+    "practices": [
+      "内容聚焦于单一任务或单条信息。",
+      "提供明确的关闭方式：点击外部关闭，或给出显式关闭按钮。",
+      "通过规范的 popover target 为主题化的上色表面。",
+      "在 popover 里再套一层 popover；会造成焦点与导航混乱。",
+      "只凭输入复杂度判断该用哪种呈现；要综合任务焦点、可用空间和交互需求。",
+      "认为「需要滚动」就等于 Popover 不合适；有边界的 Popover 可以滚动，而锚定面板反而更聚焦。"
+    ],
+    "props": {
+      "children": "触发元素，必须包含 button 或 role=“button” 的元素。",
+      "anchorRef": "兄弟模式下作为锚点的外部引用。",
+      "content": "浮层里显示的内容。",
+      "placement": "相对触发器的位置。逻辑值 start / end 按书写方向解析。",
+      "alignment": "沿 placement 轴的对齐，逻辑值跟随浮层自身。",
+      "isOpen": "受控模式下是否显示。",
+      "onOpenChange": "可见性变化时的回调。",
+      "isEnabled": "为 false 时忽略触发交互。",
+      "width": "浮层容器宽度。仍会被视口限制并做对齐修正。",
+      "padding": "浮层表面的内边距，按间距阶梯取值。",
+      "label": "浮层对话框的无障碍标签。没有它时以触发元素命名。",
+      "role": "浮层包裹层的 ARIA role。对话框式浮层用 dialog。",
+      "isModal": "对话框式浮层是否设置 aria-modal，仅在 role 为 dialog 时生效。",
+      "hasCloseButton": "是否包含一个隐藏的关闭按钮以照顾无障碍。",
+      "closeButtonLabel": "隐藏关闭按钮的标签。",
+      "hasAutoFocus": "打开时是否把焦点移入浮层，焦点落在第一个可聚焦元素上。",
+      "hasLightDismiss": "点击外部是否关闭。需要用户明确操作的面板应设为 false。",
+      "hasEscapeDismiss": "按 Esc 是否关闭。",
+      "presentation": "承载内容的表面。popover 锚定在触发器上，bottom 形式从底部升起。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。"
+    },
+    "name": "浮层"
+  },
+  "PowerSearch": {
+    "desc": "结构化筛选栏，每个标签代表一个字段、操作符和值。用于用户需要组合多个条件做复杂筛选的场景。",
+    "practices": [
+      "字段名与别名要清晰、可描述，用户才能快速找到要用的筛选项。",
+      "提供结果数量，让用户看到筛选如何影响数据集。",
+      "用 PowerSearch 做简单关键词搜索；标准文本输入更合适。",
+      "把禁用的 PowerSearch 包进 Tooltip 解释原因；禁用控件会吞掉悬停事件。请改用 disabledMessage。"
+    ],
+    "props": {
+      "config": "定义可用字段、操作符及其类型的配置。",
+      "filters": "当前生效的筛选条件。",
+      "onChange": "筛选变化时调用，changeType 为 add、edit 或 remove。",
+      "label": "搜索输入的无障碍标签。",
+      "isLabelHidden": "视觉隐藏标签，仍对屏幕阅读器可访问。",
+      "placeholder": "未选择任何筛选条件时的占位文字。",
+      "hasAutoFocus": "挂载时自动聚焦输入。",
+      "hasClear": "显示全部清除按钮，移除所有可编辑的筛选条件。",
+      "isReadOnly": "阻止添加、编辑或移除筛选条件。",
+      "isDisabled": "禁用整个组件。",
+      "disabledMessage": "说明禁用原因，配合 isDisabled 以提示形式显示。",
+      "status": "校验状态对象，含类型与可选消息。",
+      "startIcon": "输入起始位置、筛选 token 之前的图标。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴其下方。",
+      "maxTokenLength": "token 中筛选值显示的最大字符数。",
+      "maxOperatorMenuItems": "字符串与实体值 typeahead 中最多展示多少条建议。",
+      "maxSearchResults": "非空查询下最多展示多少条排序结果，不影响空查询。",
+      "menuWidth": "主字段与搜索菜单的宽度（像素），不影响操作符与值下拉。",
+      "popoverSaveButtonLabel": "编辑浮层中保存按钮的文案。",
+      "timezoneID": "仅日期值与绝对时间解析所用的 IANA 时区。",
+      "handleRef": "命令式句柄，提供 focusTypeahead() 与 blurTypeahead()。",
+      "endContent": "输入行末尾的内容，适合放置按钮。",
+      "resultCount": "与当前筛选匹配的结果数量，提供后用于展示计数。",
+      "size": "搜索输入与 token 的尺寸。",
+      "tokenOverflowBehavior": "容器过窄时 token 的溢出行为。",
+      "onFocus": "焦点进入搜索输入时触发。",
+      "onBlur": "焦点离开搜索输入时触发。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "presentation": "字段呈现筛选编辑的方式，adaptive 为默认。"
+    },
+    "name": "结构化搜索"
+  },
+  "ProgressBar": {
+    "desc": "显示任务完成度的横条。耗时已知时展示具体进度，无法计算进度时作为动画指示器。",
+    "practices": [
+      "总工作量已知时用确定进度条，未知时用不确定态。",
+      "颜色变体与语境匹配：一般进度用 accent，完成用 success，警告或错误用对应变体。",
+      "始终提供标签，即使隐藏；屏幕阅读器需要它来播报加载的是什么。",
+      "把图标或文字放进进度条内部；应当用布局组件放在它旁边。",
+      "用进度条表示瞬时动作；它是为明显耗时的操作准备的。",
+      "为同一操作堆叠多条进度条；用一条并显示数值标签即可。"
+    ],
+    "props": {
+      "label": "无障碍标签。",
+      "value": "当前值，不确定态时忽略。",
+      "max": "最大值。",
+      "isLabelHidden": "视觉隐藏标签，仍然可访问。",
+      "hasValueLabel": "是否显示格式化的数值文本，不确定态时忽略。",
+      "formatValueLabel": "自定义数值标签格式化函数，默认显示百分比。",
+      "variant": "语义颜色变体。",
+      "isIndeterminate": "进度未知时的动画加载指示器。开启减少动态效果时改为原地脉冲。",
+      "marks": "在轨道上绘制固定目标标记，取值与 value 处于同一 0 到 max 标尺。",
+      "isDisabled": "视觉禁用态：填充与文字变灰。用于已取消或未激活的操作。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "进度条"
+  },
+  "RadioList": {
+    "desc": "一组只能选中其一的选项，全部选项同时可见，便于比较。用户需要在少量明确选项中做出单一选择时使用。",
+    "practices": [
+      "选项数量保持少，通常 2 到 7 个。",
+      "标签清晰简洁，一眼能区分每个选项。",
+      "有合理默认值时预选一项；只有当选择本身可选时才留空。",
+      "需要多选时使用它；请用 CheckboxList。",
+      "用它承载长列表；用 Selector 更容易查找。",
+      "超过 4 个选项时用横向排列，换行会很别扭。",
+      "把禁用的 RadioList 包进 Tooltip 解释原因；禁用控件会吞掉悬停事件。请改用 disabledMessage。"
+    ],
+    "props": {
+      "label": "单选组标签，始终为无障碍而渲染。",
+      "value": "当前选中的值。",
+      "onChange": "选中值变化时的回调。",
+      "children": "RadioListItem 元素。",
+      "isLabelHidden": "是否视觉隐藏标签。",
+      "description": "显示在标签下方的说明。",
+      "orientation": "单选项的排列方向。",
+      "isDisabled": "是否禁用所有单选项。",
+      "htmlName": "各 radio input 共享的 name，便于表单提交。",
+      "disabledMessage": "说明整组被禁用的原因，作用于 isDisabled 的整组禁用态。",
+      "isRequired": "单选组是否必填。",
+      "isOptional": "字段是否可选，与 isRequired 互斥。",
+      "status": "状态指示（类型与消息）。",
+      "size": "单选控件的尺寸。",
+      "labelTooltip": "标签旁信息图标的提示文字。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。作用于整个字段。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。在 InputGroup 内无效。",
+      "containerClassName": "字段容器的类名，作用范围同上。",
+      "containerStyle": "字段容器的行内样式，作用范围同上。",
+      "controlXstyle": "可视控件框的 StyleX 样式，该元素负责画边框与背景并承载图标。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "单选组"
+  },
+  "ScrollableArea": {
+    "desc": "提供原生滚动视口以及真实可观测的内容区。只有当某一逻辑方向确实可滚动时，视口才进入 Tab 焦点顺序。",
+    "practices": [
+      "给每个区域一个简洁标签，说明键盘用户会滚动到什么内容。",
+      "按内容意图选择 inline、block 或 both，组件会把逻辑轴映射到物理方向。",
+      "嵌套区域保持默认的 overscroll=“allow”，除非该交互确实需要阻断。",
+      "组件本身已经同时拥有视口与内容盒时，改用 useScrollableArea。",
+      "ScrollableArea 自带一个最小尺寸为 100% 的普通块级内容盒；行内内容需要自己处理。",
+      "在内容盒上使用逻辑内边距 props，嵌套的通栏组件才能正确对齐。",
+      "只有视口本身需要延伸到祖先容器边缘时，才设 isFullBleed。",
+      "只有当恰好容纳的视口应当有意接管 Sticky 归属时，才设 stickyContainment=“always”。"
+    ],
+    "props": {
+      "axis": "允许原生滚动的逻辑轴或轴组。",
+      "label": "视口进入键盘顺序时的无障碍名称。",
+      "role": "该命名视口的语义。",
+      "overscroll": "在有效轴上是否继续滚动祖先容器。",
+      "width": "视口宽度，数字按像素解释。",
+      "height": "视口高度，数字按像素解释。",
+      "maxWidth": "视口最大宽度。",
+      "minHeight": "视口最小高度。",
+      "stickyContainment": "内容恰好容纳时，是否把 Sticky 归属交给外层容器。",
+      "padding": "内容盒四边的逻辑内边距，并发布对应的 CSS 变量。",
+      "paddingInline": "逻辑行内轴内容内边距，覆盖 padding 的行内轴。",
+      "paddingInlineStart": "逻辑行内起始内边距，覆盖更宽泛的设置。",
+      "paddingInlineEnd": "逻辑行内结束内边距，覆盖更宽泛的设置。",
+      "paddingBlock": "逻辑块级轴内容内边距，覆盖 padding 的块轴。",
+      "paddingBlockStart": "逻辑块级起始内边距，覆盖更宽泛的设置。",
+      "paddingBlockEnd": "逻辑块级结束内边距，覆盖更宽泛的设置。",
+      "isFullBleed": "让视口用负外边距脱离继承的容器内边距。",
+      "children": "渲染在被观测内容盒里的内容。",
+      "xstyle": "尺寸与原生滚动条外观的覆盖样式。"
+    },
+    "name": "可滚动区域"
+  },
+  "SegmentedControl": {
+    "desc": "分段按钮组，从少量互斥选项中做单一选择。当所有选项都应当可见且需要快速切换时使用。",
+    "practices": [
+      "用于 2 到 5 个互斥视图或模式的切换，且所有选项都应当可见。",
+      "给控件提供可描述的标签，确保整组可访问。",
+      "用它做页面级导航；请用 TabList。",
+      "用它表示简单的开与关；请用 ToggleButton。",
+      "把禁用的 SegmentedControl 包进 Tooltip 解释原因；它自带 disabledMessage。"
+    ],
+    "props": {
+      "value": "当前选中的值（受控）。",
+      "onChange": "选中某个分段时调用。",
+      "label": "单选组的无障碍标签，作为 aria-label 使用。",
+      "size": "控件的尺寸变体。",
+      "layout": "布局模式。hug 为默认，分段宽度贴合内容。",
+      "isDisabled": "整个控件是否禁用，选中项仍会显示。",
+      "disabledMessage": "说明禁用原因，作用于整组禁用态。",
+      "children": "SegmentedControlItem 子元素。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "分段控件"
+  },
+  "ComplexSelector": {
+    "desc": "当下拉选项需要比 Selector 一行文本更丰富的内容时使用。它刻意做成单个组件，字段、触发器、弹层和选项都由它统一管理。",
+    "practices": [
+      "与次级按钮并排时用 variant=“secondary”，与 ghost 按钮并排时用 variant=“ghost”。",
+      "分步编辑器中，把草稿状态留在组合内容里，并调用传入的 onChange。",
+      "按任务选择合适的无障碍结构来组合弹窗内容：单选、复选、网格或树。",
+      "使用 children 里提供的 onChange 辅助函数，它已经同时调用了 onChange 与 changeAction。",
+      "选中后应当关闭弹窗时，在自定义内容里调用 close()；需要连续选择时则保持打开。",
+      "自定义内容使用 Astryx 的焦点钩子：二维网格用 useGridFocus，树用 useTreeFocus。",
+      "按 WCAG 2.2 评估自定义内容：键盘可操作、焦点可见且不被遮挡。",
+      "在产品代码里重建触发器的 ARIA、浮层焦点管理或 changeAction 处理。"
+    ],
+    "props": {
+      "label": "无障碍与字段标签。",
+      "value": "当前受控值。",
+      "onChange": "自定义内容提交新值时调用。",
+      "changeAction": "onChange 之后的异步动作，ComplexSelector 会处理乐观更新。",
+      "children": "自定义弹窗内容，会收到位置值、onChange、close 等参数。",
+      "triggerLabel": "收起态触发器中显示的标签或内容。",
+      "placeholder": "省略 triggerLabel 时显示的占位文字。",
+      "isDisabled": "禁用。",
+      "isLoading": "触发器显示加载态。",
+      "status": "校验状态。",
+      "statusVariant": "状态提示相对输入框的位置。",
+      "size": "触发器确切高度：sm 28px、md 32px、lg 36px。",
+      "variant": "触发器视觉样式。input 为表单适用的带边框样式。",
+      "startIcon": "触发器起始位置的图标。",
+      "width": "字段宽度。",
+      "placement": "弹窗位置。",
+      "alignment": "弹窗沿 placement 轴的对齐。",
+      "renderTrigger": "自定义弹窗挂载的控件。",
+      "handleRef": "命令式句柄，用于以代码控制开合。",
+      "onOpenChange": "表面开合时调用，无论由什么触发。",
+      "contentXstyle": "弹窗内容容器的 StyleX 样式。",
+      "onClick": "触发器的点击回调，在弹出之前执行。",
+      "onKeyDown": "触发器的按键回调，在内建处理之后执行。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。",
+      "containerClassName": "字段容器的类名。",
+      "containerStyle": "字段容器的行内样式。",
+      "controlXstyle": "可视控件框（画边框与背景的元素）的 StyleX 样式。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "复合选择器"
+  },
+  "MultiSelector": {
+    "desc": "复选下拉框，从列表中多选。已选项可显示为计数、标签或徽章。用于筛选，或从有限选项中挑出多个。",
+    "practices": [
+      "用于数量适中、有限且需要多选的选项集合。",
+      "选项超过约 15 个时启用搜索过滤。",
+      "自定义选项行用 renderOption；勾选框的交互仍由 MultiSelector 负责。",
+      "多数用户会全选或几乎全选时，启用全选。",
+      "只有在控件需要作为带简短前缀或后缀装潢的输入面的一部分时，才放进 InputGroup。",
+      "多选控件与次级按钮或分段控件并排时，用 variant=“secondary”。",
+      "需要在紧凑触屏上变成底部面板时，用 presentation=“adaptive”。",
+      "用它做单值选择；请用 Selector。"
+    ],
+    "props": {
+      "label": "无障碍标签文字。",
+      "options": "选项数组：字符串、带 value / label / icon / disabled 的对象、分隔线等。",
+      "value": "当前选中的值集合。",
+      "onChange": "选择变化时调用。hasCreate 产生的「新建」会以新值形式到达。",
+      "changeAction": "变化后的异步动作，在 onChange 之后触发。",
+      "placeholder": "未选中任何值时的占位文字。",
+      "size": "尺寸档位。",
+      "variant": "触发器视觉样式。input 是表单适用的带边框样式。",
+      "triggerDisplay": "触发器里已选项的显示方式。",
+      "formatValue": "triggerDisplay 为 count 或 labels 时的触发器文本格式化函数。",
+      "maxBadges": "显示多少个徽章后折叠为「+N」，仅在 triggerDisplay 为 badge 时生效。",
+      "hasSelectAll": "是否显示全选复选框。",
+      "selectAllLabel": "全选复选框的标签。",
+      "hasSearch": "是否显示搜索框过滤选项，输入过程中会显示匹配数量。",
+      "searchPlaceholder": "搜索框的占位文字。",
+      "emptyText": "没有任何选项时下拉面板里的内容。",
+      "emptySearchText": "搜索无匹配时面板里的内容。",
+      "hasCreate": "配合 hasSearch 时，在列表最前提供「创建当前查询词」一行，允许新建值。",
+      "isDisabled": "禁用。",
+      "isReadOnly": "只读：选中值仍可见、可聚焦、随表单提交，但无法更改。",
+      "htmlName": "表单提交用的 name，会渲染对应数量的隐藏 input。",
+      "disabledMessage": "说明禁用原因，配合 isDisabled 以提示形式显示。",
+      "isLabelHidden": "视觉隐藏标签，仍对屏幕阅读器可访问。",
+      "description": "显示在标签下方的辅助说明。",
+      "isOptional": "标记为可选。",
+      "isRequired": "标记为必填。",
+      "isLoading": "触发器中显示加载转圈。",
+      "status": "校验状态，可附带提示信息。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴其下方。",
+      "renderOption": "自定义下拉选项的渲染函数。",
+      "indicatorPosition": "选项行上勾选框所在的边。",
+      "presentation": "选项列表的呈现方式，adaptive 在紧凑触屏上使用底部面板。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "startIcon": "触发器起始位置的图标。",
+      "hasClear": "有选中值时显示清除按钮。",
+      "isDefaultOpen": "挂载时下拉是否默认展开。",
+      "renderTrigger": "自定义面板挂载的控件，例如列表行里的小图标或 chip。",
+      "handleRef": "命令式句柄，提供 open()、close()、toggle() 与 isOpen()。",
+      "onOpenChange": "面板开合时调用，无论由什么触发。",
+      "onClick": "触发器（或 renderTrigger 控件）的点击回调，在展开之前执行。",
+      "onFocus": "触发器的聚焦回调，在自身聚焦处理之前执行。",
+      "onKeyDown": "触发器的按键回调，在内建键盘模型之后执行，已被处理的按键会跳过。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。",
+      "containerClassName": "字段容器的类名。",
+      "containerStyle": "字段容器的行内样式。",
+      "controlXstyle": "可视控件框（画边框与背景的元素）的 StyleX 样式。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "多选选择器"
+  },
+  "Selector": {
+    "desc": "下拉选择器，从选项列表中选一个值。支持标签、校验、描述以及必填/可选的标识。用于表单和设置项。",
+    "practices": [
+      "给可见标签，让用户知道自己在选什么。",
+      "选项超过约 8 个时，用分组和分隔线组织。",
+      "自定义选项行用 renderOption，不要把选项对象直接当 JSX 子元素传。",
+      "占位文字要提示预期选择，例如「选择国家」而不是「请选择…」。",
+      "只有当选择器需要作为带前缀或后缀装潢的输入面的一部分时，才放进 InputGroup。",
+      "选择器出现在导航或工具栏、与次级按钮或分段控件并排时，用 variant=“secondary” 保持一致。",
+      "需要在紧凑触屏上变成底部面板时，用 presentation=“adaptive”。",
+      "把它当操作菜单用；触发命令或导航请用 DropdownMenu。"
+    ],
+    "props": {
+      "label": "无障碍标签文字。",
+      "options": "选项数组：字符串、带 value / label / description / icon / disabled 的对象、分隔线等。",
+      "value": "当前选中值。",
+      "onChange": "选中项变化时的回调。",
+      "hasClear": "有选中值时显示清除按钮；为真时 onChange 还会收到 null，表示用户主动清空。",
+      "hasSearch": "是否显示搜索框过滤选项。输入过程中显示匹配数量或无结果提示。",
+      "searchPlaceholder": "搜索框的占位文字。",
+      "emptyText": "没有任何选项时下拉面板里的内容，同时会在礼貌播报区读出。",
+      "emptySearchText": "搜索无匹配时面板里的内容，同样会被播报。",
+      "placeholder": "未选中任何值时的占位文字。",
+      "size": "尺寸档位。",
+      "variant": "触发器视觉样式。input 是表单用的带边框样式；secondary 与次级按钮保持一致。",
+      "isDisabled": "禁用。",
+      "isReadOnly": "只读：选中值仍可见、可聚焦、随表单提交，但无法更改。",
+      "htmlName": "表单提交用的 name。会渲染一个携带选中值的隐藏 input。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 在悬停或键盘聚焦时以提示显示。",
+      "isLabelHidden": "视觉隐藏标签，仍对屏幕阅读器可访问。",
+      "description": "显示在标签下方的辅助说明。",
+      "isOptional": "标记为可选。",
+      "isRequired": "标记为必填。",
+      "status": "校验状态，可附带提示信息。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴输入框下方。",
+      "renderOption": "自定义下拉选项的渲染函数。用它代替 JSX children；分隔线等特殊项不受影响。",
+      "renderValue": "自定义收起态触发器中选中值的渲染。默认单行跟随当前选项。",
+      "indicatorPosition": "选项行上选中标记所在的逻辑边。空标记不占空间。",
+      "presentation": "选项列表的呈现方式。adaptive 在紧凑触屏上用底部面板，其余用锚定浮层。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。作用于整个字段。",
+      "startIcon": "触发器起始位置的图标。",
+      "isLoading": "触发器中显示加载转圈。",
+      "onClick": "触发器按钮的点击回调，在展开之前执行；preventDefault 不会阻止展开。",
+      "onFocus": "触发器按钮的聚焦回调，在自身聚焦处理之前执行。",
+      "onKeyDown": "触发器按钮的按键回调，在内建键盘模型之后执行，已被处理的按键会跳过。",
+      "containerXstyle": "字段容器的 StyleX 样式。在 InputGroup 内无效。",
+      "containerClassName": "字段容器的类名，作用范围同上。",
+      "containerStyle": "字段容器的行内样式，作用范围同上。",
+      "controlXstyle": "可视控件框的 StyleX 样式。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "选择器"
+  },
+  "Skeleton": {
+    "desc": "带微光动画的占位块，在内容加载时预告其形状。用来拼出与真实布局一致的加载态。",
+    "practices": [
+      "与正在加载内容的尺寸和形状保持一致，占位才显得真实。",
+      "多个骨架用 index 错开动画，形成自然的波浪感。",
+      "内容尺寸未知时用它；那该用 Spinner。",
+      "在同一内容区同时放骨架与转圈；只选一种加载表达。",
+      "让骨架无限显示；加载过久时应当展示错误状态。"
+    ],
+    "props": {
+      "width": "宽度，数字为像素，也可传 CSS 值。",
+      "height": "高度，数字为像素，也可传 CSS 值。",
+      "radius": "圆角，使用设计 token 阶梯。",
+      "index": "用于错开动画时机的索引，多条骨架时使用。"
+    },
+    "name": "骨架屏"
+  },
+  "Slider": {
+    "desc": "在既定范围内拖动选择数值或区间。支持单值与区间、刻度标记、自定义数值格式和垂直方向。",
+    "practices": [
+      "始终提供标签，即使视觉隐藏，也要让屏幕阅读器可访问。",
+      "用有意义的单位格式化数值，如 $50 或 75%，而不是裸数字。",
+      "用它做精确数值输入；配合文本输入，或改用 NumberInput。",
+      "把 step 设得过大导致只剩几个档位；这种场景请用 SegmentedControl 或单选按钮。",
+      "把禁用的 Slider 包进 Tooltip 解释原因；请改用 disabledMessage。"
+    ],
+    "props": {
+      "label": "标签文字，始终为无障碍而渲染。",
+      "value": "当前值：单滑块模式为数字，区间模式为两个数字的数组。",
+      "onChange": "拖动过程中值变化时触发。",
+      "onChangeEnd": "拖动结束时触发。",
+      "min": "最小值。",
+      "max": "最大值。",
+      "step": "步进增量。",
+      "orientation": "滑块方向。",
+      "formatValue": "自定义数值格式化函数，用于显示与 aria-valuetext。",
+      "valueDisplay": "当前值的显示方式。",
+      "marks": "指定位置的刻度标记，可带标签。未填充的刻度沿用轨道底色。",
+      "minStepsBetweenThumbs": "区间模式下两个滑块之间的最小步数，避免互相重叠。",
+      "isDisabled": "是否禁用。",
+      "htmlName": "表单提交用的 name，会渲染携带当前值的隐藏 input。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 在悬停或键盘聚焦时以提示显示。",
+      "isOptional": "字段是否可选。",
+      "isRequired": "字段是否必填。",
+      "isLabelHidden": "是否视觉隐藏标签。",
+      "description": "显示在标签下方的说明。",
+      "status": "校验反馈用的状态指示对象（类型与消息）。",
+      "labelTooltip": "标签旁信息图标的提示文字。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。作用于整个字段。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。在 InputGroup 内无效。",
+      "containerClassName": "字段容器的类名，作用范围同上。",
+      "containerStyle": "字段容器的行内样式，作用范围同上。",
+      "controlXstyle": "可视控件框的 StyleX 样式，该元素负责画边框与背景并承载图标。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "滑块"
+  },
+  "Spinner": {
+    "desc": "用于耗时未知过程的加载指示器，例如请求数据或提交表单。支持可见标签、多种尺寸和深色背景适配。",
+    "practices": [
+      "给一个有意义的标签，说明正在加载什么，供屏幕阅读器播报。",
+      "放在深色或强调色背景上时使用 onMedia 色调。",
+      "尺寸已知的内容区用它；应当用 Skeleton 保持布局稳定。",
+      "同一视图里堆多个转圈；用一个代表整体加载状态。"
+    ],
+    "props": {
+      "size": "转圈直径：10px、14px、18px、28px。",
+      "shade": "深色或浅色背景对应的色调。",
+      "label": "转圈下方可见的内容。字符串标签会通过 aria 为该指示器命名。",
+      "aria-label": "供屏幕阅读器使用的无障碍名称。默认取 label（字符串时）或翻译后的默认文案。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "加载转圈"
+  },
+  "StatusDot": {
+    "desc": "表达在线/离线或严重程度的小圆点。支持五种语义变体和可选的呼吸动画，务必配合文字说明使用。",
+    "practices": [
+      "把 StatusDot 当作「有 / 无」的二元信号，不要用它编码很多种不同状态。",
+      "始终配可见文字标签，状态不能只靠颜色传达。",
+      "提供描述性的 label prop，供屏幕阅读器使用。",
+      "需要以形状区分时，把圆点与承载状态的图标搭配使用。",
+      "无法加标签或图标时，确保状态还能通过其他可见方式表达。",
+      "只靠颜色传达状态；StatusDot 本身并不完全无障碍。",
+      "把脉冲动画用于纯装饰；它应当留给真正在变化的状态。"
+    ],
+    "props": {
+      "variant": "语义颜色变体。",
+      "label": "通过 aria-label 暴露的无障碍标签。",
+      "isPulsing": "启用脉冲动画，会遵循 prefers-reduced-motion 设置。",
+      "tooltip": "悬停时用于解释状态的提示文字。",
+      "icon": "渲染在圆点中央的可选图标，尺寸极小时会隐藏。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "状态点"
+  },
+  "Step": {
+    "desc": "步骤条中的单个步骤，配合 Stepper 使用。",
+    "props": {
+      "step": "该步骤的索引（从 0 开始），用于推导状态。",
+      "label": "步骤标签文字，保持单行。",
+      "description": "标签下方显示的可选描述。",
+      "children": "渲染在标签与描述下方的内容。",
+      "status": "步骤的语义颜色，控制配色。",
+      "indicator": "步骤指示处显示什么，auto 表示自动判断。",
+      "isDisabled": "禁用交互并减淡步骤指示。",
+      "isOptional": "把该步骤标记为可选，会附加「可选」标记。",
+      "endContent": "渲染在步骤末尾的尾部内容。",
+      "density": "控制步骤的垂直内边距。"
+    },
+    "name": "步骤"
+  },
+  "Stepper": {
+    "desc": "展示流程推进的编号步骤。用于多步表单、引导流程、结算等需要让用户知道「走到第几步」的场景。",
+    "practices": [
+      "步骤标签保持简短、可描述：「支付」而不是「输入你的支付信息」。",
+      "步骤带较长说明时用纵向排列；横向步骤条只能容纳有限的文字。",
+      "页面已经提供「上一步 / 继续」时，把 horizontalOptions.collapsedVariant 设为 withLabel。",
+      "非线性流程里用户可能回到之前的步骤时，提供 onStepClick。",
+      "status 只用来施加语义颜色（accent、success、warning、error）；更丰富的表达用自定义图标。",
+      "少于 3 步还用步骤条；一个标题或进度条就够。",
+      "超过 7 步；考虑合并相关步骤或改用其他模式。"
+    ],
+    "props": {
+      "activeStep": "当前激活步骤的索引（从 0 开始）。该索引之前的步骤被视为已完成。",
+      "children": "步骤条中渲染的 Step 元素。",
+      "orientation": "步骤条的布局方向。",
+      "onStepClick": "点击步骤或使用紧凑摘要控件时调用。",
+      "label": "描述这组步骤的无障碍标签，应用于有序列表。",
+      "density": "控制所有步骤的内边距。",
+      "indicatorPosition": "步骤指示点相对连接轨道的位置。",
+      "horizontalOptions": "横向折叠的选项。minimumStepWidth 是每一步的宽度阈值。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "步骤条"
+  },
+  "Switch": {
+    "desc": "立即生效的开/关切换控件。支持标签、描述、加载状态和校验。用于设置或偏好项这类即时生效的开关。",
+    "practices": [
+      "用于立即生效的设置；切换后无需再点保存。",
+      "配一个清晰简洁的标签，说明它控制的是什么。",
+      "用于需要提交表单才生效的选项；请用复选框。",
+      "用开关表达多状态值；它严格只有开与关。",
+      "把禁用的开关包进 Tooltip 解释原因；禁用控件会吞掉悬停事件。请改用 disabledMessage。"
+    ],
+    "props": {
+      "ref": "透传给底层 input 的 ref。",
+      "label": "开关标签，始终为无障碍而渲染。",
+      "value": "开或关。",
+      "onChange": "状态变化时的回调。",
+      "changeAction": "onChange 之后的异步动作。会先乐观更新，Promise 完成前显示转圈。",
+      "isLoading": "加载态，在滑块内显示转圈。",
+      "isLabelHidden": "视觉隐藏标签，屏幕阅读器仍可读。",
+      "description": "显示在标签下方的说明。",
+      "isDisabled": "是否禁用。",
+      "size": "尺寸档位，控制轨道与滑块尺寸。sm（32×20px）与 sm 复选框、单选框在垂直方向对齐。",
+      "htmlName": "底层 input 的 name，表单提交时使用。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 在悬停或键盘聚焦时以提示显示。",
+      "isOptional": "是否为可选，与 isRequired 互斥。",
+      "isRequired": "是否必填，与 isOptional 互斥。",
+      "status": "状态指示，在开关下方显示彩色提示并设置 aria-invalid。",
+      "onFocus": "获得焦点时的回调。",
+      "onBlur": "失去焦点时的回调。",
+      "labelIcon": "标签文字前的图标。",
+      "labelTooltip": "标签末尾信息图标里的提示文字。",
+      "labelPosition": "标签相对开关的位置。start 表示标签在前。",
+      "labelSpacing": "标签与开关的间距行为。hug 紧靠，spread 把开关推到另一端。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。作用于整个字段。"
+    },
+    "name": "开关"
+  },
+  "Table": {
+    "desc": "以行列展示结构化数据。支持富内容单元格、排序、选择、分页和列管理（通过组合式插件能力）。",
+    "practices": [
+      "用 density 与 dividers 变体匹配数据的密度和扫读节奏。",
+      "通过 renderCell 用 Badge、StatusDot、Avatar 等组件拼出富内容单元格。",
+      "children 模式下每一行都必须放在 TableHeader、TableBody 或 TableFooter 里。table 不能直接包含 tr：浏览器解析会插入隐式 tbody，而 React 在客户端不会，会造成 hydration 不匹配。",
+      "想要等宽弹性列就省略 width（自带 60px 可读性下限）；要给某列单独下限，用 proportional(1, {minWidth})。",
+      "在 React Server Components 里用数据驱动 API：proportional()、pixel() 以及不含函数式 prop 的列定义都是服务端安全的。",
+      "用表格展示列结构不一致的数据；异构内容请改用列表或卡片布局。",
+      "一次性打开所有插件；只开当前用例需要的，界面才聚焦。",
+      "让文本多的列依赖 60px 默认下限；应显式给该列设置 proportional(1, {minWidth})。"
+    ],
+    "props": {
+      "data": "作为行渲染的数据数组，类型需继承 Record<string, unknown>。",
+      "columns": "列定义，每列含 key、header、width、align、renderCell 等字段。",
+      "idKey": "React 协调用的行 key。可传属性名字符串或函数，缺省回退到行索引。",
+      "density": "行密度，控制单元格内边距与字号。",
+      "dividers": "单元格之间分隔线的样式。",
+      "isStriped": "给偶数行加一层底色。",
+      "hasHover": "指针设备下悬停行时加高亮背景。",
+      "verticalAlign": "数据行单元格的垂直对齐，控制 td 上的 vertical-align。",
+      "textOverflow": "单元格文字超出列宽时的行为。wrap 允许换行并撑高整行。",
+      "plugins": "通过转换管线扩展表格行为的具名插件，会转成有序数组。",
+      "rowIndexStart": "首个渲染数据行的 ARIA 行索引（从 1 开始），供辅助技术使用。",
+      "rowCount": "跨所有分页或窗口的数据行总数，用于 aria-rowcount。",
+      "children": "children 模式：自己用 TableHeader、TableBody、TableFooter 组装表格。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸），必须是 stylex.create() 的值。"
+    },
+    "name": "表格"
+  },
+  "TabList": {
+    "desc": "标签式导航，把内容分门别类。用于在不离开当前页面的前提下切换相关视图。",
+    "practices": [
+      "标签保持简短、可描述，让用户快速扫到有哪些区段。",
+      "保留溢出处理：比标签窄的条带会滚动，且选中的标签始终保持在可见范围内。",
+      "使用 hasDivider 并在标签旁放动作按钮时，让 Button 的 size 与 TabList 的 size 一致。",
+      "条带用于就地切换面板时用 role=“tablist”，并给每个标签指向面板的 panelId。",
+      "需要让标签条在带内边距的 LayoutHeader、Card、Section 里通栏时，设 isFullBleed。",
+      "用标签表示顺序步骤或流程；请用步骤条或向导模式。",
+      "在溢出菜单之前露出超过 6 到 8 个标签；优先保留最重要的分类。",
+      "把 TabList 与 SegmentedControl、ToggleButton 混为一谈。TabList 用于视图之间的导航。"
+    ],
+    "props": {
+      "value": "当前选中的标签值。",
+      "onChange": "选中某个标签时的回调。",
+      "size": "应用于所有子标签的尺寸变体。",
+      "layout": "标签宽度的布局模式。hug 让每个标签贴合内容宽度，fill 均分整条。",
+      "hasDivider": "是否在标签条下方显示分隔线。",
+      "isFullBleed": "让标签条脱离父容器的内边距，延伸到容器边缘。",
+      "role": "条带的 ARIA role。tablist 会启用 WAI-ARIA 标签页模式。",
+      "overflow": "标签总宽超过条带时的行为。auto 让内容可滚动。",
+      "children": "标签条中渲染的 Tab 与 TabMenu 项。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "标签页列表"
+  },
+  "TextArea": {
+    "desc": "多行文本输入，用于评论、描述、消息等较长内容。预期输入超过一行时使用。",
+    "practices": [
+      "给可见标签，让用户知道该填什么。必须隐藏标签时用 isLabelHidden，并配一个描述性标签文字。",
+      "有明确字数上限时设置 maxLength 并配字数计数器，让用户在提交前就知道边界。",
+      "多行字段里让回车保持换行语义。只有当自己的 Enter 处理接管时，才用 enterKeyHint（send、done）改写提示。",
+      "用 status 就地反馈校验结果：通过时 success，软性超限用 warning。",
+      "用 description 或 placeholder 说明期望内容（如「详细描述问题」），但不要只依赖 placeholder。",
+      "用 TextArea 收集姓名、邮箱这类短的单行值；应当用 TextInput。",
+      "只靠 placeholder 说明字段用途；占位文字一聚焦就消失，屏幕阅读器也不可靠。",
+      "只显示状态消息却不设置状态类型；彩色边框和图标才是吸引用户注意的部分。"
+    ],
+    "props": {
+      "ref": "透传给底层 textarea 的 ref。",
+      "label": "文本域标签，始终为无障碍而渲染。",
+      "value": "当前值。",
+      "onChange": "值变化时的回调。",
+      "changeAction": "onChange 之后在 React transition 中执行的异步动作，支持乐观更新。",
+      "isLabelHidden": "视觉隐藏标签，屏幕阅读器仍可读。",
+      "description": "显示在标签与文本域之间的辅助说明。",
+      "isOptional": "在标签旁显示「可选」。与 isRequired 互斥。",
+      "isRequired": "在标签旁显示「必填」并设置 aria-required。与 isOptional 互斥。",
+      "isDisabled": "禁用文本域，阻止交互。",
+      "isReadOnly": "只读：值正常显示、仍随表单提交，但不能编辑。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 在悬停或键盘聚焦时以提示显示。",
+      "isLoading": "加载态，在输入区内显示转圈。",
+      "placeholder": "空值时显示的占位文字。",
+      "rows": "可见的文本行数。",
+      "maxLength": "允许的最大字符数，按用户感知字符计数（一个 emoji 算一个）。",
+      "status": "状态指示，加彩色边框与图标；可附带提示消息。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴其下方。",
+      "labelTooltip": "标签末尾信息图标里的提示文字。",
+      "startIcon": "渲染在文本域容器起始边缘内的图标。",
+      "hasSpellCheck": "开启或关闭浏览器拼写检查。",
+      "hasAutoFocus": "挂载时自动聚焦。",
+      "size": "尺寸，影响内部留白。高度由 rows 控制，不受 size 影响。",
+      "onPaste": "向文本域粘贴内容时的回调。",
+      "htmlName": "原生 name 属性，便于表单提交。",
+      "width": "字段宽度（数字为像素，字符串原样使用，如 “100%”）。作用于整个字段。",
+      "onFocus": "获得焦点时的回调。",
+      "onBlur": "失去焦点时的回调。",
+      "autoComplete": "原生 autocomplete，原样透传，不影响受控值。",
+      "enterKeyHint": "触屏键盘回车键的文案（原生 enterkeyhint）。",
+      "inputMode": "请求哪种触屏键盘（原生 inputmode），不改变可接受的内容。",
+      "autoCapitalize": "触屏键盘何时自动首字母大写（原生 autocapitalize）。",
+      "hasAutoCorrect": "触屏键盘是否自动纠错（原生 autocorrect）。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。在 InputGroup 内无效。",
+      "containerClassName": "字段容器的类名，作用范围同上。",
+      "containerStyle": "字段容器的行内样式，作用范围同上。",
+      "controlXstyle": "可视控件框的 StyleX 样式，该元素负责画边框与背景并承载图标。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "多行文本框"
+  },
+  "TextInput": {
+    "desc": "收集短文本，例如姓名、邮箱、搜索词。用于预期输入较短的单行场景，可配合校验状态使用。",
+    "practices": [
+      "始终给可见标签，让用户知道这个字段是干什么的。只有周边上下文已经很明显时（如搜索栏）才隐藏标签。",
+      "校验失败要配说明：「邮箱必须包含 @」比只把边框变红有用得多。",
+      "输入框尺寸与预期内容长度匹配：邮编用小号，姓名中号，网址大号。",
+      "搜索与筛选类输入加清除按钮，用户不必全选删除就能重置。",
+      "告诉触屏键盘这个字段装什么：邮箱、电话、网址用对应的 type，非号码的数字用 inputMode=“numeric”。",
+      "用 placeholder 代替标签；占位文字一聚焦就消失，屏幕阅读器也不可靠。",
+      "用 TextInput 收集多行内容（如评论、描述），应当用 TextArea。",
+      "把所有字段都标成必填；只标真正必填的，否则用户会淹没在校验错误里。"
+    ],
+    "props": {
+      "type": "原生 input 类型。email / tel / url 会调起对应的触屏键盘。",
+      "label": "输入框标签，始终为无障碍而渲染。",
+      "value": "当前值。",
+      "onChange": "值变化时的回调。",
+      "changeAction": "onChange 之后的异步动作（若未被阻止）。会先乐观更新，等待期间显示转圈。",
+      "size": "尺寸档位。",
+      "isLabelHidden": "视觉隐藏标签，屏幕阅读器仍可读。",
+      "description": "显示在标签与输入框之间的说明。",
+      "isOptional": "在标签旁显示「可选」。与 isRequired 互斥。",
+      "isRequired": "在标签旁显示「必填」并设置 aria-required。与 isOptional 互斥。",
+      "onEnter": "按下回车时触发。对输入法友好：中文、日文、韩文输入过程中的回车不会被误触发。",
+      "onKeyDown": "输入框 keydown 事件回调。",
+      "isDisabled": "禁用输入框，阻止交互并减淡显示。",
+      "isReadOnly": "只读：值正常显示、仍随表单提交，但不能编辑。",
+      "disabledMessage": "说明为何禁用。配合 isDisabled 在悬停或键盘聚焦时以提示显示，并保持可聚焦。",
+      "isLoading": "加载态，显示转圈并设置 aria-busy。",
+      "placeholder": "空值时显示的占位文字。",
+      "labelTooltip": "标签末尾信息图标里的提示文字。",
+      "startIcon": "输入框起始位置的图标组件。",
+      "status": "校验状态：加彩色边框与状态图标；提供 message 时显示浮层提示。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴输入框下方并带边框。",
+      "hasClear": "有值时显示清除按钮，点击清空并把焦点还给输入框。",
+      "hasAutoFocus": "挂载时自动聚焦。",
+      "htmlName": "原生 name 属性，便于表单提交。",
+      "width": "字段宽度（数字为像素，字符串原样使用，如 “100%”）。作用于整个字段。",
+      "autoComplete": "原生 autocomplete，原样透传，不影响受控值。",
+      "enterKeyHint": "触屏键盘回车键的文案（原生 enterkeyhint）。",
+      "inputMode": "请求哪种触屏键盘（原生 inputmode），不改变可接受的内容。",
+      "autoCapitalize": "触屏键盘何时自动首字母大写（原生 autocapitalize）。",
+      "hasAutoCorrect": "触屏键盘是否自动纠错（原生 autocorrect）。",
+      "hasSpellCheck": "是否给拼写错误加下划线（原生 spellcheck）。",
+      "containerXstyle": "字段容器（标签、控件、状态三部分）的 StyleX 样式。在 InputGroup 内无效。",
+      "containerClassName": "字段容器的类名，作用范围同上。",
+      "containerStyle": "字段容器的行内样式，作用范围同上。",
+      "controlXstyle": "可视控件框（画边框与背景、承载图标的元素）的 StyleX 样式。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "单行文本框"
+  },
+  "TimeInput": {
+    "desc": "默认在粗指针设备上调用系统时间选择器，在精确指针设备上使用 Astryx 输入框。会把值转换成标准格式并支持方向键调整。",
+    "practices": [
+      "ref、id、data-*、aria-* 与 DOM 事件等基础 props 会落在时间输入框元素本身上。",
+      "不要设 hourFormat，让字段跟随 InternationalizationProvider 区域设置的小时制。",
+      "语境里有有效区间（营业时间、活动时段）时设置 min 与 max。",
+      "用 description 或 placeholder 提示期望的格式或用途。",
+      "用 status 就地提示校验错误，例如「时间必须在营业时间内」。",
+      "字段为可选时启用 hasClear，让用户能清掉已选时间。",
+      "时间需要单行前缀或后缀时，把 TimeInput 放进 InputGroup。",
+      "用 TimeInput 做日期加时间的联合选择；应在同一行里配一个独立的 DateInput。"
+    ],
+    "props": {
+      "label": "输入框标签，无障碍必需。",
+      "isLabelHidden": "视觉隐藏标签，屏幕阅读器仍可读。",
+      "description": "显示在标签与输入框之间的说明。",
+      "isOptional": "在标签旁显示「可选」标记，与 isRequired 互斥。",
+      "isRequired": "标记为必填并设置 aria-required，与 isOptional 互斥。",
+      "isDisabled": "禁用输入框并阻止交互。字段仍可聚焦，用于展示原因。",
+      "disabledMessage": "说明禁用原因。配合 isDisabled 以提示形式显示。",
+      "value": "受控的时间值，ISO 格式（HH:MM 或 HH:MM:SS）。",
+      "onChange": "时间变化时调用，清空时收到 undefined。",
+      "changeAction": "onChange 之后的异步动作，包裹在 React transition 中。",
+      "isLoading": "加载态，显示转圈。",
+      "min": "可选时间的最小值（ISO），超出范围会被拒绝。",
+      "max": "可选时间的最大值（ISO），超出范围会被拒绝。",
+      "hasSeconds": "时间显示与解析是否包含秒。",
+      "hasClear": "有值且未禁用时显示清除按钮。",
+      "hourFormat": "控制显示格式。12h 显示区域设置的上午 / 下午。",
+      "increment": "按上下键时增减的分钟数。",
+      "presentation": "由哪种表面选择时间，adaptive-native 为默认。",
+      "nativePicker": "已废弃，请改用 presentation。",
+      "placeholder": "未选择时间时的占位文字。",
+      "size": "控制输入元素的高度。",
+      "status": "状态指示，为边框上色并显示图标。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴其下方。",
+      "labelTooltip": "标签行末尾信息图标的提示文字。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "containerXstyle": "Field 盒子（标签、控件、状态）的 StyleX 样式。",
+      "controlXstyle": "可视控件框（画边框的元素）的 StyleX 样式。"
+    },
+    "name": "时间输入"
+  },
+  "Toast": {
+    "desc": "短暂的、不阻断操作的提示，用于确认动作或呈现临时信息。用户需要反馈但不需要做决定时使用。",
+    "practices": [
+      "文案要短，几个字说明发生了什么，如「已保存」「消息已发送」。",
+      "可撤销的操作在 endContent 里放一个简短的撤销动作；动作需要用户操作时把 isAutoHide 设为 false。",
+      "用 uniqueID 对重复触发的 toast 去重，比如连点保存按钮。",
+      "需要用户注意但不需要立即处理的失败用 error 类型；它会保留到被关闭。",
+      "用 toast 展示阻断用户的关键错误；需要长期可见、就地提示的请用 Banner。",
+      "在 toast 里放长文本或多行内容；它 5 秒后消失，用户可能还没读完。",
+      "用 toast 展示表单校验错误；应当就地校验，让用户看到具体哪个字段不对。"
+    ],
+    "props": {
+      "body": "主要消息内容。",
+      "type": "控制背景色的类型。error 类型的 toast 会保留到被关闭。",
+      "isAutoHide": "是否自动消失。info 默认 true，error 默认 false。",
+      "autoHideDuration": "自动消失前的时长（毫秒）。带时限的内容必须满足 WCAG 2.2.1。",
+      "endContent": "尾部渲染的内容（如撤销按钮、链接）。动作文案要保持简短。",
+      "uniqueID": "去重用的唯一标识。",
+      "collisionBehavior": "已存在相同 uniqueID 的 toast 时的处理行为。",
+      "onHide": "toast 被移除时的回调。",
+      "onDismiss": "toast 被关闭时的回调。",
+      "renderContent": "用自定义布局替换该 toast 卡片的内容，Astryx 仍负责外层容器与生命周期。"
+    },
+    "name": "轻提示"
+  },
+  "Tokenizer": {
+    "desc": "多选输入，可搜索、选择并以可删除的标签形式管理多个条目。用户需要逐步构建一组选择时使用。",
+    "practices": [
+      "占位文字要说明能搜什么，例如「搜索成员…」。",
+      "选择数量需要有上限时设 maxEntries，例如把评审人限制为 5 位。",
+      "需要输入数据源里不存在的值时启用 hasCreate，用于自由打标签。",
+      "用 status 显示校验状态，让用户立刻知道某个选择不合法。",
+      "用 Tokenizer 做单项选择；请用 Typeahead。Tokenizer 是用来构建集合的。",
+      "给 Tokenizer 里的单个 token 单独上色；用默认 token 外观才能保持可读。",
+      "隐藏标签；每个 Tokenizer 都需要可见标签，用户才知道在选什么。",
+      "把禁用的 Tokenizer 包进 Tooltip 解释原因；请改用 disabledMessage。"
+    ],
+    "props": {
+      "label": "输入框的无障碍标签。",
+      "searchSource": "提供 search 与 bootstrap 方法的数据源。",
+      "value": "当前已选条目数组。",
+      "onChange": "选择变化时调用，change 参数包含变更细节。",
+      "placeholder": "输入占位文字，仅在未选任何 token 时显示。",
+      "maxEntries": "允许的最大选择数，达到后隐藏输入框。",
+      "hasClear": "显示一键清除所有 token 的按钮。",
+      "renderToken": "自定义已选 token 的渲染，默认渲染 Token。",
+      "renderItem": "自定义下拉项的渲染，默认渲染 TypeaheadItem。",
+      "isDisabled": "禁用输入与所有 token 交互。输入仍可聚焦，用于展示禁用原因。",
+      "htmlName": "表单提交用的 name，会渲染隐藏 input。",
+      "disabledMessage": "说明禁用原因，配合 isDisabled 以提示形式显示。",
+      "status": "校验状态对象，含类型与消息。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴其下方。",
+      "isLabelHidden": "视觉隐藏标签，仍对屏幕阅读器可访问。",
+      "description": "显示在标签下方的辅助说明。",
+      "isRequired": "标记为必填。",
+      "isOptional": "在标签上显示可选标记。",
+      "labelTooltip": "标签上的提示文字。",
+      "hasEntriesOnFocus": "输入前聚焦时就显示 bootstrap 结果。",
+      "maxMenuItems": "下拉最多显示多少条结果。",
+      "menuWidth": "下拉固定宽度（像素），不会窄于此值。",
+      "minQueryLength": "触发搜索所需的最小查询长度。",
+      "emptySearchText": "查询没有匹配时显示的内容。",
+      "hasAutoFocus": "挂载时自动聚焦。",
+      "size": "输入与 token 的尺寸。",
+      "debounceMs": "触发搜索前的防抖时长（毫秒），设为 0 表示同步搜索。",
+      "hasCreate": "允许用户从自由文本创建新的 token。",
+      "onChangeQuery": "搜索词变化时调用。",
+      "startIcon": "输入起始位置、token 之前的图标。",
+      "endContent": "输入行末尾的内容，适合放置按钮。",
+      "handleRef": "命令式句柄，提供 focusInput()、focusFirstToken() 等方法。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "tokenOverflowBehavior": "容器过窄时 token 的溢出行为。",
+      "onFocus": "焦点进入输入框时触发。",
+      "onBlur": "焦点离开输入框时触发。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。",
+      "containerClassName": "字段容器的类名。",
+      "containerStyle": "字段容器的行内样式。",
+      "controlXstyle": "可视控件框（画边框与背景的元素）的 StyleX 样式。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。",
+      "presentation": "字段呈现选项的方式，adaptive 为默认。"
+    },
+    "name": "标签输入"
+  },
+  "Toolbar": {
+    "desc": "分为左、中、右三区的横向工具条。用于内容区域内的就地操作（表格上方、卡片内、面板中），而不是页面级导航。",
+    "practices": [
+      "次级动作（如「返回」）放左侧，主要动作（如「保存」）放右侧。",
+      "批量选择这类临时工具条要在视觉上明显区分，让用户知道当前处于特殊状态。",
+      "用分隔线、背景或间距把工具条与下方内容分开。",
+      "卡片头部带筛选等交互时，可以直接用 Toolbar 充当卡片头部。",
+      "工具条里塞太多动作；不常用的移进 MoreMenu。",
+      "给子按钮单独设 size；在工具条上设一次就会级联给所有子项。",
+      "用 Toolbar 做应用级导航（主菜单链接、退出登录）；那该用 TopNav。"
+    ],
+    "props": {
+      "label": "工具条的无障碍标签，作为 aria-label 应用。",
+      "startContent": "对齐到起始位置（LTR 为左）的内容。",
+      "centerContent": "居中内容。提供后布局会切换为 CSS grid。",
+      "endContent": "对齐到结束位置（LTR 为右）的内容。",
+      "size": "工具条尺寸，控制最小高度并级联给子项。",
+      "gap": "各槽位内部条目之间的间距。",
+      "orientation": "键盘导航的方向，控制方向键行为。",
+      "variant": "透传给 Section 的视觉变体。",
+      "dividers": "工具条周围渲染的边框与分隔线。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "工具条"
+  },
+  "Tooltip": {
+    "desc": "悬停或聚焦时出现在触发元素旁的简短文字提示。用于说明纯图标按钮、补全被截断的文字，或提供轻量解释。",
+    "practices": [
+      "内容保持简洁，纯文本尽量控制在一百四十字以内。",
+      "给纯图标按钮、以及缺少可见标签的控件加提示。",
+      "触发元素如果是「只为显示提示」的按钮，把 touchTrigger 设为 tap；触屏没有悬停。",
+      "在提示里放链接、按钮这类可交互元素；请改用 HoverCard 或 Popover。",
+      "用提示承载用户完成任务必须看到的关键信息。"
+    ],
+    "props": {
+      "children": "触发该提示的元素。",
+      "anchorRef": "兄弟模式下的外部锚点引用。",
+      "content": "提示内容，通常是短文本。",
+      "placement": "相对锚点元素的位置。逻辑值 start / end 按书写方向解析。",
+      "alignment": "沿 placement 轴的对齐方式。逻辑值按浮层自身解析。",
+      "delay": "显示延迟（毫秒）。",
+      "hideDelay": "隐藏延迟（毫秒）。",
+      "focusTrigger": "控制哪些聚焦事件会触发提示。",
+      "touchTrigger": "没有悬停能力时轻触的行为。auto 表示轻触即打开，除非触发元素本身有可聚焦行为。",
+      "isEnabled": "启用或禁用提示的触发。",
+      "onOpenChange": "可见性变化时的回调，显示时传入 true。",
+      "hasHoverIndication": "在触发元素上显示虚线下划线。",
+      "isDefaultOpen": "挂载时是否默认显示，仍然可以被关闭。",
+      "isOpen": "受控的打开状态。"
+    },
+    "name": "提示气泡"
+  },
+  "TreeList": {
+    "desc": "可展开的树形结构，用分支连线表现层级数据。用于文件浏览器、嵌套分类浏览等场景。",
+    "practices": [
+      "给每个节点有意义的标签与图标，层级才看得懂。",
+      "预展开重要的分支，用户能立刻看到关键内容。",
+      "树中存在分支节点时，叶子行也要保留箭头列的占位。",
+      "嵌套超过 4 到 5 层；应当扁平化或换一种结构。",
+      "用树展示扁平、无层级的数据；那该用 List。"
+    ],
+    "props": {
+      "items": "递归的树项数据，含 id、label 等字段。",
+      "density": "条目的间距密度。",
+      "variant": "层级引导线的视觉处理方式。",
+      "animatedLayout": "useAnimatedLayout({containerRef}) 返回的句柄。",
+      "header": "头部内容，通过 aria-label 与树关联。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "树形列表"
+  },
+  "Typeahead": {
+    "desc": "可搜索的输入框，从庞大或动态的数据集中选中一项。输入即出结果，支持异步数据源、防抖搜索等能力。",
+    "practices": [
+      "占位文字要能让用户看出可以搜什么。",
+      "用户希望在输入前就看到热门或最近选项时，聚焦即显示建议。",
+      "远程数据源要加搜索延迟，避免过多网络请求。",
+      "远程源下先把页面已有的匹配项立刻显示出来，再补上异步结果。",
+      "需要单行前缀或后缀装潢时，把 Typeahead 放进 InputGroup。",
+      "用于短小的静态选项列表；用 Selector 更容易被发现。",
+      "用于多选；请用 Tokenizer。",
+      "把多个 Typeahead 相邻摆放，却没有清晰的标签区分彼此。"
+    ],
+    "props": {
+      "label": "输入框的无障碍标签。",
+      "searchSource": "提供 search 与 bootstrap 方法的数据源。",
+      "value": "当前选中项，未选择时为 null。",
+      "onChange": "选中项变化时调用。",
+      "placeholder": "输入框占位文字。",
+      "hasEntriesOnFocus": "输入前聚焦时就显示 bootstrap 结果。",
+      "hasClear": "显示清除按钮以取消当前选中。",
+      "isDisabled": "禁用输入框。字段仍保留 Tab 停靠点，用于展示禁用原因。",
+      "disabledMessage": "说明禁用原因，配合 isDisabled 以提示形式显示。",
+      "maxMenuItems": "下拉最多显示多少条。",
+      "minQueryLength": "触发搜索所需的最小查询长度。",
+      "status": "校验状态对象，含类型与消息。",
+      "statusVariant": "状态提示相对输入框的位置。attached 紧贴其下方。",
+      "renderItem": "自定义下拉项渲染，默认渲染 TypeaheadItem。",
+      "isLabelHidden": "视觉隐藏标签，仍对屏幕阅读器可访问。",
+      "description": "显示在标签下方的辅助说明。",
+      "isRequired": "标记为必填。",
+      "isOptional": "在标签上显示可选标记。",
+      "labelTooltip": "标签上的提示文字。",
+      "emptySearchText": "查询没有匹配时显示的内容。",
+      "hasAutoFocus": "挂载时自动聚焦。",
+      "size": "输入与 token 的尺寸。",
+      "debounceMs": "触发搜索前的防抖时长（毫秒），设为 0 表示同步搜索。",
+      "onChangeQuery": "搜索词变化时调用。",
+      "onOpenChange": "下拉打开或关闭时调用。",
+      "width": "字段宽度（数字为像素，字符串原样使用）。",
+      "startIcon": "输入框起始位置的图标组件。",
+      "containerXstyle": "字段容器的 StyleX 样式，范围含标签、控件与状态。",
+      "containerClassName": "字段容器的类名。",
+      "containerStyle": "字段容器的行内样式。",
+      "controlXstyle": "可视控件框（画边框与背景的元素）的 StyleX 样式。",
+      "controlClassName": "可视控件框的类名。",
+      "controlStyle": "可视控件框的行内样式。"
+    },
+    "name": "即时搜索"
+  },
+  "Heading": {
+    "props": {
+      "level": "标题层级，决定语义标签（h1–h6）与视觉样式。",
+      "type": "展示型变体，用 display 级样式覆盖 level 带来的视觉效果。",
+      "weight": "显式字重覆盖，优先于所选视觉类型或层级默认值。",
+      "children": "标题内容。",
+      "accessibilityLevel": "无障碍层级覆盖。与 level 不同时会设置 aria-level，保持文档大纲正确。",
+      "color": "文字颜色。主题可扩展自定义颜色。",
+      "display": "显示方式。maxLines 大于 0 或启用 hasCapsize 时会被强制为 block。",
+      "maxLines": "截断前允许的最大行数，0 表示不截断。设置后若发生截断会自动出现提示。",
+      "hasTruncateTooltip": "控制截断文本的提示行为，true 在默认位置显示提示。",
+      "wordBreak": "截断时的断词方式。单行截断默认 break-all。",
+      "textWrap": "文本换行行为。",
+      "justify": "文本对齐，使用逻辑值（start / end）以兼容 i18n 与 RTL。",
+      "hasCapsize": "用 text-box-trim 做光学对齐，会强制块级显示。",
+      "hasStrikethrough": "加删除线。",
+      "id": "HTML id 属性。",
+      "xstyle": "应用于标题元素的 StyleX 样式，必须是 stylex.create() 的值。",
+      "className": "应用于标题元素的类名。",
+      "style": "应用于标题元素的行内样式。maxLines 大于 1 时会影响行高。",
+      "ref": "标题元素的引用。"
+    },
+    "desc": "从主题渲染标题，level 同时决定语义标签与视觉样式。",
+    "name": "标题"
+  },
+  "Text": {
+    "practices": [
+      "选语义类型（body、label、supporting、large、code），而不是手动设 size 与 weight；主题会统一处理。",
+      "视觉层级与文档大纲不一致时，在 Heading 上设 accessibilityLevel，让屏幕阅读器读到正确结构。",
+      "用 maxLines 加数字截断长内容；发生截断时会自动出现提示，信息不会丢。",
+      "数字列启用 hasTabularNumbers，让各行数字纵向对齐。",
+      "语义类型已匹配时还覆盖 size 与 weight；多余的覆盖会跟主题打架，换主题就崩。",
+      "跳级使用标题层级；应当 h1 → h2 → h3，不能 h1 直接到 h3。",
+      "用 p、h1–h6、span 等原生标签排版；Text 与 Heading 会自动套用正确的主题 token。",
+      "给 Text 传 variant；它没有 variant，语义样式请用 type（body、label、large 等）。"
+    ],
+    "props": {
+      "type": "语义文本类型，从主题决定字号、字重与行高。inherit 表示全部沿用外层。",
+      "children": "文本内容。",
+      "size": "显式字号覆盖，保留 type 的其他属性。一般建议只用 type。",
+      "color": "文字颜色。supporting 类型默认 secondary，其余默认 primary。",
+      "weight": "字重覆盖。",
+      "display": "显示方式，maxLines 大于 0 或启用 hasCapsize 时强制为 block。",
+      "as": "渲染成哪个 HTML 元素。",
+      "maxLines": "截断前最大行数，0 为不截断；截断时悬停显示提示。",
+      "hasTruncateTooltip": "控制截断提示的行为。",
+      "wordBreak": "截断时的断词方式。",
+      "textWrap": "文本换行行为。",
+      "justify": "文本对齐，使用逻辑值。",
+      "hasCapsize": "光学对齐，会强制块级显示。",
+      "hasStrikethrough": "加删除线。",
+      "hasTabularNumbers": "使用等宽数字，便于数字列纵向对齐。",
+      "id": "HTML id 属性。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。"
+    },
+    "desc": "从主题渲染正文与标题文本。body、label、caption 用 Text 的语义类型，章节标题用 Heading。",
+    "name": "文本"
+  },
+  "Avatar": {
+    "practices": [
+      "始终传 name，图片加载失败时能显示首字母，屏幕阅读器也有名字可读。",
+      "尺寸与语境匹配：行内提及用 xsm 或 sm，列表与头部用 md 或 lg。",
+      "需要知道对方是否在线时（聊天、团队视图）加状态点。",
+      "用自己的 Tooltip 或 HoverCard 包裹 Avatar 时设 tooltip={false}，避免内建提示重复。",
+      "每个可交互头像（href 或 onClick）都要有 name 或 alt，它是这个控件的无障碍名称。",
+      "用状态标签给可交互头像命名。「在线」并没有说明这是谁。",
+      "用 Avatar 表示 logo、产品图或非人 / 非团队的内容；那些该用图片组件。",
+      "用 xstyle 或 className 改形状；请用 shape prop，主题才能统一控制。"
+    ],
+    "props": {
+      "src": "主图地址。",
+      "fallbackSrc": "主图加载失败时的备用图。",
+      "name": "用户名，用于生成首字母与 alt 文本。",
+      "alt": "alt 文本，缺省回退到 name。",
+      "size": "尺寸。命名档位：xsm 20px、sm 24px、md 36px、lg 48px、xl 128px。",
+      "shape": "形状变体。circle 为默认的全圆。",
+      "status": "角落的状态指示内容。AvatarStatusDot 会把它的 label 并入头像的无障碍名称。",
+      "tooltip": "悬停与键盘聚焦时的提示。省略或为 true 时显示 name。",
+      "href": "设置后头像渲染为可交互链接。",
+      "as": "设置 href 时使用的自定义链接组件。",
+      "target": "链接的 target 属性，仅设置 href 时生效。",
+      "rel": "链接的 rel 属性，仅设置 href 时生效。",
+      "onClick": "点击回调。只设 onClick 而不设 href 时，头像渲染为按钮。"
+    },
+    "desc": "用头像、首字母或默认图标表示一个人或团队。用于评论头部、联系人列表、聊天消息与用户卡片。",
+    "name": "头像"
+  },
+  "Kbd": {
+    "practices": [
+      "把快捷键放在它触发的动作附近：提示里、菜单项里或行内说明里。",
+      "用 mod 而不是 ctrl 或 cmd，它会自动适配用户所在平台。",
+      "让 Kbd 命名这个快捷键：屏幕阅读器会把按键读成词语，例如「Command + K」。",
+      "把 Kbd 当作发现某个操作唯一途径；它应当补充可见控件，而不是替代。",
+      "指望 Kbd 处理按键。它只负责显示，监听要在自己的代码里做。"
+    ],
+    "props": {
+      "keys": "快捷键字符串，用加号连接各个按键，支持特殊键名。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "ref": "透传给快捷键组元素的引用。"
+    },
+    "desc": "把快捷键渲染为键位徽章。用于提示、菜单与帮助文本中展示组合键。",
+    "name": "键位"
+  },
+  "Code": {
+    "practices": [
+      "用 Code 表示正文里的技术术语，如函数名、prop 名、文件路径。",
+      "行内代码需要与周围字号、行高一致时，把 size 设为 inherit。",
+      "用 Code 显示多行或独立代码片段；请用 CodeBlock，读者才有合适的排版。",
+      "把 Code 当作可交互的复制或跳转控件；应配合合适的 Button 使用。"
+    ],
+    "props": {
+      "children": "行内代码内容。",
+      "color": "文字颜色。用 inherit 继承周围文字颜色。",
+      "size": "设为 inherit 时继承周围的字号与行高。",
+      "ref": "透传给语义 code 元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式，必须是 stylex.create() 的值。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "desc": "标记函数名、变量、文件路径、命令行参数等短的行内引用。独立或多行代码请用 CodeBlock。",
+    "name": "行内代码"
+  },
+  "Blockquote": {
+    "practices": [
+      "用于引用文本、用户评价或外部来源的摘录。",
+      "知道出处时提供 cite prop。",
+      "出处通过 cite 传入，而不是写进 children，这样才会渲染成语义化的引用。",
+      "用它做提示框或说明性注释；那该用 Banner。",
+      "自己用 footer 包住署名。blockquote 里的 footer 会变成内容的一部分，而不是署名。"
+    ],
+    "props": {
+      "children": "引用的内容。",
+      "cite": "可选的出处，渲染在 cite 元素中。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "desc": "带行内起始边线与次级文字色的引用块。用于突出引用内容、用户评价或外部摘录。",
+    "name": "引用块"
+  },
+  "EmptyState": {
+    "practices": [
+      "给清晰的标题和一个行动按钮，让用户知道下一步怎么做。",
+      "用能强化空态语境的插画或图标。",
+      "空间受限的卡片或侧栏里用 compact 变体。",
+      "让空态没有任何引导；始终说明发生了什么、用户可以做什么。",
+      "用「暂无数据」这类笼统文案；要具体说明什么为空、为什么为空。",
+      "用 EmptyState 展示需要立即处理的错误；那该用 Banner。"
+    ],
+    "props": {
+      "title": "主文案，按配置的标题层级渲染。",
+      "description": "可选的补充说明，位于标题下方。",
+      "icon": "可选的图标或插画，位于标题上方。",
+      "actions": "可选的操作按钮，位于描述下方。",
+      "headingLevel": "只控制渲染出的 HTML 标题标签（h1 到 h6），以保证文档大纲正确。",
+      "isCompact": "启用紧凑变体，缩小间距，适合受限空间。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "desc": "内容区没有数据时的占位。用于空列表、零搜索结果、首次使用引导或清空的收件箱。",
+    "name": "空状态"
+  },
+  "Thumbnail": {
+    "practices": [
+      "始终提供 label（如文件名），缩略图与它的删除按钮才有无障碍名称。",
+      "首次上传过程中用不带 src 的 isLoading 显示骨架；带 src 的 isLoading 显示上传覆盖层。",
+      "把 onClick 配合灯箱或详情视图，让用户能查看原图。",
+      "用 Thumbnail 表示 PDF、表格等非图片文件；应使用文件附件组件。",
+      "提供 src 时省略 alt；屏幕阅读器需要图片描述。"
+    ],
+    "props": {
+      "src": "图片地址。",
+      "alt": "图片的 alt 文本。省略时图片会被显式标记为装饰性。",
+      "label": "无障碍标签（如文件名），悬停时作为提示显示。",
+      "onRemove": "覆盖在角落的删除按钮回调。",
+      "onClick": "点击回调。会加上按钮语义与悬停覆盖层。",
+      "isLoading": "无 src 时显示骨架，有 src 时显示上传覆盖层。",
+      "isDisabled": "是否禁用。",
+      "showRemoveOn": "删除按钮何时可见。hover 为默认，悬停才显现。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "desc": "图片附件的紧凑方形预览。上传中显示微光效果，成功后显示图片，失败时显示占位。",
+    "name": "缩略图"
+  },
+  "AvatarGroup": {
+    "desc": "以重叠的一行展示多个头像，可选溢出指示。组合式 API：直接传入 Avatar 子元素。",
+    "practices": [
+      "自己裁剪列表，只传想要显示的头像；3 到 5 个最合适。",
+      "需要自定义溢出内容（如弹出触发）时，用 AvatarGroupOverflow。",
+      "直接把状态点、点击回调或提示传在每个 Avatar 子元素上。",
+      "把 Avatar 子元素包进 HoverCard 或 Tooltip，悬停时展示更多信息。",
+      "用 href 或 onClick 让头像可交互，指向个人资料。",
+      "嵌套 AvatarGroup；用一个组包含所有头像。",
+      "给子头像设 size；组的尺寸优先级更高。"
+    ],
+    "props": {
+      "children": "Avatar 子元素，末尾可选一个 AvatarGroupOverflow。",
+      "size": "应用于所有头像的尺寸。",
+      "shape": "通过上下文应用于所有头像的形状，会覆盖单个头像的设置。",
+      "ref": "透传给根元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "头像组"
+  },
+  "AvatarGroupOverflow": {
+    "desc": "放在 AvatarGroup 末尾，概括未逐个展示的成员。当一组人被裁剪到少量个体时使用。",
+    "practices": [
+      "把真实被隐藏的人数传给 count，无障碍标签才能与视觉一致。",
+      "用 +12、99+ 这类简短自定义文字；指示器是圆形的，容不下长文本。",
+      "溢出指示器会打开成员列表、弹出层或详情时，提供 onClick。",
+      "传与 count 不一致的自定义文字；count 仍是无障碍名称的来源。",
+      "在指示器里放长标签；更长的参与者说明请放到别处。"
+    ],
+    "props": {
+      "count": "被隐藏头像的数量，用于默认显示与无障碍名称。",
+      "children": "在指示器内渲染的可选自定义计数文字。",
+      "onClick": "点击溢出指示器时调用。",
+      "ref": "透传给溢出指示器元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "头像组溢出"
+  },
+  "AvatarStatusDot": {
+    "desc": "头像角落的状态点，用于表示在线、离开等状态，会把 label 并入头像的无障碍名称。",
+    "props": {
+      "variant": "语义变体，颜色与形状配合区分状态：success 为实心圆，其余变体使用不同形状以示区分。",
+      "label": "描述状态的无障碍标签。在 Avatar 内部会并入头像的无障碍名称。",
+      "icon": "圆点中央的图标，极小尺寸下隐藏。"
+    },
+    "name": "头像状态点"
+  },
+  "BreadcrumbItem": {
+    "desc": "面包屑路径中的一个目的地、操作、当前位置或同级菜单触发器。",
+    "props": {
+      "children": "面包屑条目的标签内容。",
+      "href": "条目链接到的地址；纯非导航项可以省略。",
+      "onClick": "条目的点击处理器。",
+      "isCurrent": "把该项标记为当前页，并应用对应样式。",
+      "startIcon": "标签前渲染的图标。",
+      "menu": "条目被激活时打开的菜单。",
+      "menuSize": "传给菜单项的尺寸，默认继承当前上下文。",
+      "as": "替代 a 标签渲染的自定义链接组件。"
+    },
+    "name": "面包屑项"
+  },
+  "ToggleButtonGroup": {
+    "desc": "把多个 ToggleButton 组合成一组，用统一状态管理多项独立开关。",
+    "props": {
+      "children": "ToggleButton 子元素，每个成员需要给一个 value。",
+      "label": "整组的无障碍标签（aria-label）。",
+      "type": "选择模式。single 表示只允许一个按钮激活。",
+      "value": "当前选中的值，类型取决于选择模式。",
+      "onChange": "选择变化时调用。",
+      "orientation": "按钮组的排列方向。",
+      "size": "组内按钮的默认尺寸。",
+      "isDisabled": "是否禁用组内所有按钮。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "切换按钮组"
+  },
+  "ChatComposer": {
+    "desc": "聊天输入区的外壳。协调受控或非受控草稿，提供默认的、支持 token 的输入区与发送控件。",
+    "props": {
+      "onSubmit": "用户提交消息时调用。",
+      "onStop": "用户请求停止生成时调用。",
+      "isStopShown": "是否用停止按钮替换发送按钮。",
+      "value": "受控输入值。",
+      "onChange": "受控模式下的变化处理器。",
+      "placeholder": "输入为空时的占位文字。",
+      "isDisabled": "禁用输入区。",
+      "density": "视觉密度。",
+      "elevation": "输入区主体的静止层次，low 为默认。",
+      "drawer": "槽位：输入框上方的可折叠抽屉，用于附件与上下文。",
+      "headerActions": "槽位：头部左侧动作，如附件、提及按钮。",
+      "headerContext": "槽位：头部右侧的上下文信息，如 token 计数。",
+      "input": "槽位：自定义输入元素，替代默认输入。",
+      "footerActions": "槽位：底部左侧动作，如模型选择。",
+      "sendActions": "槽位：发送按钮左侧的动作。",
+      "sendButton": "槽位：自定义发送按钮，替代默认的发送与停止。",
+      "status": "渲染在输入区下方或上方的状态消息。",
+      "statusPosition": "状态渲染的位置。"
+    },
+    "name": "聊天输入区"
+  },
+  "ChatComposerDrawer": {
+    "desc": "用于 ChatComposer 的抽屉槽位，放置附件、上下文标签或预览等补充内容。",
+    "practices": [
+      "给 label 一个具体的复数名词，如「附件」，展开与收起按钮才有意义。",
+      "另一处也需要控制折叠时，用受控的 isCollapsed 与 onCollapsedChange。",
+      "把输入区的主要动作放进抽屉；那些该放 footer 或 sendActions。"
+    ],
+    "props": {
+      "children": "抽屉内渲染的内容：token、chip、预览等。",
+      "count": "折叠徽章中显示的总条目数。",
+      "label": "默认折叠摘要里、计数旁显示的标签。",
+      "collapsedSummary": "完整折叠摘要的视觉内容。",
+      "isCollapsed": "受控的折叠状态，配合 onCollapsedChange 使用。",
+      "defaultIsCollapsed": "非受控用法的初始折叠状态。",
+      "onCollapsedChange": "用户切换抽屉时调用。"
+    },
+    "name": "聊天输入区抽屉"
+  },
+  "ChatComposerInput": {
+    "desc": "当草稿需要触发菜单、行内 token、历史召回、听写插入或文件输入时，把它传给 ChatComposer 的 input 槽。",
+    "practices": [
+      "需要以代码插入文本或 token 时用 handleRef，插入内容会遵循当前光标与格式。",
+      "粘贴或拖入文件的处理用 onFiles，并把文件校验留在这个回调里。",
+      "为普通提及或命令写自定义 token 渲染；优先使用结构化触发器。"
+    ],
+    "props": {
+      "handleRef": "命令式句柄，支持插入文本等操作。",
+      "value": "受控输入值，与 onChange 搭配做双向绑定。",
+      "onChange": "输入值变化时调用，传出序列化后的内容。",
+      "placeholder": "输入为空时的占位文字。",
+      "maxRows": "输入开始滚动前的最大可见行数。",
+      "triggers": "typeahead 菜单的触发器定义。",
+      "debounceMs": "异步搜索源的防抖时长。",
+      "hasHistory": "允许用上下方向键召回此前提交的消息。",
+      "label": "屏幕阅读器播报的无障碍标签。",
+      "isDisabled": "禁用输入。流式生成中或权限不足时使用。",
+      "onPaste": "粘贴纯文本时调用，返回 true 表示已经处理。",
+      "pasteAsToken": "粘贴为 token 的行为；默认纯文本粘贴按普通文本插入。",
+      "onFiles": "文件被粘贴或拖入输入框时调用。",
+      "onSubmit": "用户在不按 Shift 的情况下回车时调用。",
+      "onKeyDown": "在内建回车与键盘处理之前调用的处理器。",
+      "enterKeyHint": "触屏键盘回车键的文案（原生 enterkeyhint）。"
+    },
+    "name": "聊天输入框"
+  },
+  "ChatDictationButton": {
+    "desc": "在聊天输入区内启停语音听写的切换按钮，配合 useChatDictation 显示麦克风状态。",
+    "practices": [
+      "把听写按钮放在 ChatComposer 的 sendActions 槽位，位置才符合预期。",
+      "给 useChatDictation 传 inputRef，临时转写才能以幽灵文本出现。",
+      "开启 useChatDictation 的 hasSounds，听写时给用户音频反馈。",
+      "在聊天输入区之外使用听写按钮；它是为该上下文设计的。",
+      "忘记处理浏览器不支持的情况；按钮默认会自动隐藏。"
+    ],
+    "props": {
+      "dictation": "useChatDictation 的返回值。",
+      "size": "按钮尺寸，与 ChatComposer 的密度匹配。",
+      "isHiddenWhenUnsupported": "为真时，浏览器不支持听写就什么都不渲染。",
+      "label": "无障碍标签覆盖，默认是「开始听写」。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "语音听写按钮"
+  },
+  "ChatLayout": {
+    "desc": "整页聊天界面的布局外壳。消息按正常文档流渲染，输入区固定在底部并带毛玻璃效果。",
+    "practices": [
+      "把 ChatMessageList 传给 children，把 ChatComposer 传给 composer。",
+      "提供 emptyState，新对话才有提示而不是一片空白。",
+      "聊天嵌入页面、且由父元素负责滚动时，用 scrollRef。",
+      "给布局设固定高度；让它填满容器。",
+      "在同一滚动容器里渲染多个 ChatLayout 实例。"
+    ],
+    "props": {
+      "children": "消息内容，通常是 ChatMessageList，按正常文档流滚动。",
+      "composer": "输入区元素，通常是 ChatComposer，固定在底部。",
+      "emptyState": "消息为空时居中显示的内容。",
+      "scrollButton": "渲染在输入区上方的「滚动到底部」按钮。",
+      "scrollRef": "外部滚动容器引用；提供后由调用方接管滚动。",
+      "density": "视觉密度，控制底部内边距与消息间距。"
+    },
+    "name": "聊天布局"
+  },
+  "ChatLayoutScrollButton": {
+    "desc": "聊天布局中用于跳到底部或最新消息的滚动按钮。",
+    "props": {
+      "isVisible": "按钮是否可见。绑定到滚动位置判断，只在需要时出现。",
+      "label": "可选标签，会把按钮展开为带文字的形式，如「新消息」。",
+      "onClick": "点击回调，通常滚到底部并清除新消息提示。"
+    },
+    "name": "聊天滚动按钮"
+  },
+  "ChatMessage": {
+    "desc": "聊天转录中的一条消息容器，负责对齐、身份与元数据的组合。",
+    "props": {
+      "sender": "消息由谁发出，控制对齐与布局。",
+      "children": "自由内容：气泡、资源列表、工具调用、图片。",
+      "avatar": "消息旁渲染的头像元素，通常是 Avatar。",
+      "name": "渲染在消息主体上方的发送者名称，用作消息的无障碍标签。",
+      "metadata": "渲染在消息主体下方的元数据。",
+      "density": "视觉密度，未设置时继承列表上下文。"
+    },
+    "name": "聊天消息"
+  },
+  "ChatMessageBubble": {
+    "desc": "消息气泡本体，承载文字、token 化内容与尾部元数据。",
+    "props": {
+      "children": "气泡内容：文本、Markdown 或任意节点。",
+      "variant": "视觉变体。filled 使用发送者配色背景，为默认值。",
+      "name": "气泡上方显示的发送者名称，与气泡文本对齐。",
+      "metadata": "气泡下方显示的元数据，与气泡文本对齐。",
+      "group": "多气泡组中的位置，用于控制圆角缩减。",
+      "width": "气泡宽度（数字为像素，字符串原样使用）。"
+    },
+    "name": "消息气泡"
+  },
+  "ChatMessageList": {
+    "desc": "消息列表容器，负责转录的纵向排列与滚动。",
+    "props": {
+      "children": "消息元素，通常是 ChatMessage 或 ChatSystemMessage。",
+      "emptyState": "列表没有消息时显示的内容。",
+      "scrollToTopAction": "用户滚到顶部时触发的异步动作，用于加载更早的消息。",
+      "density": "视觉密度，通过上下文传给子消息。",
+      "gap": "顶层消息行之间的间距，默认取当前密度。",
+      "align": "列表短于容器时的垂直对齐。",
+      "isStreaming": "是否有助手消息正在流式输出，会标记列表末尾。"
+    },
+    "name": "消息列表"
+  },
+  "ChatMessageMetadata": {
+    "desc": "消息下方的元数据行，显示时间戳、脚注内容与可选的送达状态。",
+    "props": {
+      "timestamp": "时间戳内容：字符串或 Timestamp 组件。",
+      "footer": "脚注内容：模型信息、反应按钮、复制按钮。",
+      "status": "消息送达状态，显示图标与文字。"
+    },
+    "practices": [
+      "消息使用气泡时，把元数据放在最后一个气泡的 metadata 槽位。",
+      "分别传 timestamp 与 footer 内容；两者都为空时节分隔符会被省略。",
+      "提供 footer 动作却不给它们各自的无障碍名称与交互语义。",
+      "在气泡与它所属的消息上重复放同一份元数据。"
+    ],
+    "name": "消息元数据"
+  },
+  "ChatSendButton": {
+    "desc": "ChatComposer 的发送控件；当动作需要在「发送」与「停止」之间切换时使用。",
+    "props": {
+      "isStopShown": "是否显示停止按钮，默认取上下文值。",
+      "isDisabled": "发送按钮是否禁用，默认取上下文的 !canSend。",
+      "onSend": "用户点击发送时调用，默认走上下文的 onSubmit。",
+      "onStop": "流式生成中点击停止时调用，默认走上下文。",
+      "sendIcon": "发送态的自定义图标，默认取 arrowUp。",
+      "stopIcon": "停止态的自定义图标，默认取 stop。",
+      "size": "按钮尺寸。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "practices": [
+      "放在 ChatComposer 内部时，它的可用性与发送、停止行为会跟随上下文。",
+      "独立使用时，要同时提供状态与对应的 onSend 或 onStop。",
+      "提供自定义内容时，保留已翻译的「发送」「停止」无障碍名称。",
+      "在 props 没有可用 onStop 的情况下渲染停止态。",
+      "指望 isDisabled 禁用停止动作；它只作用于发送。"
+    ],
+    "name": "发送按钮"
+  },
+  "ChatSystemMessage": {
+    "desc": "聊天转录中的系统消息，用于简洁的非发送方内容。事实性状态用默认变体，分隔提示用 divider 变体。",
+    "props": {
+      "children": "系统消息内容：事实性文本或节点。",
+      "variant": "视觉变体。default 渲染居中文本，divider 会加上分隔线。",
+      "icon": "调用方提供的图标内容，渲染在消息之前。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "practices": [
+      "可见消息保持简洁、自洽，才能一眼看懂。",
+      "时间或区段边界用 divider 变体，其余事实性提示用默认变体。",
+      "用 ChatSystemMessage 承载发送者撰写的内容；那该用 ChatMessage 与气泡。",
+      "把调用方提供的图标当作唯一语义来源；文字才是主要载体。"
+    ],
+    "name": "系统消息"
+  },
+  "ChatTokenizedText": {
+    "desc": "当存好的纯文本中含序列化 token 值时使用，把它们投影为行内徽章或可调用的动作。",
+    "practices": [
+      "让输入区插入与消息渲染复用同一份 token 定义。",
+      "序列化值使用非空且稳定的内容，每个定义才能稳定对应到一个实体。",
+      "用 token 标签替代周围的消息文本；上下文仍然要靠文字表达。",
+      "在自定义 token 渲染里塞组件自有的交互或无障碍行为。"
+    ],
+    "props": {
+      "children": "含序列化 token 值的纯文本消息。",
+      "tokens": "与输入区使用同一类型的 token 定义。",
+      "xstyle": "根文本包装层的 StyleX 样式。"
+    },
+    "name": "Token 化文本"
+  },
+  "ChatToolCalls": {
+    "desc": "展示 LLM 响应中的工具或函数调用。传入调用数组，组件负责单次与多次调用的排版。",
+    "practices": [
+      "每个调用都带 target 字符串，用户才能看出这个工具操作了什么。",
+      "已完成的调用显示耗时，用户才能判断哪些工具慢。",
+      "自动计数说不清这组调用在做什么时，提供分组标签。",
+      "有输出的调用（diff、日志）用带代码块的 resultDetail 承载。",
+      "流式输出时给每个调用项设唯一 key，React 才能正确播放新增动画。",
+      "省略 status 字段。缺省会被当成已完成，实际还在运行的调用会显示错误状态。",
+      "在聊天消息上下文之外展示工具调用；它们是为消息流设计的。",
+      "给单个调用套自定义包装；组件已经处理了间距与状态。"
+    ],
+    "props": {
+      "calls": "工具调用数据数组，每项含 name、status 等字段。",
+      "label": "展开分组时显示的自定义摘要标签。",
+      "isExpanded": "受控的展开状态。",
+      "defaultIsExpanded": "非受控时的默认展开状态。",
+      "onExpandedChange": "展开状态变化时调用。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "工具调用"
+  },
+  "CheckboxListItem": {
+    "desc": "CheckboxList 中的单个复选项，可选择并支持辅助说明。",
+    "props": {
+      "label": "条目的主文本标签，支持富标签。",
+      "aria-label": "复选框的纯文本无障碍名称。",
+      "value": "身份键；父级 CheckboxList 为集合模式时必填。",
+      "description": "标签下方的次级内容。",
+      "endContent": "标签区之后渲染的内容。",
+      "align": "起始与结束内容相对标签区的垂直对齐。",
+      "isDisabled": "该单项是否禁用。",
+      "isLoading": "该项是否处于加载中，会显示转圈。",
+      "isChecked": "独立模式下的直接勾选状态；在组内由父级接管。",
+      "onCheck": "独立模式下的直接勾选处理器。"
+    },
+    "name": "复选组项"
+  },
+  "Citation": {
+    "desc": "行内引用外部来源。用于给 AI 回复、文章中的信息标注出处。",
+    "practices": [
+      "来源标题能为读者提供有意义的上下文时，用 label 变体。",
+      "正文内的紧凑行内引用，用 number 变体。",
+      "在同一段落里混用 label 与 number 变体；每篇只用一种。"
+    ],
+    "props": {
+      "source": "引用来源对象，含标题与链接等字段。",
+      "number": "该引用的展示序号。",
+      "variant": "展示样式。label 表示带来源标题的 chip。"
+    },
+    "name": "引用标注"
+  },
+  "CodeBlock": {
+    "desc": "渲染带语法高亮、行号、复制按钮与可选折叠分段的代码块。用于多行代码片段。",
+    "practices": [
+      "让 language 与代码内容匹配，语法高亮才准确。",
+      "代码代表某个文件时加 title，它给出上下文并显示在头部栏。",
+      "短的行内引用（函数名、命令行参数）用 Code，独立代码块用 CodeBlock。",
+      "给很短的片段（少于 5 行）开行号，只会增加杂乱而没有帮助。",
+      "把代码块嵌进可滚动容器；应当用 maxHeight，它能保持头部栏可见。"
+    ],
+    "props": {
+      "code": "要显示的代码字符串。",
+      "language": "语法高亮语言。传字符串即使用内建语言。",
+      "title": "头部栏显示的文件名或标签。",
+      "hasLanguageLabel": "在头部栏显示语言名称，语言未知时隐藏。",
+      "hasLineNumbers": "显示行号栏。",
+      "startLineNumber": "行号栏的起始行号，便于展示文件片段。",
+      "highlightLines": "需要高亮的行号（从 1 开始，与文件坐标一致）。",
+      "isDiff": "按统一 diff 渲染（基于 language）：以加号或减号开头的行视为新增与删除。",
+      "hasCopyButton": "显示复制到剪贴板按钮。",
+      "onCopy": "代码复制完成后的回调。",
+      "onCopyError": "剪贴板写入失败时以拒绝原因调用一次。",
+      "endContent": "你自己的控件，显示在复制按钮之前。",
+      "isWrapped": "长行换行显示，而不是横向滚动。",
+      "maxHeight": "超过该高度后代码块垂直滚动。",
+      "size": "文字尺寸变体。",
+      "width": "代码块宽度，可用任意 CSS 宽度值。",
+      "container": "容器呈现样式。card 为默认，带边框与圆角。",
+      "tokenizer": "已废弃。改为把 createCodeLanguage 的结果传给 language。",
+      "syntaxTheme": "单个实例的语法主题覆盖。",
+      "highlightMode": "语法高亮的渲染模式。",
+      "isCollapsible": "允许把代码体折叠到只剩头部栏。",
+      "collapsibleThreshold": "出现折叠开关所需的最小行数。",
+      "ref": "透传给根元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "代码块"
+  },
+  "CollapsibleGroup": {
+    "desc": "多个 Collapsible 的容器，用于统一管理展开状态与间距。",
+    "props": {
+      "type": "同一时间可以展开一项还是多项。",
+      "defaultValue": "非受控用法下的默认展开项；多项时传数组。",
+      "value": "受控的展开项。",
+      "onChange": "展开集合变化时调用。",
+      "hasDividers": "是否在分组项之间画细分隔线。",
+      "density": "行密度，控制触发器与内容的块级内边距。",
+      "chevronPosition": "组内直接子 Collapsible 共享的箭头位置。",
+      "children": "要协调的 Collapsible 实例。",
+      "ref": "分组包装层的引用，hasDividers 为真时生效。",
+      "xstyle": "分组包装层的 StyleX 样式，hasDividers 为真时生效。",
+      "className": "分组包装层的类名，hasDividers 为真时生效。",
+      "style": "分组包装层的行内样式，hasDividers 为真时生效。",
+      "data-testid": "转发给分组包装层的测试选择器。"
+    },
+    "name": "折叠组"
+  },
+  "CommandPaletteEmpty": {
+    "desc": "命令面板没有匹配结果时显示的空状态。",
+    "props": {
+      "children": "要显示的消息或内容。"
+    },
+    "name": "命令面板空状态"
+  },
+  "CommandPaletteFooter": {
+    "desc": "命令面板底部的操作提示区。默认由 CommandPalette 自动渲染，只有替换默认引导时才传入。",
+    "props": {
+      "children": "自定义底部内容。省略时渲染默认的键盘提示。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "命令面板底栏"
+  },
+  "CommandPaletteGroup": {
+    "desc": "命令面板中的结果分组。",
+    "props": {
+      "heading": "分组标题文字。",
+      "children": "CommandPaletteItem 子元素。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "命令面板分组"
+  },
+  "CommandPaletteInput": {
+    "desc": "命令面板的查询输入框；没有结果弹窗时也可以作为独立搜索框使用。",
+    "practices": [
+      "传一个简洁的 label，说明能搜什么；默认的「搜索命令」过于笼统。",
+      "用 endContent 在尾部放简短辅助控件或快捷键提示。",
+      "覆盖 combobox 的 role 或弹层状态；这些由 CommandPaletteInput 自己管理。"
+    ],
+    "props": {
+      "placeholder": "输入框的占位文字。",
+      "label": "查询字段的无障碍标签，会作为提示播报。",
+      "hasAutoFocus": "挂载时自动聚焦。",
+      "endContent": "输入框尾部渲染的内容。",
+      "value": "搜索值。在 CommandPalette 内省略时由父级接管。",
+      "onValueChange": "搜索值变化时调用。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "命令面板输入框"
+  },
+  "CommandPaletteItem": {
+    "desc": "命令面板列表或分组中的一行结果。键盘组合模型由 CommandPalette 统一管理。",
+    "practices": [
+      "每个 value 在结果列表内必须唯一，高亮与激活状态才对应得上。",
+      "在 CommandPalette 内部，每一项都是列表框弹层里的一个选项。",
+      "在条目内嵌套按钮、链接等交互控件；选项本身已经可以激活。",
+      "把 isHighlighted 当作选中。高亮是键盘当前所在项，选中是另一回事。"
+    ],
+    "props": {
+      "value": "用于条目身份、高亮与查询的唯一值。",
+      "children": "非交互的条目内容，如图标与文字。",
+      "onSelect": "该条目被指针激活后调用。",
+      "isHighlighted": "该项是否为键盘当前高亮项。",
+      "isSelected": "该项是否代表当前选中的值。",
+      "isDisabled": "该项是否不可用并阻止指针激活。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "命令面板条目"
+  },
+  "CommandPaletteList": {
+    "desc": "命令面板的结果列表容器。",
+    "props": {
+      "children": "条目、分组与空状态。",
+      "label": "列表框的无障碍标签。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "命令面板列表"
+  },
+  "DialogHeader": {
+    "desc": "为对话框提供带标签的标题区，可选关闭控件。",
+    "props": {
+      "title": "对话框标题，渲染在可聚焦的 h2 内：打开时获得焦点，其文本内容通过 aria-labelledby 为对话框命名（除非 Dialog 显式设置了 aria-label 或 aria-labelledby）。保持行内、非交互且非空。",
+      "subtitle": "标题下方的副标题，接受 Link 这类行内内容；避免使用块级元素。",
+      "onOpenChange": "关闭按钮的回调；省略则不渲染关闭按钮。",
+      "startContent": "标题之前的内容，例如返回按钮。",
+      "endContent": "标题之后、关闭按钮之前的内容。",
+      "endContentEdgeCompensation": "为尾部内容槽位选择补偿轴。省略时保留关闭动作的自动补偿。",
+      "hasDivider": "在底部边缘加边框。"
+    },
+    "name": "对话框头部"
+  },
+  "DrawerHeader": {
+    "desc": "在 Drawer 内 Layout 的 header 槽中组合使用，提供标题行与关闭控件。",
+    "props": {
+      "title": "抽屉标题，渲染为 h2，保持行内简洁。",
+      "subtitle": "标题下方的副标题，接受行内内容。",
+      "onOpenChange": "关闭按钮的回调，以 false 调用。",
+      "startContent": "标题前的内容，例如返回按钮。",
+      "endContent": "标题之后、关闭按钮之前的内容。",
+      "endContentEdgeCompensation": "为尾部内容选择补偿轴。",
+      "hasDivider": "在底部加边框，默认值随抽屉样式决定。"
+    },
+    "name": "抽屉头部"
+  },
+  "DropdownMenuCheckboxItem": {
+    "desc": "下拉菜单中可独立勾选的选项。行本身承担 menuitemcheckbox 语义，勾选框只是装饰。",
+    "props": {
+      "label": "标识该项的主标签文字。",
+      "description": "标签下方显示的次级描述。",
+      "icon": "标签前显示的图标。",
+      "value": "该项是否勾选，受控状态。",
+      "onChange": "以新的勾选状态调用。",
+      "isDisabled": "该项是否禁用。",
+      "hasCloseOnSelect": "切换该项后是否关闭菜单。",
+      "ref": "透传给行根元素的引用，该元素承载 menuitemcheckbox 状态。",
+      "endContent": "标签与描述之后渲染的内容。"
+    },
+    "name": "下拉菜单复选项"
+  },
+  "DropdownMenuDivider": {
+    "desc": "下拉菜单中的分隔线。",
+    "props": {
+      "xstyle": "在菜单间距之后应用的 StyleX 样式，必须是 stylex.create() 的值。"
+    },
+    "name": "下拉菜单分隔线"
+  },
+  "DropdownMenuGroup": {
+    "desc": "给相关菜单行一个可见且可编程的名称。只有单独命名会造成噪音时才用无标题分组。",
+    "practices": [
+      "标题用简短、可描述的文案，说明这组行是什么。",
+      "标题保持非交互，所有可用动作才都留在菜单里。",
+      "在标题里放按钮、链接、字段或其他控件。",
+      "把不构成有意义集合的行包成一组。"
+    ],
+    "props": {
+      "title": "组上方显示的非交互标题内容。",
+      "children": "组内的行，如 DropdownMenuItem。",
+      "xstyle": "应用于 role=“group” 包装层的 StyleX 样式。",
+      "className": "应用于 role=“group” 包装层的类名。",
+      "style": "应用于 role=“group” 包装层的行内样式。",
+      "ref": "透传给 role=“group” 包装层的引用。"
+    },
+    "name": "下拉菜单分组"
+  },
+  "DropdownMenuItem": {
+    "desc": "组合模式下拉菜单中的一个动作或跳转项。label、description、icon、endContent 保持非交互。",
+    "practices": [
+      "需要跳转时用 href，这样 LinkProvider、组合键点击、中键点击都能正常工作。",
+      "只有激活后在原地展示结果时，才把 hasCloseOnSelect 设为 false。",
+      "在 label、description 或 endContent 里放按钮、链接等可聚焦控件。"
+    ],
+    "props": {
+      "icon": "标签前显示的图标。",
+      "label": "主标签文字。",
+      "description": "标签下方显示的次级描述。",
+      "onClick": "选中时的回调，键盘激活也会触发。",
+      "href": "该行跳转的地址，设置后整行渲染为链接。",
+      "target": "链接的 target，仅在设置 href 时使用。",
+      "rel": "链接关系值，设置 href 时会自动加上 noopener noreferrer。",
+      "isDisabled": "该行是否不可用。禁用行仍可被感知，但不可激活。",
+      "endContent": "标签之后渲染的非交互内容。",
+      "hasCloseOnSelect": "激活后是否关闭菜单。",
+      "variant": "视觉变体。destructive 会把标签与图标渲染为危险色。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "ref": "透传给行根元素的引用，该元素承载 menuitem 状态。"
+    },
+    "name": "下拉菜单项"
+  },
+  "DropdownMenuRadioGroup": {
+    "desc": "当多个命令代表一组互斥选择时使用。value 由调用方状态持有。",
+    "practices": [
+      "保持 value 受控，并在 onChange 里更新，勾选状态才能跟上。",
+      "即使 aria-labelledby 已指向可见文字，也提供简洁的 label。",
+      "只有菜单必须保持打开以展示另一处结果时，才设 hasCloseOnSelect=false。",
+      "在单选组里放按钮、链接、复选框或任意菜单行。",
+      "再套一层按键处理或 roving focus；键盘模型由 DropdownMenu 统一负责。"
+    ],
+    "props": {
+      "value": "组内当前选中的值。",
+      "onChange": "选中值变化时调用。",
+      "label": "组的无障碍名称，作为 aria-label 应用。",
+      "hasCloseOnSelect": "选中某项后是否关闭菜单。",
+      "ref": "透传给 role=“group” 根元素的引用。",
+      "children": "组成该组的 DropdownMenuRadioItem。"
+    },
+    "name": "下拉菜单单选组"
+  },
+  "DropdownMenuRadioItem": {
+    "desc": "下拉菜单中单选组里的一项。",
+    "props": {
+      "value": "该项在其组内代表的值。",
+      "label": "标识该选项的主标签文字。",
+      "description": "标签下方显示的次级描述。",
+      "icon": "标签前显示的图标。",
+      "isDisabled": "该单个单选项是否禁用。",
+      "endContent": "标签与描述之后渲染的内容。",
+      "ref": "透传给行根元素的引用，该元素承载 menuitemradio 状态。"
+    },
+    "name": "下拉菜单单选项"
+  },
+  "DropdownMenuSubMenu": {
+    "desc": "下拉菜单中的子菜单，用于一层嵌套。",
+    "props": {
+      "label": "触发行的主标签。",
+      "icon": "标签前显示的图标。",
+      "description": "标签下方的次级描述文字。",
+      "children": "飞出菜单的条目，与顶层使用同一套组件。",
+      "isDisabled": "禁用的子菜单会渲染触发行，但永不打开。",
+      "hasSpinner": "在插入符位置显示转圈，例如子菜单正在懒加载。",
+      "menuWidth": "飞出面板的最小宽度，可随内容增长。",
+      "onOpenChange": "飞出面板开合时调用。",
+      "presentation": "子菜单行的呈现方式，flyout 表示以飞出面板展示。",
+      "delay": "悬停指针停留多久后才打开飞出面板。",
+      "hideDelay": "指针离开后飞出面板保持打开的时长。",
+      "header": "子菜单行上方、菜单之外的内容。",
+      "footer": "子菜单行下方、菜单之外的内容。",
+      "menuDataTestId": "子菜单自身 role=“menu” 元素的测试 id。",
+      "xstyle": "触发行的 StyleX 样式。",
+      "ref": "透传给触发行的引用，该元素承载展开状态。"
+    },
+    "name": "下拉菜单子菜单"
+  },
+  "FieldLabel": {
+    "desc": "表单字段的标签行，包含标签文字、必填或可选标记与末尾的提示图标。",
+    "props": {
+      "label": "标签文字，始终为无障碍而渲染。",
+      "inputID": "该标签所对应输入元素的 id。",
+      "labelID": "应用于标签元素自身的 id，配合 aria-labelledby 使用。",
+      "isGroupLabel": "渲染为 span，用于给控件组命名而不是单个输入。",
+      "isLabelHidden": "视觉隐藏标签与描述，仍保留无障碍可读。",
+      "isDisabled": "为关联输入使用禁用态的标签呈现。",
+      "isOptional": "显示本地化的「可选」标记，除非调用方显式覆盖。",
+      "isRequired": "显示本地化的「必填」标记。",
+      "labelIcon": "标签文字前显示的图标或图标内容。",
+      "labelTooltip": "标签后信息按钮的帮助文字。",
+      "description": "显示在标签下方、与输入关联的辅助内容。",
+      "descriptionID": "应用于辅助描述的 id，供调用方设置 aria-describedby。",
+      "ref": "透传给标签元素的引用；分组模式下指向分组标签。",
+      "xstyle": "应用于标签元素的 StyleX 样式。",
+      "className": "附加到标签元素的类名。",
+      "style": "应用于标签元素的行内样式。"
+    },
+    "name": "字段标签"
+  },
+  "InputGroupText": {
+    "desc": "InputGroup 内固定且简短的前缀或后缀，如货币符号、协议名、单位，或装饰性图标。",
+    "practices": [
+      "文字保持简短，如美元符号、https://、kg，且始终单行显示。",
+      "屏幕阅读器需要的信息放在输入自己的 label 里。",
+      "在 InputGroupText 里放按钮、链接或其他控件；那些该用 Button。",
+      "在 InputGroup 之外使用 InputGroupText；它的边框与圆角是与相邻元素拼接的。"
+    ],
+    "props": {
+      "children": "文字或图标内容。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "类名。",
+      "style": "行内样式。",
+      "ref": "透传给该文本单元格元素的引用。"
+    },
+    "name": "输入组文本"
+  },
+  "Icon": {
+    "desc": "表示动作、对象或概念的小图形符号，配合文字可提升扫读性并强化含义。",
+    "practices": [
+      "有语义图标名时优先使用，它们会自动跟随主题变化。",
+      "通过主题覆盖图标，而不是全局替换：defineTheme({icons: {close: ...}})。",
+      "要让图形匹配渲染尺寸，把主题或注册的图标项设为按尺寸提供。",
+      "图标配文字标签以满足无障碍；纯图标元素必须有无障碍名称。",
+      "有意义的独立图标（旁边没有文字）要给它一个无障碍名称。",
+      "图标颜色用 token，不要写死十六进制值。",
+      "注意语境；紧凑组件里的装饰性图标反而会分散注意力。",
+      "把图标当作传达含义的唯一手段；始终提供文字替代。"
+    ],
+    "props": {
+      "icon": "语义图标名或 SVG 组件。",
+      "color": "映射到 Astryx 图标颜色 token 的颜色变体。",
+      "size": "图标尺寸。xsm、sm、md、lg 分别为 12、16、20、24px。",
+      "variant": "请求当前主题为某个语义名提供的替代图形。",
+      "label": "有意义的独立图标（旁边无文字）的无障碍名称。",
+      "xstyle": "尺寸、颜色、不透明度等定制的 StyleX 样式。",
+      "className": "附加在渲染出的图形上的类名。",
+      "style": "合并到渲染图形上的行内样式。",
+      "ref": "渲染出的 SVG 元素引用。"
+    },
+    "name": "图标"
+  },
+  "GridSpan": {
+    "desc": "Grid 内跨列或跨行的容器，使子项跨越多个网格轨道。",
+    "props": {
+      "columns": "跨越的列数；用 full 跨越所有列。",
+      "rows": "跨越的行数。",
+      "children": "内容。",
+      "xstyle": "应用于跨度包装层的 StyleX 样式。",
+      "className": "应用于跨度包装层的类名。",
+      "style": "应用于跨度包装层的行内样式。",
+      "ref": "透传给跨度包装层的引用。"
+    },
+    "name": "网格跨度"
+  },
+  "HStack": {
+    "desc": "按行排列子元素并统一间距，用 gap 控制间距。",
+    "practices": [
+      "用 gap 控制 Item 之间的间距，不要手动加 margin。",
+      "用 StackItem 的 size=“fill” 让某一项伸展开占满剩余空间。",
+      "嵌套多层 Stack；先试 wrap=“wrap” 让内容换行。"
+    ],
+    "props": {
+      "gap": "间距档位（数字字面量）：0、0.5、1、1.5、2、3、4、5、6、8、10，用 JSX 数字表达式传入。",
+      "padding": "四边内边距，按间距阶梯取值。",
+      "paddingInline": "行内（水平）内边距；与 padding 同时设置时覆盖行内轴。",
+      "paddingInlineStart": "行内起始内边距（LTR 为左，RTL 为右），只覆盖该边。",
+      "paddingInlineEnd": "行内结束内边距（LTR 为右，RTL 为左），只覆盖该边。",
+      "paddingBlock": "块级（垂直）内边距；与 padding 同时设置时覆盖块轴。",
+      "paddingBlockStart": "块级起始（上）内边距，只覆盖该边。",
+      "paddingBlockEnd": "块级结束（下）内边距，只覆盖该边。",
+      "isScrollable": "允许溢出滚动（overflow: auto）。",
+      "width": "容器宽度。数字按像素处理，字符串原样使用。",
+      "height": "容器高度。数字按像素处理，字符串原样使用。",
+      "maxWidth": "容器最大宽度。",
+      "minHeight": "容器最小高度。",
+      "hAlign": "水平对齐，按方向解析为主轴对齐。",
+      "vAlign": "垂直对齐，按方向解析为交叉轴对齐。",
+      "justify": "主轴对齐的别名，按方向解析为 hAlign 或 vAlign，取值含 between。",
+      "align": "交叉轴对齐的别名，对应 CSS 的 align-items。",
+      "wrap": "弹性换行行为。",
+      "as": "渲染成哪个 HTML 元素。",
+      "children": "内容。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。",
+      "className": "附加在容器元素上的类名，位于组件样式之后。",
+      "style": "行内样式。其中 width、height、maxWidth、minHeight 会覆盖同名 prop。",
+      "ref": "渲染出的容器元素引用。"
+    },
+    "name": "水平栈"
+  },
+  "LayoutContent": {
+    "desc": "五区布局中的主内容区。",
+    "props": {
+      "children": "内容。",
+      "padding": "内部留白，按间距阶梯取值，覆盖默认内边距。",
+      "isScrollable": "启用滚动溢出；使用算术型 contentWidth 时滚动行为随之调整。",
+      "label": "该地标元素的无障碍标签，区域滚动时依然生效。",
+      "role": "ARIA 地标角色。"
+    },
+    "name": "布局内容区"
+  },
+  "LayoutFooter": {
+    "desc": "五区布局中的底部区。",
+    "props": {
+      "children": "底部内容。",
+      "hasDivider": "是否在顶部显示边框。",
+      "height": "底部高度。数字按像素处理，字符串原样使用。",
+      "label": "该地标元素的无障碍标签。",
+      "role": "ARIA 地标角色。"
+    },
+    "name": "布局底部区"
+  },
+  "LayoutHeader": {
+    "desc": "五区布局中的头部区。",
+    "props": {
+      "children": "头部内容。",
+      "hasDivider": "是否在底部加边框。",
+      "height": "头部高度。数字按像素处理，字符串原样使用。",
+      "label": "该地标元素的无障碍标签。",
+      "paddingBlockEnd": "块级结束（下）内边距，按间距阶梯取值。",
+      "role": "ARIA 地标角色。"
+    },
+    "name": "布局头部区"
+  },
+  "LayoutPanel": {
+    "desc": "五区布局中的侧边面板区。",
+    "props": {
+      "children": "面板内容。",
+      "hasDivider": "在相应边缘加边框。",
+      "padding": "内部留白，按间距阶梯取值。",
+      "isScrollable": "启用滚动溢出。",
+      "label": "该地标元素的无障碍标签，区域滚动时依然生效。",
+      "role": "ARIA 地标角色。",
+      "width": "面板宽度。数字按像素处理，字符串原样使用。",
+      "resizable": "useResizable() 的输出或其 props。"
+    },
+    "name": "布局面板区"
+  },
+  "VStack": {
+    "desc": "按列排列子元素并统一间距，用 gap 控制间距。",
+    "practices": [
+      "用 gap 控制 Item 之间的间距，不要手动加 margin。",
+      "用 StackItem 的 size=“fill” 让某一项伸展开占满剩余空间。",
+      "嵌套多层 Stack；先试 wrap=“wrap” 让内容换行。"
+    ],
+    "props": {
+      "gap": "间距档位（数字字面量）：0、0.5、1、1.5、2、3、4、5、6、8、10，用 JSX 数字表达式传入。",
+      "padding": "四边内边距，按间距阶梯取值。",
+      "paddingInline": "行内（水平）内边距；与 padding 同时设置时覆盖行内轴。",
+      "paddingInlineStart": "行内起始内边距（LTR 为左，RTL 为右），只覆盖该边。",
+      "paddingInlineEnd": "行内结束内边距（LTR 为右，RTL 为左），只覆盖该边。",
+      "paddingBlock": "块级（垂直）内边距；与 padding 同时设置时覆盖块轴。",
+      "paddingBlockStart": "块级起始（上）内边距，只覆盖该边。",
+      "paddingBlockEnd": "块级结束（下）内边距，只覆盖该边。",
+      "isScrollable": "允许溢出滚动（overflow: auto）。",
+      "width": "容器宽度。数字按像素处理，字符串原样使用。",
+      "height": "容器高度。数字按像素处理，字符串原样使用。",
+      "maxWidth": "容器最大宽度。",
+      "minHeight": "容器最小高度。",
+      "hAlign": "水平对齐，按方向解析为交叉轴对齐。",
+      "vAlign": "垂直对齐，按方向解析为主轴对齐。",
+      "justify": "主轴对齐的别名，按方向解析为 hAlign 或 vAlign，取值含 between。",
+      "align": "交叉轴对齐的别名，对应 CSS 的 align-items。",
+      "wrap": "弹性换行行为。",
+      "as": "渲染成哪个 HTML 元素。",
+      "children": "内容。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "附加在容器元素上的类名，位于组件样式之后。",
+      "style": "行内样式。其中 width、height、maxWidth、minHeight 会覆盖同名 prop。",
+      "ref": "渲染出的容器元素引用。"
+    },
+    "name": "垂直栈"
+  },
+  "ListItem": {
+    "desc": "List 中的单个条目，支持前置内容、标题、描述与尾部内容。",
+    "props": {
+      "label": "主内容。纯字符串会做单行截断。",
+      "description": "标签下方的次级内容，纯字符串同样会截断。",
+      "startContent": "渲染在标签区之前的内容，如图标、头像。",
+      "endContent": "渲染在标签区之后的内容，如徽章、按钮。",
+      "onClick": "点击回调，会启用不可见按钮模式。",
+      "interactiveRef": "指向嵌套控件（如 startContent 里的复选框）的引用。",
+      "href": "链接地址，会启用不可见锚点模式。",
+      "target": "链接的 target，仅在设置 href 时适用。",
+      "rel": "链接关系值，会自动合并 noopener 与 noreferrer。",
+      "align": "起始与结束内容相对标签区的垂直对齐。",
+      "isDisabled": "禁用态，会在条目上设置 aria-disabled。",
+      "isSelected": "选中态，把该项标记为当前项。",
+      "swipeActions": "透传给 Item 的触屏滑动动作。",
+      "swipeBehavior": "透传给 Item 的滑动行为。"
+    },
+    "name": "列表项"
+  },
+  "Markdown": {
+    "desc": "把 Markdown 字符串渲染为 Astryx 风格的组件。用于用户生成内容、AI 回复与文档。",
+    "practices": [
+      "让 headingLevelStart 与页面层级匹配，例如 markdown 位于三级标题之下时就从 3 开始。",
+      "宽布局里用 contentWidth 把正文控制在可读行宽内。",
+      "强调与加粗遵循 CommonMark 的配对规则，所以「*看 **这段** 更粗*」的加粗会正确闭合。",
+      "用 createMarkdownPlugin 创建插件，承载可复用语法与不可变 AST 变换。",
+      "需要在 Markdown 之外渲染插件节点（用另一个表面展示同一份文档）时，走插件暴露的渲染能力。",
+      "单行换行有语义时加 markdownSoftBreaksPlugin，其余情况与 CommonMark 默认行为一致。",
+      "需要把渲染结果映射回 Markdown 源行时，加 markdownSourceLinesPlugin。",
+      "做正文匹配用 createMarkdownTextTransform，它会保留代码、链接、图片等结构。"
+    ],
+    "props": {
+      "children": "要渲染的 markdown 字符串。",
+      "display": "显示方式。Markdown 默认块级；需要行内渲染时用 inline。",
+      "density": "控制块级元素之间的间距。",
+      "headingLevelStart": "markdown 的 # 映射到哪个 HTML 标题层级，会整体平移。",
+      "isStreaming": "启用流式模式，使用增量解析。",
+      "onLinkClick": "链接点击的处理函数，返回 false 可阻止默认行为。",
+      "sources": "以 ID 为键的引用来源。提供后 [id] 与【id】会被解析为引用。",
+      "citationStyle": "行内引用的展示方式，label 显示带标签的 chip。",
+      "contentWidth": "正文内容（段落、标题、列表）的最大宽度。",
+      "contentAlign": "contentWidth 生效时，正文在容器内的对齐方式。",
+      "plugins": "由 createMarkdownPlugin 创建的有序扩展。",
+      "inlinePlugins": "把解析后文本节点里的正则匹配转换为自定义元素。",
+      "autolink": "可选地为裸 URL 与邮箱自动加链接，gfm 采用 GFM 规则。",
+      "codeLanguages": "围栏代码块可声明的语言，逐个引入对应高亮实现。",
+      "components": "用于覆盖 Markdown 元素渲染的自定义 React 组件。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    },
+    "name": "Markdown"
+  },
+  "MetadataListItem": {
+    "desc": "MetadataList 中的一组键值条目。",
+    "props": {
+      "children": "该项的取值内容。",
+      "label": "该项的标签文字。",
+      "icon": "标签文字前显示的图标。"
+    },
+    "name": "元数据项"
+  },
+  "SideNavCollapseButton": {
+    "desc": "触发 SideNav 折叠的按钮。",
+    "props": {
+      "collapsible": "传给 SideNav 的同一份受控折叠配置，只有需要受控时才传。",
+      "handleRef": "已废弃。来自 SideNav 的命令式折叠句柄；改为传 collapsible。",
+      "label": "自定义按钮标签。提供后渲染为带文字的按钮。",
+      "size": "按钮尺寸，默认继承容器级联下来的尺寸。",
+      "children": "自定义按钮内容，会覆盖默认的箭头图标与标签。"
+    },
+    "name": "侧边导航折叠按钮"
+  },
+  "SideNavHeading": {
+    "desc": "侧边导航顶部的品牌或标题区。",
+    "props": {
+      "heading": "产品与应用名称。",
+      "icon": "产品与应用图标。",
+      "headingHref": "标题的链接。",
+      "superheading": "标题上方的文字。",
+      "superheadingHref": "上方文字的链接。",
+      "subheading": "标题下方的文字。",
+      "subheadingHref": "下方文字的链接。",
+      "menu": "在弹出层里渲染的菜单内容。",
+      "headerEndContent": "渲染在标题行尾部、位于末尾的内容。"
+    },
+    "name": "侧边导航头部"
+  },
+  "SideNavItem": {
+    "desc": "侧边导航中的一个条目，可含图标、子项与选中态。",
+    "props": {
+      "label": "条目标签。",
+      "as": "自定义链接组件。",
+      "icon": "未选中（轮廓）变体显示的图标。",
+      "selectedIcon": "选中（填充）变体显示的图标。",
+      "isSelected": "把该项标记为当前页。",
+      "isDisabled": "禁用态。",
+      "href": "导航地址。",
+      "onClick": "点击回调。",
+      "endContent": "仅用于被动展示的右侧内容（徽章、计数）；交互控件请放进 actions。",
+      "actions": "行级次级控件（图标按钮、菜单），渲染在独立区域。",
+      "children": "用于嵌套的子项，会占满导航宽度。",
+      "collapsible": "为带子项的条目启用折叠行为。",
+      "size": "导航条目行的尺寸变体。"
+    },
+    "name": "侧边导航项"
+  },
+  "SideNavSection": {
+    "desc": "侧边导航中的一个分组。",
+    "props": {
+      "title": "分组标题。",
+      "subtitle": "分组副标题。",
+      "children": "分组条目。",
+      "endContent": "分组头部的右侧内容。",
+      "isHeaderHidden": "视觉隐藏分组头部，仍对屏幕阅读器可访问。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "侧边导航分组"
+  },
+  "TopNavHeading": {
+    "desc": "顶部导航的品牌区，通常放 logo 与产品名。",
+    "props": {
+      "logo": "标题文字前显示的 logo 元素。",
+      "heading": "作为主标题显示的产品或应用名。",
+      "headingHref": "标题文字的链接，例如产品首页。",
+      "superheading": "标题上方的文字，例如套件名。",
+      "superheadingHref": "上方文字的链接，例如套件首页。",
+      "subheading": "标题下方的文字，例如账号上下文。",
+      "subheadingHref": "下方文字的链接。",
+      "headerEndContent": "渲染在标题行尾部的内容。",
+      "menu": "弹出下拉里显示的菜单内容。",
+      "as": "替代 a 标签渲染的自定义组件，会覆盖 href 的默认行为。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "顶部导航头部"
+  },
+  "TopNavItem": {
+    "desc": "顶部导航中的一个链接项。",
+    "props": {
+      "label": "导航项的无障碍标签，默认渲染为可见文字。",
+      "href": "导航目标地址。",
+      "isSelected": "该导航项当前是否选中。",
+      "isDisabled": "是否禁用，会设置 aria-disabled。",
+      "isIconOnly": "渲染成方形纯图标元素。",
+      "icon": "标签前显示的图标。",
+      "children": "替代 label 渲染的自定义内容。",
+      "as": "替代 a 标签渲染的自定义组件。"
+    },
+    "name": "顶部导航项"
+  },
+  "TopNavMegaMenu": {
+    "desc": "顶部导航中的大型下拉面板，可容纳多列内容。",
+    "props": {
+      "label": "触发按钮的可见标签。",
+      "items": "菜单项槽位，通常是 TopNavMegaMenuItem。",
+      "featured": "推荐内容槽位，渲染在面板右侧。",
+      "delay": "显示菜单前的延迟（毫秒）。",
+      "hideDelay": "隐藏菜单前的延迟（毫秒）。",
+      "onOpenChange": "大菜单打开或关闭时调用。"
+    },
+    "name": "顶部导航大菜单"
+  },
+  "TopNavMegaMenuFeaturedCard": {
+    "desc": "大型下拉面板中的推荐卡片。",
+    "props": {
+      "title": "卡片标题。",
+      "description": "标题下方的描述文字。",
+      "image": "显示在主体上方的可选图片地址。",
+      "imageAlt": "图片的 alt 文本；省略时按装饰性处理。",
+      "linkLabel": "CTA 链接文字。",
+      "linkHref": "CTA 链接地址。",
+      "children": "渲染在标准内容下方的自定义内容。"
+    },
+    "name": "大菜单推荐卡片"
+  },
+  "TopNavMegaMenuItem": {
+    "desc": "大型下拉面板中的一个条目。",
+    "props": {
+      "title": "菜单项的显示标题。",
+      "description": "标题下方显示的可选描述。",
+      "icon": "左侧显示的可选图标。",
+      "href": "点击后跳转的地址。",
+      "onClick": "点击时的回调。",
+      "as": "跳转时替代 a 标签渲染的自定义组件。"
+    },
+    "name": "大菜单条目"
+  },
+  "TopNavMenu": {
+    "desc": "顶部导航中的普通下拉菜单。",
+    "props": {
+      "label": "触发按钮的可见标签。",
+      "items": "悬停弹出菜单中显示的条目。",
+      "delay": "悬停后显示菜单的延迟（毫秒）。",
+      "hideDelay": "鼠标离开后隐藏菜单的延迟（毫秒）。"
+    },
+    "name": "顶部导航菜单"
+  },
+  "RadioListItem": {
+    "desc": "RadioList 中的单个单选项。",
+    "props": {
+      "label": "单选项的主标签，支持富标签。",
+      "aria-label": "单选控件的纯文本无障碍名称。",
+      "value": "该单选项的值。",
+      "description": "标签下方显示的次级内容。",
+      "align": "起始与结束内容相对标签区的垂直对齐。",
+      "isDisabled": "该单项是否禁用。",
+      "startContent": "单选圆圈之前渲染的内容。",
+      "endContent": "标签之后渲染的内容。"
+    },
+    "name": "单选组项"
+  },
+  "SegmentedControlItem": {
+    "desc": "SegmentedControl 中的单个分段按钮。",
+    "props": {
+      "value": "该分段的唯一值，与父级的 value 匹配。",
+      "label": "该分段的无障碍标签，默认渲染为可见文字。",
+      "isLabelHidden": "是否视觉隐藏标签；为真时只显示图标。",
+      "icon": "标签前显示的图标。",
+      "isDisabled": "该单独项是否禁用；被禁用的选中项仍会显示为选中态。"
+    },
+    "name": "分段项"
+  },
+  "SelectorOption": {
+    "desc": "Selector 下拉列表中的一个选项。",
+    "props": {
+      "label": "该项的主标签文字。",
+      "icon": "标签前显示的图标。",
+      "description": "标签下方显示的次级描述。",
+      "layout": "标签与描述的组合方式，stacked 表示上下堆叠。",
+      "endContent": "标签与描述之后渲染的附加内容。"
+    },
+    "name": "选择器选项"
+  },
+  "TableBody": {
+    "desc": "表格的数据主体区。",
+    "props": {
+      "children": "tbody 中的行。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "表格主体"
+  },
+  "TableCell": {
+    "desc": "表格中的一个单元格。",
+    "props": {
+      "children": "单元格内容。"
+    },
+    "name": "单元格"
+  },
+  "TableFooter": {
+    "desc": "表格的底部汇总区。",
+    "props": {
+      "children": "tfoot 中的行。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "表格底部"
+  },
+  "TableHeader": {
+    "desc": "表格的列标题区。",
+    "props": {
+      "children": "thead 中的行。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "表格列头"
+  },
+  "TableHeaderCell": {
+    "desc": "表格的列标题单元格。",
+    "props": {
+      "children": "列头单元格内容。"
+    },
+    "name": "列头单元格"
+  },
+  "TableRow": {
+    "desc": "表格中的一行。",
+    "props": {
+      "children": "该行的单元格元素。"
+    },
+    "name": "表格行"
+  },
+  "TableSelectionToolbar": {
+    "desc": "选中行后出现的操作工具条。把 useTableSelectionState 的两个输出分别传给对应的消费方。",
+    "practices": [
+      "直接把 useTableSelectionState 返回的 selectionState 传进来，计数与清空才能同步。",
+      "产品动作作为 startContent 传入，而不是编码进配置项。",
+      "通过 Table 插件或它的横向滚动包装层注入工具条。"
+    ],
+    "props": {
+      "selection": "useTableSelectionState 返回的共享选中状态。",
+      "startContent": "产品自己的操作控件，左对齐。",
+      "label": "动作区域的无障碍名称。",
+      "renderSelectionLabel": "覆盖可见的计数文案，用于本地化。",
+      "clearLabel": "清空选中命令的可见标签。",
+      "size": "工具条尺寸，会级联到产品操作控件。",
+      "variant": "工具条表面的视觉变体。",
+      "xstyle": "调用方自己的布局样式，包括 sticky 定位。"
+    },
+    "name": "表格选择工具条"
+  },
+  "Tab": {
+    "desc": "TabList 中的单个标签。",
+    "props": {
+      "value": "该标签的唯一值，与 TabList 的 value 匹配。",
+      "label": "标签的无障碍标签，同时作为可见文字。",
+      "isLabelHidden": "是否视觉隐藏标签；为真时只显示图标。",
+      "href": "跳转地址；提供后标签渲染为链接。",
+      "panelId": "该标签所控制面板的 id，用于建立 ARIA 关联。",
+      "as": "提供 href 时使用的自定义组件。",
+      "icon": "未选中时显示的图标。",
+      "selectedIcon": "选中时显示的图标。",
+      "endContent": "标签之后渲染的内容，如徽章。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "标签页"
+  },
+  "TabMenu": {
+    "desc": "TabList 中带下拉菜单的标签。",
+    "props": {
+      "label": "触发按钮的标签，未选择选项时显示，同时作为菜单的无障碍名称。",
+      "options": "下拉菜单中渲染的选项数组。"
+    },
+    "name": "标签页菜单"
+  },
+  "Timer": {
+    "desc": "显示标准化的工作耗时，不会每次 tick 都触发 React 渲染。一小时内按秒更新。",
+    "practices": [
+      "需要可能跨越秒、分、时的紧凑耗时文本时，用 elapsed。",
+      "秒数在进入分钟后仍有意义的秒表界面，用 clock。",
+      "操作在 Timer 挂载前就已开始时，传 startTime，显示才准确。",
+      "用 Timer 表示日期、时区或相对日历表达；那该用 Timestamp。",
+      "没有必要时加 aria-live；每次 tick 都播报会干扰用户。"
+    ],
+    "props": {
+      "startTime": "被计时操作开始时的 Unix 毫秒时间戳。",
+      "format": "标准时长表示。elapsed 使用紧凑格式。",
+      "type": "语义文本类型，沿用 Text 的排版行为。",
+      "size": "显式字号覆盖，优先于 type 带来的尺寸。",
+      "color": "文字颜色。",
+      "weight": "字重覆盖。",
+      "xstyle": "Text 包装层的 StyleX 样式。",
+      "className": "Text 包装层的类名，样式优先用 xstyle。",
+      "style": "Text 包装层的行内样式，样式优先用 xstyle。"
+    },
+    "name": "计时器"
+  },
+  "Timestamp": {
+    "desc": "把日期或时间格式化为人类可读文本。用于展示创建、更新或计划中的时间。",
+    "practices": [
+      "信息流与列表用 auto 格式：近期条目显示「2 小时前」，久远的显示具体日期。",
+      "同一列表或表格内保持格式一致；混用相对与绝对时间会让人反复换算。",
+      "受众跨多个时区时，开启 isTimezoneShown。",
+      "读者需要比对时区时（如故障记录），使用 tooltipEntries。",
+      "绝对时间需要对所有观看者读起来一致时，传 timezoneID。",
+      "提示里出现多个时区后，给每条都加标签；裸缩写容易误解。",
+      "活跃看板或实时流用 isLive，让相对时间保持更新。",
+      "读者需要拿到精确值时，使用 tooltipEntries。"
+    ],
+    "props": {
+      "value": "要显示的日期或时间，接受 Unix 时间戳等输入。",
+      "format": "显示格式，relative 使用区域设置的相对表达。",
+      "timezoneID": "绝对格式渲染所用的 IANA 时区。",
+      "autoThreshold": "auto 格式从相对切换为绝对的时间阈值（秒）。",
+      "hasTooltip": "是否显示可复制的悬停卡，包含完整时间。",
+      "tooltipEntries": "悬停时显示的各行，让同一时刻可按多个时区读取。",
+      "isTimezoneShown": "是否在值后附加时区缩写。",
+      "isLive": "相对时间是否实时更新。",
+      "type": "来自 Text 的语义文本类型，决定字号、字重与行高。",
+      "size": "显式字号覆盖，优先于 type 带来的尺寸。",
+      "color": "文字颜色。",
+      "weight": "字重覆盖。"
+    },
+    "name": "时间戳"
+  },
+  "Token": {
+    "desc": "表示离散关联数据的小行内元素，如标签、分类或已选项。",
+    "practices": [
+      "用颜色区分分类，例如绿色表示「启用」、红色表示「已阻断」。",
+      "token 代表用户可移除的选择时，提供 onRemove。",
+      "图标能更快识别类型时加前置图标，例如人像表示成员。",
+      "标签保持一到三个词；超长会以省略号截断。",
+      "用 token 承载主要操作或导航；请用 Button 或 Link。",
+      "隐藏标签，除非图标已经普遍可理解；颜色不能替代文字。",
+      "一组 token 里混太多颜色；保持两到三种有意义的颜色。"
+    ],
+    "props": {
+      "label": "token 内显示的文本标签。",
+      "size": "token 的尺寸。",
+      "color": "token 的颜色变体。",
+      "icon": "渲染在标签之前的可选图标。",
+      "isDisabled": "是否禁用，会降低不透明度并阻止交互。",
+      "onRemove": "点击删除按钮时调用。",
+      "onClick": "点击回调。提供后 token 渲染为可点击元素。",
+      "href": "链接地址。提供后 token 渲染为链接元素。",
+      "description": "通过 aria-description 施加的无障碍描述。",
+      "endContent": "渲染在标签之后、删除按钮之前的内容。",
+      "isLabelHidden": "用仅供屏幕阅读器的类隐藏标签。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    },
+    "name": "标签块"
+  },
+  "BaseTypeahead": {
+    "desc": "可组合的 combobox 引擎，提供裸输入框、搜索、键盘导航与样式化结果下拉。它不渲染输入框装饰与边框。",
+    "practices": [
+      "标准字段用 Typeahead 或 Tokenizer，它们把 BaseTypeahead 包上了输入框装饰。",
+      "自己提供可见标签或 aria-label 以及自定义输入包装，裸输入才有意义。",
+      "传 anchorRef 指向你的包装元素，下拉才会相对自定义控件定位。",
+      "期待它提供输入框装饰或已选值渲染；BaseTypeahead 只是一个引擎。",
+      "Typeahead 或 Tokenizer 就能满足时用 BaseTypeahead；多出来的包装与无障碍工作都得自己做。",
+      "把 Esc 理解为取消数据源里未完成的工作；它只关闭当前弹层。"
+    ],
+    "props": {
+      "searchSource": "提供 search 与 bootstrap 方法的数据源。",
+      "value": "当前选中项。",
+      "onChange": "选中项变化时的回调。",
+      "renderItem": "自定义下拉项渲染。",
+      "placeholder": "输入占位文字。",
+      "hasEntriesOnFocus": "输入前聚焦时也显示 bootstrap 结果。",
+      "maxMenuItems": "下拉最多显示多少条。",
+      "menuWidth": "期望的下拉宽度（像素），会被视口夹取。",
+      "minQueryLength": "触发搜索所需的最小查询长度。",
+      "emptySearchText": "查询没有匹配时显示的内容。",
+      "isDisabled": "输入是否禁用。",
+      "isFocusableDisabled": "让禁用的输入仍可聚焦，并用 aria-disabled 标明状态。",
+      "hasAutoFocus": "挂载时自动聚焦。",
+      "debounceMs": "触发搜索前的防抖时长（毫秒）。",
+      "size": "用于缩放下拉选项内边距的尺寸。",
+      "anchorRef": "下拉定位所用锚点元素的引用。",
+      "inputXStyle": "输入元素附加的 StyleX 样式。",
+      "xstyle": "应用于输入的标准 BaseProps StyleX 样式。",
+      "inputTabIndex": "input 专用的 tabIndex 别名（历史遗留）。",
+      "onKeyDown": "在内建键盘处理之前调用的额外 keydown 处理器。",
+      "onChangeQuery": "搜索词变化时调用。",
+      "onOpenChange": "下拉打开或关闭时调用。",
+      "inputId": "input 专用的 id 别名（历史遗留）。",
+      "ariaDescribedBy": "input 专用的 aria-describedby 别名（历史遗留）。",
+      "ariaLabelledBy": "input 专用的 aria-labelledby 别名（历史遗留）。"
+    },
+    "name": "基础即时搜索"
+  },
+  "TypeaheadItem": {
+    "desc": "Typeahead 结果列表中的一项。",
+    "props": {
+      "item": "要渲染的搜索结果项。",
+      "icon": "标签前显示的图标或头像。",
+      "description": "标签下方显示的描述文字。",
+      "isDisabled": "该项是否以禁用样式显示。",
+      "group": "该 prop 无效。分组请在搜索结果的 item.auxiliaryData.group 上设置。"
+    },
+    "name": "即时搜索项"
+  },
+  "InternationalizationProvider": {
+    "desc": "包裹应用以设置当前语言，并可合并额外的翻译目录与按语言的覆盖文案。",
+    "practices": [
+      "使用 Astryx 已发布的语言目录，位于 @astryxdesign/core/locales/*。",
+      "只有 Astryx 尚未发布该语言时，才提供同结构的本地目录。",
+      "使用真实的 BCP 47 标签，如 fr-FR、pt-BR、ar-SA；区域化语言才能选到正确目录。",
+      "自己把 dir 属性设到 html 或包裹元素上，Provider 不会改文档方向。",
+      "需要 Calendar、DateInput、DateRangeInput 使用对应历法时，设置 calendar。",
+      "把自定义目录映射断言为 any；i18n 包已经导出了 ProviderMessages 这类类型。"
+    ],
+    "props": {
+      "locale": "当前语言的 BCP 47 标签。",
+      "messages": "可选的 BCP 47 标签到目录的映射。",
+      "overrides": "叠加在目录之上的按语言稀疏覆盖。",
+      "dir": "显式的文本方向覆盖。",
+      "calendar": "子树使用的历法，例如 persian。",
+      "children": "在国际化上下文下渲染的内容。"
+    },
+    "name": "国际化提供者"
+  },
+  "LinkProvider": {
+    "desc": "包裹应用，用框架的链接组件（如 Next.js 的 Link）替换默认 a 标签，让所有 Astryx 链接走客户端路由。",
+    "props": {
+      "component": "子树中所有链接元素使用的链接组件（如 Next.js 的 Link）。",
+      "children": "在链接提供者下渲染的内容。"
+    },
+    "name": "链接提供者"
+  },
+  "MediaTheme": {
+    "desc": "为反向表面上的内容提供 token 覆盖：媒体浮层、遮罩、Toast 与 Tooltip。",
+    "practices": [
+      "用于任何置于深色背景上的内容，如图片浮层、视频遮罩。",
+      "表面颜色来自主题 token 时，优先用 mode=“auto”。",
+      "配合背景色使用；MediaTheme 只翻转 token 上下文，不负责绘制背景。",
+      "主题可以通过 onDark.components 定制媒体表面上的组件。",
+      "用 MediaTheme 实现应用级深色模式；那该用 Theme 的 mode=“dark”。"
+    ],
+    "props": {
+      "mode": "表面亮度上下文，dark 表示深色背景上的内容。",
+      "fallback": "auto 无法判定表面明暗时，使用哪一侧的取值。",
+      "children": "在反转 token 上下文下渲染的内容。"
+    },
+    "name": "媒体主题"
+  },
+  "Theme": {
+    "desc": "为子树套用指定的 Astryx 主题。生产环境的静态主题请用 astryx theme build 生成 CSS 与主题对象。",
+    "practices": [
+      "应用级、提前确定的主题，用 astryx theme build 生成。",
+      "主题在浏览器里创建或编辑时，用运行时主题。",
+      "token 名一律以两个短横线开头，如 --color-accent。",
+      "在 SSR 生产应用中默认使用运行时主题；组件覆盖会带来额外开销。"
+    ],
+    "props": {
+      "theme": "要应用的主题对象，优先使用构建产物。",
+      "mode": "颜色模式，system 表示跟随系统偏好。",
+      "children": "在该主题下渲染的内容。"
+    },
+    "name": "主题"
+  },
+  "VisuallyHidden": {
+    "desc": "让内容留在无障碍树中但视觉上隐藏。用于纯图标控件的无障碍名称、aria-live 播报区等。",
+    "practices": [
+      "用它给纯图标按钮与控件提供屏幕阅读器可读的无障碍名称。",
+      "用块级元素（as=“div”）配 aria-live 播报动态消息。",
+      "用它隐藏内容让所有人看不到；它仍然留在无障碍树里。",
+      "在其中放交互控件；内容不可见，也就无法操作。"
+    ],
+    "props": {
+      "children": "对辅助技术暴露、但视觉上隐藏的内容。",
+      "as": "渲染成的 HTML 标签；播报动态消息时用块级元素。"
+    },
+    "name": "视觉隐藏"
+  }
+}

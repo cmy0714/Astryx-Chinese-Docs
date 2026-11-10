@@ -1,0 +1,106 @@
+{
+  "Item": {
+    "practices": [
+      "常见布局用命名槽位：startContent、label、description、endContent。",
+      "菜单与密集列表用 density=“compact”，标准行用 balanced，更宽松的行用 spacious。",
+      "内容长度会变化时，用 labelLines 与 descriptionLines 控制截断。",
+      "换行的标签旁边是一个小标记（状态点等）时，用 align=“first-line”。",
+      "给滑动手势的动作在行里另留一个入口（菜单或 endContent 里的按钮）；滑动手势本身不好被发现。",
+      "在可交互的 Item 里再嵌可交互元素（按钮、链接），会产生嵌套交互冲突。",
+      "用 Item 做视图之间的导航；请用专门的导航组件。",
+      "直接在 Item 里加已读、未读或收件箱专属行为；应当组合一层薄包装。"
+    ],
+    "props": {
+      "label": "标识该条目的主文本，接受字符串并自动截断。",
+      "marker": "作为直接弹性子元素渲染在 startContent 之前的标记。",
+      "startContent": "渲染在标签与描述区之前的内容，如头像或图标。",
+      "description": "次级文本：副标题、描述或补充信息。",
+      "endContent": "渲染在标签与描述区之后的内容，如徽章或按钮。",
+      "as": "根元素渲染成什么：HTML 元素或组件。",
+      "align": "start 与 end 内容槽位的垂直对齐，center 表示居中。",
+      "density": "间距密度。compact 使用 4px 块级内边距。",
+      "labelLines": "标签截断前的最大行数。",
+      "descriptionLines": "描述截断前的最大行数。",
+      "layout": "标签与描述的组合方式，stacked 表示上下堆叠。",
+      "onClick": "点击回调。会让条目可点击并获得按钮语义。",
+      "interactiveRef": "指向嵌套控件（如 startContent 里的复选框）的引用。",
+      "href": "链接地址。通过不可见锚点元素让整行成为链接。",
+      "target": "链接的 target，仅在设置 href 时使用。设为 _blank 会自动补全安全 rel。",
+      "rel": "链接关系值，会自动合并 noopener 与 noreferrer。",
+      "isHighlighted": "高亮态（悬停或键盘聚焦时的外观）。",
+      "isSelected": "选中态。",
+      "isDisabled": "禁用态。",
+      "swipeActions": "触屏滑动动作：横向拖动能露出哪些操作。",
+      "swipeBehavior": "滑动后的行为，reveal 表示让该行保持展开。",
+      "ref": "透传给根元素的引用，类型跟随 as。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素的类名。",
+      "style": "根元素的行内样式。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "Markdown": {
+    "practices": [
+      "让 headingLevelStart 与页面层级匹配，例如 markdown 位于三级标题之下时就从 3 开始。",
+      "宽布局里用 contentWidth 把正文控制在可读行宽内。",
+      "强调与加粗遵循 CommonMark 的配对规则，所以「*看 **这段** 更粗*」的加粗会正确闭合。",
+      "用 createMarkdownPlugin 创建插件，承载可复用语法与不可变 AST 变换。",
+      "需要在 Markdown 之外渲染插件节点（用另一个表面展示同一份文档）时，走插件暴露的渲染能力。",
+      "单行换行有语义时加 markdownSoftBreaksPlugin，其余情况与 CommonMark 默认行为一致。",
+      "需要把渲染结果映射回 Markdown 源行时，加 markdownSourceLinesPlugin。",
+      "做正文匹配用 createMarkdownTextTransform，它会保留代码、链接、图片等结构。"
+    ],
+    "props": {
+      "children": "要渲染的 markdown 字符串。",
+      "display": "显示方式。Markdown 默认块级；需要行内渲染时用 inline。",
+      "density": "控制块级元素之间的间距。",
+      "headingLevelStart": "markdown 的 # 映射到哪个 HTML 标题层级，会整体平移。",
+      "isStreaming": "启用流式模式，使用增量解析。",
+      "onLinkClick": "链接点击的处理函数，返回 false 可阻止默认行为。",
+      "sources": "以 ID 为键的引用来源。提供后 [id] 与【id】会被解析为引用。",
+      "citationStyle": "行内引用的展示方式，label 显示带标签的 chip。",
+      "contentWidth": "正文内容（段落、标题、列表）的最大宽度。",
+      "contentAlign": "contentWidth 生效时，正文在容器内的对齐方式。",
+      "plugins": "由 createMarkdownPlugin 创建的有序扩展。",
+      "inlinePlugins": "把解析后文本节点里的正则匹配转换为自定义元素。",
+      "autolink": "可选地为裸 URL 与邮箱自动加链接，gfm 采用 GFM 规则。",
+      "codeLanguages": "围栏代码块可声明的语言，逐个引入对应高亮实现。",
+      "components": "用于覆盖 Markdown 元素渲染的自定义 React 组件。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "className": "根元素类名，样式优先用 xstyle。",
+      "style": "根元素行内样式，样式优先用 xstyle。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  },
+  "HoverCard": {
+    "practices": [
+      "内容保持补充性质；悬停卡应当帮助理解，而不是阻断任务。",
+      "文本触发器加虚线下划线，用户才知道这里可以悬停。",
+      "需要更精细地控制时机或位置时，改用 useHoverCard 钩子。",
+      "让 touchTrigger 保持 auto，轻触即可打开卡片。",
+      "把关键操作或必需信息放进悬停卡；用户很容易错过。",
+      "简单的 Tooltip 或 Popover 就够用时，还上悬停卡。",
+      "用 HoverCard 承载必须交互的内容；光标一移开它就消失。",
+      "优先把 HoverCard 放在块级上下文里，而不是直接塞进段落或标题中。"
+    ],
+    "props": {
+      "children": "触发器。文本子节点会被识别为可悬停文本。",
+      "content": "悬停卡的内容。",
+      "placement": "相对锚点元素的位置，逻辑值按书写方向解析。",
+      "alignment": "沿 placement 轴的对齐方式。",
+      "delay": "显示延迟（毫秒）。",
+      "hideDelay": "隐藏延迟（毫秒）。",
+      "focusTrigger": "何时由聚焦打开悬停卡。",
+      "touchTrigger": "没有悬停能力时轻触的行为。",
+      "isEnabled": "启用或禁用悬停与聚焦触发。",
+      "label": "悬停卡弹窗的无障碍名称，提供后作为对话框命名。",
+      "onOpenChange": "可见性变化时的回调。",
+      "hasHoverIndication": "在文本触发器上显示虚线下划线，auto 表示按触发器类型自动判断。",
+      "isDefaultOpen": "挂载时是否默认显示，仍然可以被关闭。",
+      "isOpen": "受控打开状态。",
+      "xstyle": "卡片表面（承载内容的外层元素）的 StyleX 样式。",
+      "className": "附加在卡片表面的类名。",
+      "style": "卡片表面的行内样式。"
+    }
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "ChatComposer": {
+    "props": {
+      "onSubmit": "用户提交消息时调用。",
+      "onStop": "用户请求停止生成时调用。",
+      "isStopShown": "是否用停止按钮替换发送按钮。",
+      "value": "受控输入值。",
+      "onChange": "受控模式下的变化处理器。",
+      "placeholder": "输入为空时的占位文字。",
+      "isDisabled": "禁用输入区。",
+      "density": "视觉密度。",
+      "elevation": "输入区主体的静止层次，low 为默认。",
+      "drawer": "槽位：输入框上方的可折叠抽屉，用于附件与上下文。",
+      "headerActions": "槽位：头部左侧动作，如附件、提及按钮。",
+      "headerContext": "槽位：头部右侧的上下文信息，如 token 计数。",
+      "input": "槽位：自定义输入元素，替代默认输入。",
+      "footerActions": "槽位：底部左侧动作，如模型选择。",
+      "sendActions": "槽位：发送按钮左侧的动作。",
+      "sendButton": "槽位：自定义发送按钮，替代默认的发送与停止。",
+      "status": "渲染在输入区下方或上方的状态消息。",
+      "statusPosition": "状态渲染的位置。"
+    }
+  },
+  "ChatComposerInput": {
+    "practices": [
+      "需要以代码插入文本或 token 时用 handleRef，插入内容会遵循当前光标与格式。",
+      "粘贴或拖入文件的处理用 onFiles，并把文件校验留在这个回调里。",
+      "为普通提及或命令写自定义 token 渲染；优先使用结构化触发器。"
+    ],
+    "props": {
+      "handleRef": "命令式句柄，支持插入文本等操作。",
+      "value": "受控输入值，与 onChange 搭配做双向绑定。",
+      "onChange": "输入值变化时调用，传出序列化后的内容。",
+      "placeholder": "输入为空时的占位文字。",
+      "maxRows": "输入开始滚动前的最大可见行数。",
+      "triggers": "typeahead 菜单的触发器定义。",
+      "debounceMs": "异步搜索源的防抖时长。",
+      "hasHistory": "允许用上下方向键召回此前提交的消息。",
+      "label": "屏幕阅读器播报的无障碍标签。",
+      "isDisabled": "禁用输入。流式生成中或权限不足时使用。",
+      "onPaste": "粘贴纯文本时调用，返回 true 表示已经处理。",
+      "pasteAsToken": "粘贴为 token 的行为；默认纯文本粘贴按普通文本插入。",
+      "onFiles": "文件被粘贴或拖入输入框时调用。",
+      "onSubmit": "用户在不按 Shift 的情况下回车时调用。",
+      "onKeyDown": "在内建回车与键盘处理之前调用的处理器。",
+      "enterKeyHint": "触屏键盘回车键的文案（原生 enterkeyhint）。"
+    }
+  },
+  "DropdownMenuSubMenu": {
+    "props": {
+      "label": "触发行的主标签。",
+      "icon": "标签前显示的图标。",
+      "description": "标签下方的次级描述文字。",
+      "children": "飞出菜单的条目，与顶层使用同一套组件。",
+      "isDisabled": "禁用的子菜单会渲染触发行，但永不打开。",
+      "hasSpinner": "在插入符位置显示转圈，例如子菜单正在懒加载。",
+      "menuWidth": "飞出面板的最小宽度，可随内容增长。",
+      "onOpenChange": "飞出面板开合时调用。",
+      "presentation": "子菜单行的呈现方式，flyout 表示以飞出面板展示。",
+      "delay": "悬停指针停留多久后才打开飞出面板。",
+      "hideDelay": "指针离开后飞出面板保持打开的时长。",
+      "header": "子菜单行上方、菜单之外的内容。",
+      "footer": "子菜单行下方、菜单之外的内容。",
+      "menuDataTestId": "子菜单自身 role=“menu” 元素的测试 id。",
+      "xstyle": "触发行的 StyleX 样式。",
+      "ref": "透传给触发行的引用，该元素承载展开状态。"
+    }
+  },
+  "CommandPalette": {
+    "practices": [
+      "提供带 bootstrap 结果的 searchSource，让用户在输入前就能看到有用选项。",
+      "用条目的 auxiliaryData.group 自动把结果组织成带标签的分组。",
+      "同一页面可能出现多个命令面板时，给每个具体不同的 label。",
+      "保持 renderItem 内容非交互；每一行本身就是一个选项。",
+      "拦截查询框的键盘事件却不保留输入法组合状态，中文与日文输入会被打断。",
+      "用 CommandPalette 做简单下拉或菜单；行内场景请用 Menu 或 Selector。",
+      "塞太多分组与条目；精选结果才能让面板既快又好扫读。"
+    ],
+    "props": {
+      "isOpen": "命令面板对话框是否可见。",
+      "onOpenChange": "面板可见性变化时调用。",
+      "searchSource": "通过 search(query) 与 bootstrap 提供条目的搜索源。",
+      "input": "输入区槽位，默认为带状态显示的 CommandPaletteInput。",
+      "footer": "底部槽位，默认为显示操作提示的 CommandPaletteFooter。",
+      "renderItem": "逐条渲染函数，用于非交互式的结果展示。",
+      "emptySearchText": "搜索无结果时显示的内容。",
+      "emptyBootstrapText": "没有查询且 bootstrap 也为空时显示的内容。",
+      "value": "选择器模式下的受控选中值。",
+      "onValueChange": "选择器模式下选中值变化时调用。",
+      "label": "命令面板对话框的无障碍标签。",
+      "width": "对话框宽度。",
+      "maxHeight": "对话框最大高度。",
+      "isInline": "就地渲染命令面板内容，不使用模态行为。"
+    }
+  },
+  "Timestamp": {
+    "practices": [
+      "信息流与列表用 auto 格式：近期条目显示「2 小时前」，久远的显示具体日期。",
+      "同一列表或表格内保持格式一致；混用相对与绝对时间会让人反复换算。",
+      "受众跨多个时区时，开启 isTimezoneShown。",
+      "读者需要比对时区时（如故障记录），使用 tooltipEntries。",
+      "绝对时间需要对所有观看者读起来一致时，传 timezoneID。",
+      "提示里出现多个时区后，给每条都加标签；裸缩写容易误解。",
+      "活跃看板或实时流用 isLive，让相对时间保持更新。",
+      "读者需要拿到精确值时，使用 tooltipEntries。"
+    ],
+    "props": {
+      "value": "要显示的日期或时间，接受 Unix 时间戳等输入。",
+      "format": "显示格式，relative 使用区域设置的相对表达。",
+      "timezoneID": "绝对格式渲染所用的 IANA 时区。",
+      "autoThreshold": "auto 格式从相对切换为绝对的时间阈值（秒）。",
+      "hasTooltip": "是否显示可复制的悬停卡，包含完整时间。",
+      "tooltipEntries": "悬停时显示的各行，让同一时刻可按多个时区读取。",
+      "isTimezoneShown": "是否在值后附加时区缩写。",
+      "isLive": "相对时间是否实时更新。",
+      "type": "来自 Text 的语义文本类型，决定字号、字重与行高。",
+      "size": "显式字号覆盖，优先于 type 带来的尺寸。",
+      "color": "文字颜色。",
+      "weight": "字重覆盖。"
+    }
+  },
+  "ContextMenu": {
+    "practices": [
+      "菜单项简洁且面向动作，用户期待快速拿到上下文操作。",
+      "条目多时用分组与分隔线整理相关动作。",
+      "右键应当保持跟随光标位置时，用 presentation=“adaptive”。",
+      "确保右键菜单里的所有动作也能通过其他 UI 元素触发。",
+      "移动端的重要动作保留一个可见的 MoreMenu 或等效入口。",
+      "把右键菜单当作重要动作的唯一入口；并不是所有用户都知道可以右键。",
+      "单个菜单里放超过 10 到 12 项却不做分组。"
+    ],
+    "props": {
+      "children": "触发区域：在这块内容上右键即可打开菜单。",
+      "items": "数据驱动的菜单条目，与 menuContent 二选一。",
+      "menuContent": "组合模式下的自定义 JSX 菜单内容，与 items 二选一。",
+      "menuWidth": "自定义菜单宽度。",
+      "size": "菜单项尺寸，控制内边距密度。",
+      "label": "菜单表面的无障碍名称，打开时播报。",
+      "onOpenChange": "菜单打开或关闭时调用。",
+      "presentation": "呈现策略，popover 表示在指针位置打开。",
+      "isDisabled": "为真时右键显示浏览器原生菜单。",
+      "triggerXstyle": "应用于触发包装层的样式。",
+      "triggerAs": "触发包装层渲染成什么元素，div 为默认。"
+    }
+  },
+  "AppShell": {
+    "practices": [
+      "选对高度：内部滚动的看板用 fill，随页面滚动的文档用 auto。",
+      "按内容类型设置 contentPadding：表单与设置用 4，表格用 0。",
+      "给每个导航槽位一个无障碍名称。AppShell 会把 TopNav 与 SideNav 渲染为地标。",
+      "页面标题放在 children 里。AppShell 负责跳转链接、横幅与主区域。",
+      "手机上在 viewport meta 中加 viewport-fit=cover，让页面占满屏幕。",
+      "嵌套 AppShell；它是最外层的布局框架。",
+      "用它做子页面布局；AppShell 内部的内容区域请用 Layout。",
+      "自己再加跳转链接或 main 元素。AppShell 已经渲染了这两者，重复会造成结构冲突。"
+    ],
+    "props": {
+      "children": "主内容区，渲染在 main 元素内。",
+      "contentPadding": "主内容区的内边距，按内容类型设置。",
+      "topNav": "顶部导航槽位，通常是 TopNav。",
+      "sideNav": "侧边导航槽位，通常是 SideNav。",
+      "mobileNav": "移动导航配置，接受 false 表示禁用。",
+      "banner": "系统级公告的横幅槽位，位于内容上方。",
+      "height": "高度行为。fill 让外壳占满视口。",
+      "variant": "导航背景样式，控制导航区域的观感。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "AlertDialog": {
+    "practices": [
+      "动作按钮文案要具体：「删除项目」比「确定」「确认」好得多。",
+      "在描述里写清会发生什么，让用户确认前就知道后果。",
+      "取消按钮保持破坏性最小的焦点落点。窄屏上破坏性操作在视觉上靠后。",
+      "动作标签简洁具体。宽度较窄时完整按钮可能换行独占一行，注意布局。",
+      "用 AlertDialog 处理非破坏性操作；请用普通 Dialog。",
+      "只靠颜色表达危险；动作标签本身就该说明会发生什么。",
+      "在操作完成前从 onAction 里关闭弹窗；应保持打开并用 isActionLoading，完成后再调用 onOpenChange 关闭。"
+    ],
+    "props": {
+      "isOpen": "是否打开。",
+      "onOpenChange": "可见性变化时的回调。",
+      "title": "对话框标题，通过 aria-labelledby 关联。",
+      "description": "后果描述，通过 aria-describedby 关联。",
+      "actionLabel": "动作按钮的文案。",
+      "onAction": "点击动作按钮时调用，不会自动关闭。",
+      "cancelLabel": "取消按钮的文案。",
+      "actionVariant": "动作按钮的变体。",
+      "isActionLoading": "在动作按钮上显示加载转圈。",
+      "width": "请求的弹窗宽度。Dialog 会保留该首选宽度并限制在容器内。",
+      "isInline": "就地渲染内容，不使用模态行为，用于文档演示。"
+    }
+  },
+  "Drawer": {
+    "practices": [
+      "用于上下文详情视图（行检查器、实体详情），让用户仍能看到下面的列表。",
+      "以调用方为唯一状态源：从选中状态推导 isOpen，并在 onOpenChange 中清除选中。",
+      "主从流程用 hasScrim={false}；非模态抽屉不锁定焦点，背后页面仍可操作。",
+      "关闭时保留最后选中的条目：children 在退出动画期间保持挂载，此时立刻置空内容会闪一下。",
+      "每个抽屉都要有可见的关闭动作，通常用 DrawerHeader 加 onOpenChange；非模态抽屉没有遮罩可点。",
+      "误点遮罩会丢失未保存输入时，用 purpose=“form”。",
+      "用 Drawer 做简短确认或小表单；请用 Dialog 或 AlertDialog。",
+      "内容本该把页面挤到一边时用 Drawer；Drawer 浮在内容之上，这种场景请用停靠面板。"
+    ],
+    "props": {
+      "isOpen": "是否打开。完全受控，配合 onOpenChange 使用。",
+      "onOpenChange": "抽屉请求改变开合状态时调用，Esc 与点击遮罩也会走这里。",
+      "label": "抽屉的无障碍标签，必填；抽屉没有内建的标题。",
+      "children": "抽屉内容，渲染在整高的可滚动区域内，布局由你组合。",
+      "side": "从哪条边滑出。end 在 LTR 中即右侧，符合检查器惯例。",
+      "width": "桌面端宽度预算。数字为像素，字符串为任意 CSS 长度。",
+      "experimental": "实验性选项，对象内任何内容都可能在补丁版本中变更或移除。",
+      "hasScrim": "抽屉背后的模态遮罩。true 使用 showModal()，进入顶层并锁定焦点。",
+      "purpose": "配置隐式关闭行为，与 Dialog 一致。info 表示 Esc 与点击遮罩都会关闭。",
+      "padding": "抽屉内容的内边距，按间距阶梯取值。"
+    }
+  },
+  "DropdownMenu": {
+    "practices": [
+      "菜单项简洁且以动作为导向，便于快速扫读。",
+      "条目多时用分组和分隔线组织相关操作。",
+      "动作集合短且扁平、产品策略要求模态触控面板时，用 presentation=“bottom-sheet”。",
+      "同一组短动作需要在指针布局上锚定、在触屏上变成面板时，用 presentation=“adaptive”。",
+      "层级在紧凑触屏上放不下相邻的飞出面板时，产品可以显式使用底部面板。",
+      "在产品代码里显式选择 presentation；「紧凑、粗指针、无悬停」的媒体查询是一种常用判断。",
+      "当内容不再是「一小组即时动作」时，重新评估交互并换用合适的组件。",
+      "用 DropdownMenu 做导航；请改用导航类组件。"
+    ],
+    "props": {
+      "button": "触发按钮的 props（Button 的属性，onClick 除外）。与 renderTrigger 互斥。",
+      "renderTrigger": "自定义菜单挂载的控件——图标按钮、chip、头像、链接等。",
+      "items": "菜单条目数组，每项是动作项、分隔线或分组。",
+      "presentation": "数据驱动条目的呈现表面。popover 保持锚定，bottom-sheet 从底部升起。",
+      "isMenuOpen": "受控的打开状态。以 true 挂载会直接渲染为打开态。",
+      "onOpenChange": "打开状态变化时的回调。",
+      "menuWidth": "popover 呈现的最小宽度，长度值可随内容增长。",
+      "menuMaxHeight": "popover 呈现的最大高度（像素），用于必须容纳的长菜单。",
+      "header": "行上方、菜单之外的区域内容，如筛选框或开关。",
+      "footer": "行下方、菜单之外的区域内容，如「创建」按钮。",
+      "placement": "相对触发器的浮层位置，底部面板呈现会忽略。",
+      "alignment": "沿 placement 轴的对齐，底部面板呈现会忽略。",
+      "onClick": "触发器被接受激活时的回调。",
+      "hasChevron": "触发按钮是否显示下拉箭头。纯图标按钮应设为 false。",
+      "children": "组合模式下的菜单内容：DropdownMenuItem、DropdownMenuDivider 等。"
+    }
+  },
+  "MoreMenu": {
+    "practices": [
+      "用于溢出或次级操作；主要操作保持在菜单外可见。",
+      "条目多时用分隔线或分组整理相关操作。",
+      "可见的溢出触发器在触屏上应打开拇指可达的底部面板时，用 presentation=“adaptive”。",
+      "把主要操作藏进 MoreMenu；它们应当直接可见。"
+    ],
+    "props": {
+      "items": "菜单条目：动作、分隔线与分组的数组，类型同 DropdownMenu。",
+      "label": "触发按钮的无障碍标签（aria-label）与提示文字。",
+      "variant": "触发按钮的视觉样式变体。",
+      "size": "触发按钮的尺寸。",
+      "icon": "覆盖默认的三点图标，接受任意节点。",
+      "isDisabled": "菜单触发器是否禁用。",
+      "placement": "菜单相对触发器的位置。逻辑值 start / end 按书写方向解析。",
+      "alignment": "沿 placement 轴的对齐。用 end 让菜单与触发器对齐。",
+      "presentation": "透传给 DropdownMenu 的呈现策略，adaptive 会保持锚定。",
+      "onOpenChange": "菜单打开或关闭时的回调。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "ButtonGroup": {
+    "practices": [
+      "把操作同一对象的按钮归为一组，比如对选中文本做复制、剪切、粘贴。",
+      "组内按钮使用同一变体，看起来才像一个连体控件。",
+      "每组保持小规模（2 到 4 个）。操作更多时改用 Toolbar 或 DropdownMenu。",
+      "把差异很大的操作混在一起。同一个组里放保存和删除会让人困惑。",
+      "用 ButtonGroup 做导航；切换视图请用 SegmentedControl 或 TabList。",
+      "嵌套 ButtonGroup。需要多组时并排放置，中间留出间距。",
+      "组名要说明这些按钮作用于什么。label 是整组的无障碍名称，屏幕阅读器会先读它。",
+      "整组只占一个 Tab 停靠点。方向键沿排列方向在成员间移动，Home 与 End 跳到两端。"
+    ],
+    "props": {
+      "children": "Button 或 IconButton 子元素。",
+      "label": "整组的无障碍标签（aria-label）。",
+      "orientation": "按钮组的排列方向。",
+      "size": "组内按钮的默认尺寸，单个按钮可以覆盖。",
+      "isDisabled": "是否禁用组内所有按钮。",
+      "elevation": "整组的静止阴影。连体按钮共用一个表面，阴影整体抬起。",
+      "ref": "透传给根元素的引用。",
+      "xstyle": "布局定制的 StyleX 样式，必须是 stylex.create() 的值。",
+      "data-testid": "自动化测试用的选择器。"
+    }
+  }
+}

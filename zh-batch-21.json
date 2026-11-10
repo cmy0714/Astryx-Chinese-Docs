@@ -1,0 +1,104 @@
+{
+  "CommandPaletteEmpty": { "props": { "children": "要显示的消息或内容。" } },
+  "DropdownMenuDivider": { "props": { "xstyle": "在菜单间距之后应用的 StyleX 样式，必须是 stylex.create() 的值。" } },
+  "TableCell": { "props": { "children": "单元格内容。" } },
+  "TableHeaderCell": { "props": { "children": "列头单元格内容。" } },
+  "TableRow": { "props": { "children": "该行的单元格元素。" } },
+  "CommandPaletteFooter": {
+    "props": {
+      "children": "自定义底部内容。省略时渲染默认的键盘提示。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TableBody": {
+    "props": {
+      "children": "tbody 中的行。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TableFooter": {
+    "props": {
+      "children": "tfoot 中的行。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TableHeader": {
+    "props": {
+      "children": "thead 中的行。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "TabMenu": {
+    "props": {
+      "label": "触发按钮的标签，未选择选项时显示，同时作为菜单的无障碍名称。",
+      "options": "下拉菜单中渲染的选项数组。"
+    }
+  },
+  "LinkProvider": {
+    "props": {
+      "component": "子树中所有链接元素使用的链接组件（如 Next.js 的 Link）。",
+      "children": "在链接提供者下渲染的内容。"
+    }
+  },
+  "AvatarStatusDot": {
+    "props": {
+      "variant": "语义变体，颜色与形状配合区分状态：success 为实心圆，其余变体使用不同形状以示区分。",
+      "label": "描述状态的无障碍标签。在 Avatar 内部会并入头像的无障碍名称。",
+      "icon": "圆点中央的图标，极小尺寸下隐藏。"
+    }
+  },
+  "ChatLayoutScrollButton": {
+    "props": {
+      "isVisible": "按钮是否可见。绑定到滚动位置判断，只在需要时出现。",
+      "label": "可选标签，会把按钮展开为带文字的形式，如「新消息」。",
+      "onClick": "点击回调，通常滚到底部并清除新消息提示。"
+    }
+  },
+  "CommandPaletteGroup": {
+    "props": {
+      "heading": "分组标题文字。",
+      "children": "CommandPaletteItem 子元素。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "CommandPaletteList": {
+    "props": {
+      "children": "条目、分组与空状态。",
+      "label": "列表框的无障碍标签。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "MetadataListItem": {
+    "props": {
+      "children": "该项的取值内容。",
+      "label": "该项的标签文字。",
+      "icon": "标签文字前显示的图标。"
+    }
+  },
+  "TopNavMenu": {
+    "props": {
+      "label": "触发按钮的可见标签。",
+      "items": "悬停弹出菜单中显示的条目。",
+      "delay": "悬停后显示菜单的延迟（毫秒）。",
+      "hideDelay": "鼠标离开后隐藏菜单的延迟（毫秒）。"
+    }
+  },
+  "LayoutContent": {
+    "props": {
+      "children": "内容。",
+      "padding": "内部留白，按间距阶梯取值，覆盖默认内边距。",
+      "isScrollable": "启用滚动溢出；使用算术型 contentWidth 时滚动行为随之调整。",
+      "label": "该地标元素的无障碍标签，区域滚动时依然生效。",
+      "role": "ARIA 地标角色。"
+    }
+  },
+  "LayoutFooter": {
+    "props": {
+      "children": "底部内容。",
+      "hasDivider": "是否在顶部显示边框。",
+      "height": "底部高度。数字按像素处理，字符串原样使用。",
+      "label": "该地标元素的无障碍标签。",
+      "role": "ARIA 地标角色。"
+    }
+  }
+}

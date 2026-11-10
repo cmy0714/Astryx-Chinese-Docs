@@ -1,0 +1,79 @@
+{
+  "Button": {
+    "practices": [
+      "一个视图里 primary 只留给最重要的一个操作，其余按强调程度用 secondary 或 ghost。",
+      "标签写清楚动作本身（「保存修改」「删除账号」「发送邀请」），不要用「确定」「点这里」这类含糊说法。",
+      "耗时操作（保存、提交）要显示加载态，让用户知道正在处理。",
+      "纯图标按钮必须给 label，屏幕阅读器才有得读；给视力正常用户再加一个 tooltip。",
+      "专用的纯图标按钮请用 IconButton，它是独立组件，不从 Button 导出。",
+      "同一视图里放多个 primary 按钮，会稀释视觉层级。",
+      "对不可撤销操作（如删除数据）使用 destructive 变体却不加确认步骤。",
+      "用按钮做导航。若只是跳转页面请用链接；按钮只负责保存、删除、提交这类动作。"
+    ],
+    "props": {
+      "label": "无障碍标签。默认同时作为可见文字；isIconOnly 为真时用作 aria-label。",
+      "variant": "视觉样式变体。",
+      "size": "尺寸档位。",
+      "elevation": "悬浮按钮的静止阴影（如 FAB）。none 是默认平面样式，low/med/high 对应阴影阶梯。",
+      "type": "原生 button 的 type 属性。",
+      "name": "表单提交时的 HTML name。",
+      "value": "表单提交时的 HTML value。",
+      "form": "通过 id 把按钮关联到某个表单。",
+      "isLoading": "显示加载转圈并阻止重复点击，但保持可聚焦（用 aria-busy + aria-disabled，而非原生 disabled）。",
+      "isInterruptible": "clickAction 进行中仍可再次点击：仍显示转圈与 aria-busy，但不禁用按钮。",
+      "isDisabled": "禁用按钮。存在 tooltip 时改用 aria-disabled，让按钮仍可聚焦。",
+      "icon": "文字前渲染的图标。未指定尺寸的 Astryx Icon 会按按钮尺寸自动取 sm 或 md。",
+      "isIconOnly": "为真时渲染成方形纯图标按钮，label 转为 aria-label。需要 icon；专用图标按钮请改用 IconButton。",
+      "width": "按钮宽度。数字按像素处理，字符串原样使用（如 '100%' 表示满宽）。",
+      "children": "可选，覆盖可见文字。提供后显示它而不是 label，但 label 仍然必填（它才是无障碍名称）。",
+      "endContent": "文字后渲染的尾部图标或徽章。isIconOnly 为真时忽略，颜色继承自按钮。",
+      "tooltip": "悬停时显示的提示文字。",
+      "onClick": "标准点击回调（透传自原生 button 属性）。",
+      "clickAction": "异步点击回调。返回的 Promise 未完成期间自动显示加载态。",
+      "href": "提供后按钮渲染成链接（a 标签或自定义链接组件）。",
+      "as": "提供 href 时使用的自定义链接组件（如 Next.js 的 Link）。",
+      "target": "渲染为链接时的 HTML target，如 _blank。",
+      "rel": "渲染为链接时的 HTML rel，如 noopener noreferrer。"
+    }
+  },
+  "Badge": {
+    "practices": [
+      "每个状态徽章都会抢注意力。只在用户需要注意到或采取行动时使用：错误、警告、待跟进项。没有后续动作就用普通文字。",
+      "success / warning / error 只用于需要引起注意的系统状态：「失败」「降级」「需要处理」。它们是大面积实心底色。",
+      "颜色变体（blue、purple、teal 等）用于给条目分类：团队名、内容类型、优先级。",
+      "标签控制在一到两个词。需要更多说明就放到周边文字里。",
+      "图标能帮助快速识别类型时可以加，但必须同时保留文字标签。",
+      "给每个正常条目都挂 success 徽章。全绿等于没有重点，只会增加噪音。",
+      "用徽章承载元数据。时长、计数、日期、描述都不是状态或分类，应当用普通文本。",
+      "把语义状态变体（success/warning/error/info）用于分类或说明性内容。它们视觉上很响，应只表达系统状态。"
+    ],
+    "props": {
+      "variant": "视觉样式变体。语义变体（neutral/info/success/warning/error）用实心底色，其余颜色变体用浅色底。",
+      "label": "徽章文字。单行显示，高度随字号增长；超宽时截断省略，完整文字放在 title 里。",
+      "icon": "可选的前置图标。"
+    }
+  },
+  "Dialog": {
+    "practices": [
+      "先选对用途：info 用于可关闭的信息；form 防止点遮罩误关；required 用于必须回应的场景。",
+      "头部要有清晰标题，让用户立刻明白弹窗在问什么。",
+      "含输入框的弹窗用 purpose=\"form\"，避免用户点遮罩丢失数据。",
+      "弹窗只聚焦单一任务；内容多到放不下时，考虑改用整页。",
+      "用弹窗展示本可以内联或 Toast 表达的简单消息。",
+      "在弹窗里再套弹窗；把流程改成一个弹窗内的多个步骤。",
+      "用 fullscreen 变体做简单确认；它是给编辑器、长表单这类复杂内容准备的。"
+    ],
+    "props": {
+      "isOpen": "是否打开。",
+      "onOpenChange": "可见性变化时的回调。",
+      "children": "弹窗内容。",
+      "width": "首选宽度，可为像素或任意 CSS 值；标准弹窗会限制在容器内。",
+      "maxHeight": "最大高度。默认取动态视口值，以适配浏览器 UI 变化。",
+      "position": "弹窗的固定位置；省略时居中。行内偏移请用逻辑值 start / end。",
+      "variant": "弹窗变体：fullscreen 占满整个视口。",
+      "purpose": "控制关闭行为：required 禁用 Esc 与点遮罩；form 在输入后禁用点遮罩。",
+      "padding": "弹窗内边距，按间距阶梯取值。",
+      "isInline": "就地渲染内容，不使用 dialog 元素、遮罩和模态行为。用于文档演示。"
+    }
+  }
+}

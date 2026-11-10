@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Astryx 组件文档</title>
+    <meta name="description" content="Astryx 设计系统组件文档：174 个组件的 API、用法、主题与无障碍要求。" />
+
+    <!-- Astryx 自己的样式（提供 design token），顺序固定 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@astryxdesign/core@0.7.11/src/reset.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@astryxdesign/core@0.7.11/dist/astryx.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@astryxdesign/theme-neutral@0.7.11/dist/theme.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <header class="top">
+      <a class="brand" href="#/">
+        <span class="dot"></span>
+        Astryx
+        <span class="ver">v0.7.11</span>
+      </a>
+
+      <button class="search-trigger" id="searchBtn">
+        <span>搜索组件、Hook、文档…</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      <div class="top-spacer"></div>
+
+      <button class="icon-btn" id="sidebarBtn" style="display: none">目录</button>
+      <button class="icon-btn" id="langBtn">原文对照</button>
+      <button class="icon-btn" id="themeBtn">深色</button>
+      <a class="icon-btn" href="https://github.com/meta/astryx" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </header>
+
+    <div class="layout">
+      <aside class="side" id="side"></aside>
+      <main id="main"></main>
+      <nav class="toc" id="toc"></nav>
+    </div>
+
+    <div class="modal" id="modal">
+      <div class="palette">
+        <input id="searchInput" placeholder="输入组件名、关键词或用途，例如 button / 表格 / 弹窗" autocomplete="off" />
+        <div class="palette-results" id="searchResults"></div>
+      </div>
+    </div>
+
+    <script src="./live.js" defer></script>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

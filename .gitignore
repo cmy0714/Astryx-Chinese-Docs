@@ -1,0 +1,6 @@
+node_modules/
+.live-src/
+.smoke/
+*.log
+.DS_Store
+Thumbs.db

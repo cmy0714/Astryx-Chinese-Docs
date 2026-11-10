@@ -1,0 +1,149 @@
+{
+  "Heading": {
+    "props": {
+      "level": "标题层级，决定语义标签（h1–h6）与视觉样式。",
+      "type": "展示型变体，用 display 级样式覆盖 level 带来的视觉效果。",
+      "weight": "显式字重覆盖，优先于所选视觉类型或层级默认值。",
+      "children": "标题内容。",
+      "accessibilityLevel": "无障碍层级覆盖。与 level 不同时会设置 aria-level，保持文档大纲正确。",
+      "color": "文字颜色。主题可扩展自定义颜色。",
+      "display": "显示方式。maxLines 大于 0 或启用 hasCapsize 时会被强制为 block。",
+      "maxLines": "截断前允许的最大行数，0 表示不截断。设置后若发生截断会自动出现提示。",
+      "hasTruncateTooltip": "控制截断文本的提示行为，true 在默认位置显示提示。",
+      "wordBreak": "截断时的断词方式。单行截断默认 break-all。",
+      "textWrap": "文本换行行为。",
+      "justify": "文本对齐，使用逻辑值（start / end）以兼容 i18n 与 RTL。",
+      "hasCapsize": "用 text-box-trim 做光学对齐，会强制块级显示。",
+      "hasStrikethrough": "加删除线。",
+      "id": "HTML id 属性。",
+      "xstyle": "应用于标题元素的 StyleX 样式，必须是 stylex.create() 的值。",
+      "className": "应用于标题元素的类名。",
+      "style": "应用于标题元素的行内样式。maxLines 大于 1 时会影响行高。",
+      "ref": "标题元素的引用。"
+    }
+  },
+  "Text": {
+    "practices": [
+      "选语义类型（body、label、supporting、large、code），而不是手动设 size 与 weight；主题会统一处理。",
+      "视觉层级与文档大纲不一致时，在 Heading 上设 accessibilityLevel，让屏幕阅读器读到正确结构。",
+      "用 maxLines 加数字截断长内容；发生截断时会自动出现提示，信息不会丢。",
+      "数字列启用 hasTabularNumbers，让各行数字纵向对齐。",
+      "语义类型已匹配时还覆盖 size 与 weight；多余的覆盖会跟主题打架，换主题就崩。",
+      "跳级使用标题层级；应当 h1 → h2 → h3，不能 h1 直接到 h3。",
+      "用 p、h1–h6、span 等原生标签排版；Text 与 Heading 会自动套用正确的主题 token。",
+      "给 Text 传 variant；它没有 variant，语义样式请用 type（body、label、large 等）。"
+    ],
+    "props": {
+      "type": "语义文本类型，从主题决定字号、字重与行高。inherit 表示全部沿用外层。",
+      "children": "文本内容。",
+      "size": "显式字号覆盖，保留 type 的其他属性。一般建议只用 type。",
+      "color": "文字颜色。supporting 类型默认 secondary，其余默认 primary。",
+      "weight": "字重覆盖。",
+      "display": "显示方式，maxLines 大于 0 或启用 hasCapsize 时强制为 block。",
+      "as": "渲染成哪个 HTML 元素。",
+      "maxLines": "截断前最大行数，0 为不截断；截断时悬停显示提示。",
+      "hasTruncateTooltip": "控制截断提示的行为。",
+      "wordBreak": "截断时的断词方式。",
+      "textWrap": "文本换行行为。",
+      "justify": "文本对齐，使用逻辑值。",
+      "hasCapsize": "光学对齐，会强制块级显示。",
+      "hasStrikethrough": "加删除线。",
+      "hasTabularNumbers": "使用等宽数字，便于数字列纵向对齐。",
+      "id": "HTML id 属性。",
+      "xstyle": "布局定制的 StyleX 样式（外边距、定位、尺寸）。"
+    }
+  },
+  "Divider": {
+    "practices": [
+      "相关内容之间用 subtle，强边界用 strong。",
+      "区段需要可见的分类标题时，给分隔线加 label。",
+      "滥用分隔线；能靠间距和布局分开的就别加线。"
+    ],
+    "props": {
+      "orientation": "分隔线方向。",
+      "label": "可选的居中标签。数字 0 会保留，null、布尔值与空字符串则不显示。",
+      "variant": "分隔线的视觉轻重：subtle 或 strong。",
+      "isFullBleed": "用负外边距把分隔线延伸到容器边缘。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Center": {
+    "practices": [
+      "只在横排书写模式下，或确认当前书写模式后，才使用单轴取值。",
+      "横排书写下用 axis=“vertical” 时，要给 Center 高度；居中需要纵向有可用空间。",
+      "需要让图标、徽章这类小元素在一行文字里居中又不打断文字流时，用 isInline。",
+      "把语义结构和无障碍名称留在内容上。Center 只是布局容器，不提供语义。",
+      "用 Center 包大块页面区域；页面级结构请用 Layout 或 AppShell。",
+      "用 Center 排横向列表；改用 Stack 的 hAlign=“center”。"
+    ],
+    "props": {
+      "axis": "使用哪种居中模式。横排书写下 horizontal 表示居中主轴。",
+      "width": "容器宽度（像素或 CSS 值）。",
+      "height": "容器高度（像素或 CSS 值）。",
+      "maxWidth": "容器最大宽度（像素或 CSS 值）。",
+      "minHeight": "容器最小高度（像素或 CSS 值）。",
+      "padding": "四边内边距，按间距阶梯取值。",
+      "paddingInline": "逻辑行内轴内边距，与 padding 同时设置时覆盖行内轴。",
+      "paddingInlineStart": "逻辑行内起始内边距，实际物理边随书写方向变化。",
+      "paddingInlineEnd": "逻辑行内结束内边距，实际物理边随书写方向变化。",
+      "paddingBlock": "逻辑块级轴内边距，覆盖块轴的 padding。",
+      "paddingBlockStart": "逻辑块级起始内边距，物理边随书写方向变化。",
+      "paddingBlockEnd": "逻辑块级结束内边距，物理边随书写方向变化。",
+      "isInline": "使用 inline-flex，适合文字或图标。",
+      "children": "需要居中的内容。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Grid": {
+    "practices": [
+      "需要在小屏也成立的布局，默认用响应式列，例如 columns={{minWidth: 240, max: 4}}。",
+      "对必须适配小屏的行使用 columns={4}；数字永不回流，会挤成四条窄轨。",
+      "minWidth 始终配 max：max 限制宽屏下的列数，并让最后一列收缩到自然宽度。",
+      "想要一致的项目宽度用 repeat 的 fill（默认）；需要项目拉伸填满整行时用 fit。",
+      "手写 CSS grid；Grid 已经处理了间距与响应式行为。",
+      "用可换行的 HStack 做网格；请用 Grid。",
+      "轨道模板走 CSS 变量间接层而非裸行内样式，所以用 xstyle 覆盖 gridTemplateColumns 能生效。"
+    ],
+    "props": {
+      "columns": "列配置。数字表示所有宽度下固定 N 条 1fr 轨道，不会响应式回流。",
+      "width": "容器宽度。数字按像素处理，字符串原样使用。",
+      "height": "容器高度。数字按像素处理，字符串原样使用。",
+      "maxWidth": "容器最大宽度。数字按像素处理，字符串原样使用。",
+      "minHeight": "容器最小高度。数字按像素处理，字符串原样使用。",
+      "gap": "所有项目之间的间距。",
+      "rowGap": "行间距，覆盖行轴上的 gap。",
+      "columnGap": "列间距，覆盖列轴上的 gap。",
+      "rowHeight": "每个隐式行轨道的高度（像素），配合 GridSpan 的 rows={N} 使用。",
+      "align": "项目的垂直对齐（align-items）。不设置则沿用浏览器默认。",
+      "justify": "项目的水平对齐（justify-items）。不设置则沿用浏览器默认。",
+      "children": "网格内容。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "Section": {
+    "practices": [
+      "用 Section 做页面级分组：设置面板、表单分组、侧栏区域。",
+      "从默认变体开始；只有需要强调某个区域时才用 muted。",
+      "同底色区段之间需要分隔时加分隔线。",
+      "与标题和 Stack 组合，形成典型的页面区段模式。",
+      "该用 Section 时用 Card。卡片用于独立条目（一条通知、一个资料），Section 用于页面区域。"
+    ],
+    "props": {
+      "variant": "区段容器的背景变体。",
+      "width": "区段宽度。数字按像素处理，字符串原样使用。",
+      "height": "区段高度。数字按像素处理，字符串原样使用。",
+      "maxWidth": "区段最大宽度。",
+      "minHeight": "区段最小高度。",
+      "children": "区段内容。",
+      "dividers": "区段的哪几边带分隔线。",
+      "padding": "内部留白，按间距阶梯取值。",
+      "paddingInline": "行内（水平）内边距覆盖，只作用于行内轴。",
+      "paddingInlineStart": "行内起始内边距覆盖（LTR 为左，RTL 为右）。",
+      "paddingInlineEnd": "行内结束内边距覆盖（LTR 为右，RTL 为左）。",
+      "paddingBlock": "块级（垂直）内边距覆盖，只作用于块轴。",
+      "paddingBlockStart": "块级起始（上）内边距，覆盖块轴起点。",
+      "paddingBlockEnd": "块级结束（下）内边距，覆盖块轴终点。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  }
+}

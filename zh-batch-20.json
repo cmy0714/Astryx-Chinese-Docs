@@ -1,0 +1,130 @@
+{
+  "FieldLabel": {
+    "props": {
+      "label": "标签文字，始终为无障碍而渲染。",
+      "inputID": "该标签所对应输入元素的 id。",
+      "labelID": "应用于标签元素自身的 id，配合 aria-labelledby 使用。",
+      "isGroupLabel": "渲染为 span，用于给控件组命名而不是单个输入。",
+      "isLabelHidden": "视觉隐藏标签与描述，仍保留无障碍可读。",
+      "isDisabled": "为关联输入使用禁用态的标签呈现。",
+      "isOptional": "显示本地化的「可选」标记，除非调用方显式覆盖。",
+      "isRequired": "显示本地化的「必填」标记。",
+      "labelIcon": "标签文字前显示的图标或图标内容。",
+      "labelTooltip": "标签后信息按钮的帮助文字。",
+      "description": "显示在标签下方、与输入关联的辅助内容。",
+      "descriptionID": "应用于辅助描述的 id，供调用方设置 aria-describedby。",
+      "ref": "透传给标签元素的引用；分组模式下指向分组标签。",
+      "xstyle": "应用于标签元素的 StyleX 样式。",
+      "className": "附加到标签元素的类名。",
+      "style": "应用于标签元素的行内样式。"
+    }
+  },
+  "ListItem": {
+    "props": {
+      "label": "主内容。纯字符串会做单行截断。",
+      "description": "标签下方的次级内容，纯字符串同样会截断。",
+      "startContent": "渲染在标签区之前的内容，如图标、头像。",
+      "endContent": "渲染在标签区之后的内容，如徽章、按钮。",
+      "onClick": "点击回调，会启用不可见按钮模式。",
+      "interactiveRef": "指向嵌套控件（如 startContent 里的复选框）的引用。",
+      "href": "链接地址，会启用不可见锚点模式。",
+      "target": "链接的 target，仅在设置 href 时适用。",
+      "rel": "链接关系值，会自动合并 noopener 与 noreferrer。",
+      "align": "起始与结束内容相对标签区的垂直对齐。",
+      "isDisabled": "禁用态，会在条目上设置 aria-disabled。",
+      "isSelected": "选中态，把该项标记为当前项。",
+      "swipeActions": "透传给 Item 的触屏滑动动作。",
+      "swipeBehavior": "透传给 Item 的滑动行为。"
+    }
+  },
+  "DropdownMenuItem": {
+    "practices": [
+      "需要跳转时用 href，这样 LinkProvider、组合键点击、中键点击都能正常工作。",
+      "只有激活后在原地展示结果时，才把 hasCloseOnSelect 设为 false。",
+      "在 label、description 或 endContent 里放按钮、链接等可聚焦控件。"
+    ],
+    "props": {
+      "icon": "标签前显示的图标。",
+      "label": "主标签文字。",
+      "description": "标签下方显示的次级描述。",
+      "onClick": "选中时的回调，键盘激活也会触发。",
+      "href": "该行跳转的地址，设置后整行渲染为链接。",
+      "target": "链接的 target，仅在设置 href 时使用。",
+      "rel": "链接关系值，设置 href 时会自动加上 noopener noreferrer。",
+      "isDisabled": "该行是否不可用。禁用行仍可被感知，但不可激活。",
+      "endContent": "标签之后渲染的非交互内容。",
+      "hasCloseOnSelect": "激活后是否关闭菜单。",
+      "variant": "视觉变体。destructive 会把标签与图标渲染为危险色。",
+      "xstyle": "布局定制的 StyleX 样式。",
+      "ref": "透传给行根元素的引用，该元素承载 menuitem 状态。"
+    }
+  },
+  "ClickableCard": {
+    "practices": [
+      "用于跳转到详情页或触发单一动作的卡片。",
+      "内部可以自由嵌套按钮或链接，它们各自处理自己的事件。",
+      "用它做选中切换；那该用 SelectableCard。"
+    ],
+    "props": {
+      "label": "无障碍标签。",
+      "onClick": "点击回调，仅在卡片表面触发。",
+      "href": "跳转地址。支持普通打开、新标签、Cmd/Ctrl 点击与中键点击。",
+      "target": "链接的 target。",
+      "isDisabled": "禁用卡片并移除链接目的地。",
+      "children": "卡片内容。",
+      "padding": "内部留白。",
+      "variant": "背景色变体。",
+      "elevation": "静止阴影深度，常抬高以暗示可点击。",
+      "width": "卡片宽度。",
+      "height": "卡片高度。",
+      "maxWidth": "卡片最大宽度。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "SelectableCard": {
+    "practices": [
+      "用于多选场景：筛选 chip、功能附加项、选项网格。",
+      "多选组把选中的 ID 存在一个集合里。",
+      "卡片获得焦点时，用空格或回车切换选中。",
+      "用它做导航；那该用 ClickableCard。",
+      "用它做单选组：每张卡都是一个复选框，辅助技术会当成多选处理。"
+    ],
+    "props": {
+      "label": "无障碍标签。",
+      "isSelected": "受控的选中状态。",
+      "onChange": "切换选中时调用。",
+      "isDisabled": "禁用卡片。",
+      "children": "卡片内容。",
+      "padding": "内部留白。",
+      "variant": "背景色变体。",
+      "elevation": "静止阴影深度，选中环会与之叠加。",
+      "width": "卡片宽度。",
+      "height": "卡片高度。",
+      "maxWidth": "卡片最大宽度。",
+      "xstyle": "布局定制的 StyleX 样式。"
+    }
+  },
+  "BottomSheet": {
+    "practices": [
+      "用于移动优先的面板：筛选、分享、快捷操作。",
+      "需要下钻时，在当前面板之上打开下一个，并让每个面板各自管理自己的状态。",
+      "选一个与内容匹配的起始高度，短内容用 hug。",
+      "用 purpose=“form” 保护已输入的数据，避免点遮罩或滑动误关。",
+      "让面板内容过长；拆成多个步骤，每步一个面板。",
+      "堆超过两三层；更深层会共用第二层的记忆与返回路径。"
+    ],
+    "props": {
+      "isOpen": "独立面板是否打开，完全受控。",
+      "onOpenChange": "独立面板请求改变状态时调用。",
+      "finalFocusRef": "独立面板关闭后焦点返回的目标。",
+      "purpose": "控制隐式关闭行为，与 Dialog 一致。",
+      "sheetId": "随 BottomSheetSwitcher 一起废弃；改为每步一个面板。",
+      "label": "面板的无障碍标签，必填。",
+      "children": "面板内容，位于可滚动区域内。",
+      "padding": "面板内容的内边距。",
+      "height": "面板高度。命名预算 hug 表示贴合内容。",
+      "snapPoints": "拖动时可停留的额外高度。",
+      "hasScrim": "独立 BottomSheet 是否渲染遮罩。"
+    }
+  }
+}
